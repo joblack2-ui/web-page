@@ -289,6 +289,8 @@ async function removeTrace(traceId) {
   }
 }
 
+window.removeTrace = removeTrace;
+
 /* Avatar Upload */
 avatarInput.addEventListener("change", async event => {
   const file = event.target.files?.[0];
