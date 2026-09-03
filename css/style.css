@@ -1893,3 +1893,28 @@ button {
     font-size: 11px;
   }
 }
+/* =========================================
+   FIX — command box must not cover navigation
+   ========================================= */
+
+.top-bar,
+.navigation {
+  position: relative;
+  z-index: 100;
+}
+
+.navigation {
+  isolation: isolate;
+}
+
+.nav-button {
+  position: relative;
+  z-index: 101;
+}
+
+/* command interface stays below navigation */
+.command-bar,
+.command-input,
+.command-panel {
+  z-index: 10;
+}
