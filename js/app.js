@@ -132,18 +132,24 @@ await showApp(data.user);
 switchAuth.addEventListener("click", () => {
   isRegisterMode = !isRegisterMode;
 
-  if (isRegisterMode) {
-    authTitle.textContent = "إنشاء حساب";
-    authButton.textContent = "إنشاء الحساب";
-    switchAuth.textContent = "لدي حساب بالفعل";
-    displayNameInput.style.display = "block";
-  } else {
-    authTitle.textContent = "تسجيل الدخول";
-    authButton.textContent = "دخول";
-    switchAuth.textContent = "إنشاء حساب جديد";
-    displayNameInput.style.display = "none";
-  }
+  
+if (isRegisterMode) {
+  authTitle.textContent = "إنشاء حساب";
 
+  authButton.textContent = "إنشاء الحساب";
+
+  switchAuth.textContent = "لدي حساب بالفعل";
+
+  displayNameInput.style.display = "block";
+} else {
+  authTitle.textContent = "تسجيل الدخول";
+
+  authButton.textContent = "دخول";
+
+  switchAuth.textContent = "إنشاء حساب جديد";
+
+  displayNameInput.style.display = "none";
+}
   authMessage.textContent = "";
 });
 
