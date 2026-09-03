@@ -89,7 +89,21 @@ authButton.addEventListener("click", async () => {
       if (!email || !password) throw new Error("أدخل البريد وكلمة المرور");
 
       const { data, error } = await signUp(email, password, name);
-      if (error) throw error;
+      if (error) {
+  throw error;
+}
+
+if (!data.user?.email_confirmed_at) {
+  await signOut();
+
+  authMessage.textContent =
+    "يجب تأكيد بريدك الإلكتروني أولاً. تحقق من صندوق الوارد.";
+  authMessage.style.color = "#ffcc66";
+
+  return;
+}
+
+await showApp(data.user);
 
       if (data.session) {
         await showApp(data.user);
