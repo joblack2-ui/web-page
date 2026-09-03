@@ -53,7 +53,19 @@ const profileStatus = document.getElementById("profile-status");
 /* Initialize App */
 async function init() {
   const user = await getCurrentUser();
+
   if (user) {
+    if (!user.email_confirmed_at) {
+      await signOut();
+      showAuth();
+
+      authMessage.textContent =
+        "يجب تأكيد بريدك الإلكتروني أولاً.";
+      authMessage.style.color = "#ffcc66";
+
+      return;
+    }
+
     await showApp(user);
   } else {
     showAuth();
