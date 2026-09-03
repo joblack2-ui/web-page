@@ -9,51 +9,128 @@
 <body>
   <div id="app">
     <!-- شاشة تسجيل الدخول -->
-    <section id="auth-screen">
-      <div class="auth-container">
-        <div class="logo-section">
-          <div class="logo">الأثر</div>
-          <p class="tagline">
-            بعض الأشياء لا ينبغي أن تصل الآن.<br>
-            اترك شيئًا للمستقبل.
-          </p>
-        </div>
+    
+<section id="auth-screen">
+  <div class="temporal-interface">
 
-        <div class="auth-box">
-          <h2 id="auth-title">إنشاء حساب</h2>
+    <div class="system-mark">
+      <span>ATHAR</span>
+      <i>∕</i>
+      <span>UNRESOLVED</span>
+    </div>
 
-          <input
-            id="display-name"
-            type="text"
-            placeholder="الاسم"
-            class="auth-input"
-          >
-          <input
-            id="email"
-            type="email"
-            placeholder="البريد الإلكتروني"
-            class="auth-input"
-          >
-          <input
-            id="password"
-            type="password"
-            placeholder="كلمة المرور"
-            class="auth-input"
-          >
+    <div class="signal-readout">
+      <span>CHANNEL 07</span>
+      <span>●</span>
+      <span>INPUT / ACCEPTED</span>
+    </div>
 
-          <button id="auth-button" class="primary-button auth-button">
-            إنشاء الحساب
-          </button>
+    <div class="ghost-data ghost-top">
+      <span>ΔT</span>
+      <strong>+00:00:00:17</strong>
+    </div>
 
-          <button id="switch-auth" class="text-button">
-            لدي حساب بالفعل
-          </button>
+    <div class="ghost-data ghost-bottom">
+      <span>ORIGIN</span>
+      <strong>— — —</strong>
+    </div>
 
-          <div id="auth-message" class="status-message"></div>
+    <div class="identity-zone">
+
+      <div class="identity-header">
+        <span class="index-number">01</span>
+
+        <div>
+          <div class="identity-title">الأثر</div>
+          <div class="identity-subtitle">
+            identity reconstruction interface
+          </div>
         </div>
       </div>
-    </section>
 
+      <div class="identity-line"></div>
+
+      <div class="input-field name-field">
+        <label>
+          <span>IDENTIFIER</span>
+          <small>01</small>
+        </label>
+
+        <input
+          id="display-name"
+          type="text"
+          placeholder="الاسم"
+          class="auth-input"
+        >
+      </div>
+
+      <div class="input-field email-field">
+        <label>
+          <span>ADDRESS</span>
+          <small>02</small>
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          placeholder="البريد الإلكتروني"
+          class="auth-input"
+        >
+      </div>
+
+      <div class="input-field password-field">
+        <label>
+          <span>KEY</span>
+          <small>03</small>
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          placeholder="كلمة المرور"
+          class="auth-input"
+        >
+      </div>
+
+      <div class="action-zone">
+
+        <div class="action-meta">
+          <span>DATA INTEGRITY</span>
+          <strong>STABLE</strong>
+        </div>
+
+        <button
+          id="auth-button"
+          class="primary-button auth-button"
+        >
+          <span>INITIALIZE</span>
+          <b>↗</b>
+        </button>
+
+      </div>
+
+      <button id="switch-auth" class="text-button">
+        لدي حساب بالفعل
+      </button>
+
+      <div id="auth-message" class="status-message"></div>
+
+    </div>
+
+    <div class="bottom-readout">
+      <span>MEMORY: PRESENT</span>
+      <span>SYNC: —</span>
+      <span>TIME: UNVERIFIED</span>
+    </div>
+
+    <div class="vertical-code">
+      7F / 19 / A4 / 00 / 71 / Δ
+    </div>
+
+    <div class="cursor-mark"></div>
+
+  </div>
+</section>
     <!-- التطبيق بعد تسجيل الدخول -->
     <section id="main-screen" class="hidden">
       <header class="top-bar">
