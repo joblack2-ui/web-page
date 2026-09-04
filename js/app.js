@@ -76,48 +76,6 @@ async function init() {
       await signOut();
       showAuth();
 
-      authMessage.textContent =
-        "يجب تأكيد بريدك الإلكتروني أولاً.";
-      authMessage.style.color = "#ffcc66";
-
-      return;
-    }
-
-    await showApp(user);
-  } else {
-    showAuth();
-  }
-}
-
-init();
-
-/* Authentication Events */
-authButton.addEventListener("click", async () => {
-  authMessage.textContent = "جارٍ المعالجة...";
-  authMessage.style.color = "#aaa";
-
-  try {
-    if (isRegisterMode) {
-      const name = displayNameInput.value.trim();
-      const email = emailInput.value.trim();
-      const password = passwordInput.value;
-
-      if (!name) throw new Error("اكتب اسمك أولًا");
-      if (!email || !password) throw new Error("أدخل البريد وكلمة المرور");
-
-      const { data, error } = await signUp(email, password, name);
-      if (error) {
-  throw error;
-}
-
-await showApp(data.user);
-
-      if (data.session) {
-        await showApp(data.user);
-      } else {
-        authMessage.textContent = "تم إنشاء الحساب. تحقق من بريدك الإلكتروني.";
-        authMessage.style.color = "#10b981";
-      }
     } else {
       const email = emailInput.value.trim();
       const password = passwordInput.value;
