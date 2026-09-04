@@ -1,4 +1,3 @@
-
 import { supabase } from "./supabase.js";
 
 import {
@@ -446,115 +445,252 @@ saveTraceButton.addEventListener(
         "تم حفظ أثرك بنجاح!";
 
       traceStatus.style.color =
-        "#10
-  
-    traceMessage.value = "";
-    updateCharacterCount();
-    await loadTraces();
+        "#10b981";
 
-    setTimeout(() => {
-      traceForm.classList.add("hidden");
-      traceStatus.textContent = "";
-    }, 1200);
-  } catch (error) {
-    console.error("خطأ في حفظ الأثر:", error);
-    traceStatus.textContent = getErrorMessage(error);
-    traceStatus.style.color = "#ef4444";
+      traceMessage.value = "";
+
+      updateCharacterCount();
+
+      await loadTraces();
+
+      setTimeout(() => {
+
+        traceForm.classList.add("hidden");
+        traceStatus.textContent = "";
+
+      }, 1200);
+
+    } catch (error) {
+
+      console.error(
+        "خطأ في حفظ الأثر:",
+        error
+      );
+
+      traceStatus.textContent =
+        getErrorMessage(error);
+
+      traceStatus.style.color =
+        "#ef4444";
+
+    } finally {
+
+      saveTraceButton.disabled = false;
+
+    }
   }
+);
 
-  saveTraceButton.disabled = false;
-});
+/* =========================
+   Load Traces
+========================= */
 
-/* Load Traces */
 async function loadTraces() {
+
   if (!currentUser) return;
 
-  traceList.innerHTML = `<div class="empty-state"><p>جارٍ تحميل آثارك...</p></div>`;
+  traceList.innerHTML =
+    `<div class="empty-state">
+      <p>جارٍ تحميل آثارك...</p>
+    </div>`;
 
   try {
-    const { data, error } = await getMyTraces(currentUser.id);
-    if (error) throw error;
+
+    const { data, error } =
+      await getMyTraces(
+        currentUser.id
+      );
+
+    if (error) {
+      throw error;
+    }
 
     const traces = data || [];
-    traceCount.textContent = `${traces.length} أثر`;
+
+    traceCount.textContent =
+      `${traces.length} أثر`;
 
     if (traces.length === 0) {
-      traceList.innerHTML = `<div class="empty-state"><p>✨ لم تترك أثراً بعد</p></div>`;
+
+      traceList.innerHTML =
+        `<div class="empty-state">
+          <p>لم تترك أثراً بعد</p>
+        </div>`;
+
       return;
     }
 
     traceList.innerHTML = "";
+
     traces.forEach(trace => {
-      const article = document.createElement("article");
+
+      const article =
+        document.createElement("article");
+
       article.className = "trace";
+
       article.innerHTML = `
-        <div class="trace-text">${escapeHtml(trace.message)}</div>
-        <div class="trace-date">📅 ${formatDate(trace.created_at)}</div>
-        <button class="secondary-button" onclick="removeTrace('${trace.id}')">🗑️ حذف الأثر</button>
+        <div class="trace-text">
+          ${escapeHtml(trace.message)}
+        </div>
+
+        <div class="trace-date">
+          ${formatDate(trace.created_at)}
+        </div>
+
+        <button
+          class="secondary-button"
+          onclick="removeTrace('${trace.id}')"
+        >
+          حذف الأثر
+        </button>
       `;
+
       traceList.appendChild(article);
     });
+
   } catch (error) {
+
     console.error(error);
-    traceList.innerHTML = `<div class="empty-state"><p>تعذر تحميل الآثار</p></div>`;
+
+    traceList.innerHTML =
+      `<div class="empty-state">
+        <p>تعذر تحميل الآثار</p>
+      </div>`;
   }
 }
 
-/* Delete Trace */
+/* =========================
+   Delete Trace
+========================= */
+
 async function removeTrace(traceId) {
-  if (!confirm("هل تريد حذف هذا الأثر؟")) return;
+
+  if (!confirm("هل تريد حذف هذا الأثر؟")) {
+    return;
+  }
 
   try {
-    const { error } = await deleteTrace(currentUser.id, traceId);
-    if (error) throw error;
+
+    const { error } =
+      await deleteTrace(
+        currentUser.id,
+        traceId
+      );
+
+    if (error) {
+      throw error;
+    }
+
     await loadTraces();
+
   } catch (error) {
+
     console.error(error);
-    alert(getErrorMessage(error));
+
+    alert(
+      getErrorMessage(error)
+    );
   }
 }
 
 window.removeTrace = removeTrace;
 
-/* Avatar Upload */
-avatarInput.addEventListener("change", async event => {
-  const file = event.target.files?.[0];
+/* =========================
+   Avatar Upload
+========================= */
 
-  if (!file || !currentUser) return;
-  if (!file.type.startsWith("image/")) {
-    profileStatus.textContent = "اختر صورة فقط.";
-    return;
+avatarInput.addEventListener(
+  "change",
+  async event => {
+
+    const file =
+      event.target.files?.[0];
+
+    if (!file || !currentUser) {
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+
+      profileStatus.textContent =
+        "اختر صورة فقط.";
+
+      return;
+    }
+
+    profileStatus.textContent =
+      "جارٍ رفع الصورة...";
+
+    try {
+
+      const { error } =
+        await uploadAvatar(
+          currentUser.id,
+          file
+        );
+
+      if (error) {
+        throw error;
+      }
+
+      const extension =
+        file.name
+          .split(".")
+          .pop()
+          .toLowerCase();
+
+      const { data } =
+        supabase.storage
+          .from("avatars")
+          .getPublicUrl(
+            `${currentUser.id}/avatar.${extension}`
+          );
+
+      const avatarUrl =
+        `${data.publicUrl}?t=${Date.now()}`;
+
+      await saveProfile(
+        currentUser.id,
+        profileName.textContent,
+        avatarUrl
+      );
+
+      setAvatar(avatarUrl);
+
+      profileStatus.textContent =
+        "تم تحديث الصورة";
+
+      profileStatus.style.color =
+        "#10b981";
+
+    } catch (error) {
+
+      console.error(error);
+
+      profileStatus.textContent =
+        getErrorMessage(error);
+
+      profileStatus.style.color =
+        "#ef4444";
+    }
   }
-
-  profileStatus.textContent = "جارٍ رفع الصورة...";
-
-  try {
-    const { error } = await uploadAvatar(currentUser.id, file);
-    if (error) throw error;
-
-    const extension = file.name.split(".").pop().toLowerCase();
-    const { data } = supabase.storage.from("avatars").getPublicUrl(`${currentUser.id}/avatar.${extension}`);
-    const avatarUrl = `${data.publicUrl}?t=${Date.now()}`;
-
-    await saveProfile(currentUser.id, profileName.textContent, avatarUrl);
-    setAvatar(avatarUrl);
-
-    profileStatus.textContent = "✅ تم تحديث الصورة";
-    profileStatus.style.color = "#10b981";
-  } catch (error) {
-    console.error(error);
-    profileStatus.textContent = getErrorMessage(error);
-    profileStatus.style.color = "#ef4444";
-  }
-}
 );
 
-/* Set Avatar */
+/* =========================
+   Set Avatar
+========================= */
+
 function setAvatar(url) {
+
   profileAvatar.innerHTML = "";
-  const image = document.createElement("img");
+
+  const image =
+    document.createElement("img");
+
   image.src = url;
   image.alt = "الصورة الشخصية";
+
   profileAvatar.appendChild(image);
 }
 
@@ -562,35 +698,47 @@ function setAvatar(url) {
    NODE ENGINE
 ========================= */
 
-const nodeViewer = document.getElementById("node-viewer");
+const nodeViewer =
+  document.getElementById(
+    "node-viewer"
+  );
 
 let currentNodeId = "start";
 
 function openNode(nodeId) {
+
   const node = nodes[nodeId];
 
-  if (!node || !nodeViewer) return;
+  if (!node || !nodeViewer) {
+    return;
+  }
 
   currentNodeId = nodeId;
 
-  const linksHtml = (node.links || [])
-    .map(link => `
-      <button
-        class="node-link"
-        type="button"
-        data-node="${escapeHtml(link.target)}"
-      >
-        ${escapeHtml(link.label)}
-      </button>
-    `)
-    .join("");
+  const linksHtml =
+    (node.links || [])
+      .map(link => `
+        <button
+          class="node-link"
+          type="button"
+          data-node="${escapeHtml(link.target)}"
+        >
+          ${escapeHtml(link.label)}
+        </button>
+      `)
+      .join("");
 
   nodeViewer.innerHTML = `
     <div class="node-frame">
 
       <div class="node-meta">
-        <span>${escapeHtml(node.type || "unknown")}</span>
-        <span>${escapeHtml(node.id)}</span>
+        <span>
+          ${escapeHtml(node.type || "unknown")}
+        </span>
+
+        <span>
+          ${escapeHtml(node.id)}
+        </span>
       </div>
 
       <h2 class="node-title">
@@ -603,7 +751,11 @@ function openNode(nodeId) {
 
       ${
         node.meta
-          ? `<div class="node-extra">${escapeHtml(node.meta)}</div>`
+          ? `
+            <div class="node-extra">
+              ${escapeHtml(node.meta)}
+            </div>
+          `
           : ""
       }
 
@@ -614,50 +766,126 @@ function openNode(nodeId) {
     </div>
   `;
 
-  nodeViewer.querySelectorAll(".node-link").forEach(button => {
-    button.addEventListener("click", () => {
-      openNode(button.dataset.node);
+  nodeViewer
+    .querySelectorAll(".node-link")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          openNode(
+            button.dataset.node
+          );
+
+        }
+      );
+
     });
-  });
 }
 
 function initNodeEngine() {
-  if (!nodeViewer) return;
+
+  if (!nodeViewer) {
+    return;
+  }
 
   openNode("start");
 }
 
-initNodeEngine();
+/* =========================
+   Utility Functions
+========================= */
 
-/* Utility Functions */
 function formatDate(value) {
+
   if (!value) return "";
-  return new Date(value).toLocaleString("ar", { dateStyle: "medium", timeStyle: "short" });
+
+  return new Date(value)
+    .toLocaleString("ar", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    });
 }
 
 function escapeHtml(text) {
-  const div = document.createElement("div");
+
+  const div =
+    document.createElement("div");
+
   div.textContent = text;
+
   return div.innerHTML;
 }
 
 function getErrorMessage(error) {
-  if (!error) return "حدث خطأ غير معروف.";
-  const message = error.message || "";
-  if (message.includes("Invalid login credentials")) return "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
-  if (message.includes("User already registered")) return "هذا البريد مسجل مسبقًا.";
-  if (message.includes("Password should be at least")) return "كلمة المرور قصيرة جدًا.";
-  if (message.includes("Email not confirmed")) return "يجب تأكيد البريد الإلكتروني أولًا.";
-  return message || "حدث خطأ. حاول ��رة أخرى.";
+
+  if (!error) {
+    return "حدث خطأ غير معروف.";
+  }
+
+  const message =
+    error.message || "";
+
+  if (
+    message.includes(
+      "Invalid login credentials"
+    )
+  ) {
+    return "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+  }
+
+  if (
+    message.includes(
+      "User already registered"
+    )
+  ) {
+    return "هذا البريد مسجل مسبقًا.";
+  }
+
+  if (
+    message.includes(
+      "Password should be at least"
+    )
+  ) {
+    return "كلمة المرور قصيرة جدًا.";
+  }
+
+  if (
+    message.includes(
+      "Email not confirmed"
+    )
+  ) {
+    return "يجب تأكيد البريد الإلكتروني أولًا.";
+  }
+
+  return (
+    message ||
+    "حدث خطأ. حاول مرة أخرى."
+  );
 }
 
-/* Monitor Auth State */
-supabase.auth.onAuthStateChange(async (event, session) => {
-  if (event === "SIGNED_IN" && session?.user) {
-    await showApp(session.user);
+/* =========================
+   Monitor Auth State
+========================= */
+
+supabase.auth.onAuthStateChange(
+  async (event, session) => {
+
+    if (
+      event === "SIGNED_IN" &&
+      session?.user
+    ) {
+      await showApp(
+        session.user
+      );
+    }
+
+    if (
+      event === "SIGNED_OUT"
+    ) {
+      currentUser = null;
+      showAuth();
+    }
   }
-  if (event === "SIGNED_OUT") {
-    currentUser = null;
-    showAuth();
-  }
-});
+);
