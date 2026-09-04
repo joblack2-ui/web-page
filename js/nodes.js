@@ -12,20 +12,35 @@ export const nodes = {
     ]
   },
 
-  "apollo-11": {
-    id: "apollo-11",
-    type: "historical",
-    title: "1969",
-    text: "MOON / EARTH / APOLLO 11",
-    meta: "20.07.1969 / USA",
-    links: [
-      { label: "MOON", target: "moon" },
-      { label: "EARTH", target: "earth" },
-      { label: "APOLLO 11", target: "apollo-11" },
-      { label: "NEIL ARMSTRONG", target: "neil-armstrong" },
-      { label: "NASA", target: "nasa" }
-    ]
-  },
+"apollo-11": {
+  id: "apollo-11",
+  type: "historical",
+  title: "1969",
+
+  text: `
+MOON / EARTH / APOLLO 11
+
+FIRST CREWED LUNAR LANDING
+THREE HUMANS / ONE MISSION
+
+LAUNCH: 16.07.1969
+LANDING: 20.07.1969
+RETURN: 24.07.1969
+  `,
+
+  meta: "USA / NASA / SATURN V",
+
+  links: [
+    { label: "MOON", target: "moon" },
+    { label: "EARTH", target: "earth" },
+    { label: "NEIL ARMSTRONG", target: "neil-armstrong" },
+    { label: "BUZZ ALDRIN", target: "buzz-aldrin" },
+    { label: "MICHAEL COLLINS", target: "michael-collins" },
+    { label: "NASA", target: "nasa" },
+    { label: "SATURN V", target: "saturn-v" },
+    { label: "1969", target: "apollo-11" }
+  ]
+},
 
   earth: {
     id: "earth",
