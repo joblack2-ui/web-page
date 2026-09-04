@@ -2030,3 +2030,22 @@ button {
 .x13-gate:hover i {
   transform: translate(3px, -3px);
 }
+.inline-node-link {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(255,255,255,.18);
+  text-underline-offset: 4px;
+  transition: .25s ease;
+}
+
+.inline-node-link:hover {
+  opacity: 1;
+  text-decoration-color: rgba(255,255,255,.65);
+}
