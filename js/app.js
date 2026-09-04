@@ -60,18 +60,196 @@ const profileStatus = document.getElementById("profile-status");
    Command Interface
 ========================= */
 
-if (commandInput) {
-  commandInput.addEventListener("keydown", event => {
-    if (event.key !== "Enter") return;
+/* =========================
+   COMMAND INTERFACE
+========================= */
 
-    const command = commandInput.value.trim();
+const commandHistory =
+  document.getElementById("command-history");
 
-    if (!command) return;
+if (commandInput && commandHistory) {
 
-    console.log("COMMAND:", command);
+  commandInput.addEventListener(
+    "keydown",
+    event => {
 
-    commandInput.value = "";
-  });
+      if (event.key !== "Enter") {
+        return;
+      }
+
+      const command =
+        commandInput.value.trim();
+
+      if (!command) {
+        return;
+      }
+
+      executeCommand(command);
+
+      commandInput.value = "";
+    }
+  );
+}
+
+
+function executeCommand(command) {
+
+  const raw =
+    command.trim();
+
+  const normalized =
+    raw.toLowerCase();
+
+  addCommandLine(raw);
+
+  /*
+   * =========================
+   * KNOWN COMMANDS
+   * =========================
+   */
+
+  if (normalized === "help") {
+
+    addSystemLine(
+      "— — —"
+    );
+
+    addSystemLine(
+      "SOME COMMANDS ARE NOT LISTED."
+    );
+
+    return;
+  }
+
+
+  if (normalized === "open") {
+
+    addSystemLine(
+      "OPEN WHAT?"
+    );
+
+    return;
+  }
+
+
+  if (normalized === "return") {
+
+    addSystemLine(
+      "RETURNING..."
+    );
+
+    window.history.back();
+
+    return;
+  }
+
+
+  if (normalized === "who") {
+
+    addSystemLine(
+      "IDENTITY: UNRESOLVED"
+    );
+
+    return;
+  }
+
+
+  if (normalized === "when") {
+
+    addSystemLine(
+      `TIME: ${new Date().toISOString()}`
+    );
+
+    return;
+  }
+
+
+  if (normalized === "where") {
+
+    addSystemLine(
+      "LOCATION: UNKNOWN"
+    );
+
+    return;
+  }
+
+
+  /*
+   * =========================
+   * NODE ACCESS
+   * =========================
+   */
+
+  if (nodes[normalized]) {
+
+    openNode(normalized);
+
+    addSystemLine(
+      `NODE: ${normalized}`
+    );
+
+    return;
+  }
+
+
+  /*
+   * =========================
+   * UNKNOWN COMMAND
+   * =========================
+   */
+
+  addSystemLine(
+    "COMMAND NOT RECOGNIZED."
+  );
+
+  addSystemLine(
+    "ORIGIN UNKNOWN."
+  );
+}
+
+
+/* =========================
+   COMMAND OUTPUT
+========================= */
+
+function addCommandLine(text) {
+
+  const line =
+    document.createElement("div");
+
+  line.className =
+    "command-entry";
+
+  line.textContent =
+    `› ${text}`;
+
+  commandHistory.appendChild(line);
+
+  scrollCommandHistory();
+}
+
+
+function addSystemLine(text) {
+
+  const line =
+    document.createElement("div");
+
+  line.className =
+    "command-response";
+
+  line.textContent =
+    text;
+
+  commandHistory.appendChild(line);
+
+  scrollCommandHistory();
+}
+
+
+function scrollCommandHistory() {
+
+  commandHistory.scrollTop =
+    commandHistory.scrollHeight;
 }
 
 /* =========================
