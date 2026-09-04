@@ -188,29 +188,22 @@ RETURN: 24.07.1969
     meta: "THEORETICAL PHYSICS",
     links: [
       { label: "MANHATTAN PROJECT", target: "manhattan-project" },
-      { label: "HIROSHIMA", target: "hiroshima" },
+      { label: "HIROSHIMA", target: "hiroshima" },  
       { label: "USA", target: "usa" }
-    ]
-  }
-};
- { label: "MANHATTAN PROJECT", target: "manhattan-project" },
-      { label: "HIROSHIMA", target: "hiroshima" },
-      { label: "USA", target: "usa" }
-  "george-washington": {
+      ]
+       }, 
+     "george-washington": {
     id: "george-washington",
     type: "person",
     title: "George Washington",
     text: "George Washington was the 1st President of the United States, serving from April 30, 1789, to March 4, 1797. As one of the Founding Fathers, he led the Continental Army to victory in the American Revolutionary War and presided over the convention that drafted the U.S. Constitution.",
     meta: "Presidential Term: Apr 30, 1789 – Mar 4, 1797",
     links: [
-      { label: "American Revolution", target: "american-revolution" }
+      { label: "American Revolution", target: "american-revolution" },
+      { label: "USA", target: "usa" }
+    ]
+  },
 
-    { label: "MANHATTAN PROJECT", target: "manhattan-project" },
-      { label: "HIROSHIMA", target: "hiroshima" },
-      { label: "USA", target: "usa" } 
-  },{ label: "MANHATTAN PROJECT", target: "manhattan-project" },
-      { label: "HIROSHIMA", target: "james-madison" },
-      { label: "USA", target: "george-washington" }
   "john-adams": {
     id: "john-adams",
     type: "person",
@@ -221,9 +214,7 @@ RETURN: 24.07.1969
       { label: "Declaration of Independence", target: "declaration-of-independence" }
     ]
   },
- { label: "george-washington", target: "thomas-jefferson" },
-      { label: "HIROSHIMA", target: "hiroshima" },
-      { label: "USA", target: "usa" }
+
   "thomas-jefferson": {
     id: "thomas-jefferson",
     type: "person",
@@ -234,16 +225,18 @@ RETURN: 24.07.1969
       { label: "Louisiana Purchase", target: "louisiana-purchase" }
     ]
   },
+
   "james-madison": {
     id: "james-madison",
     type: "person",
     title: "James Madison",
-    text: "James Madison was the 4th President of the United States, serving from March 4, 1809, to March 4, 18017. Hailed as the 'Father of the Constitution' for his pivotal role in drafting the U.S. Constitution and the Bill of Rights, he led the country through the War of 1812.",
+    text: "James Madison was the 4th President of the United States, serving from March 4, 1809, to March 4, 1817. Hailed as the 'Father of the Constitution' for his pivotal role in drafting the U.S. Constitution and the Bill of Rights, he led the country through the War of 1812.",
     meta: "Presidential Term: Mar 4, 1809 – Mar 4, 1817",
     links: [
       { label: "War of 1812", target: "war-of-1812" }
     ]
   },
+
   "james-monroe": {
     id: "james-monroe",
     type: "person",
@@ -254,6 +247,7 @@ RETURN: 24.07.1969
       { label: "Monroe Doctrine", target: "monroe-doctrine" }
     ]
   },
+
   "john-quincy-adams": {
     id: "john-quincy-adams",
     type: "person",
@@ -264,6 +258,7 @@ RETURN: 24.07.1969
       { label: "Erie Canal", target: "erie-canal" }
     ]
   },
+
   "andrew-jackson": {
     id: "andrew-jackson",
     type: "person",
@@ -274,6 +269,7 @@ RETURN: 24.07.1969
       { label: "Bank War", target: "bank-war" }
     ]
   },
+
   "martin-van-buren": {
     id: "martin-van-buren",
     type: "person",
@@ -284,6 +280,7 @@ RETURN: 24.07.1969
       { label: "Panic of 1837", target: "panic-of-1837" }
     ]
   },
+
   "william-henry-harrison": {
     id: "william-henry-harrison",
     type: "person",
@@ -294,6 +291,7 @@ RETURN: 24.07.1969
       { label: "Battle of Tippecanoe", target: "battle-of-tippecanoe" }
     ]
   },
+
   "john-tyler": {
     id: "john-tyler",
     type: "person",
@@ -304,6 +302,7 @@ RETURN: 24.07.1969
       { label: "Texas Annexation", target: "texas-annexation" }
     ]
   },
+
   "james-k-polk": {
     id: "james-k-polk",
     type: "person",
@@ -314,6 +313,7 @@ RETURN: 24.07.1969
       { label: "Mexican-American War", target: "mexican-american-war" }
     ]
   },
+
   "zachary-taylor": {
     id: "zachary-taylor",
     type: "person",
@@ -324,6 +324,7 @@ RETURN: 24.07.1969
       { label: "Compromise of 1850", target: "compromise-of-1850" }
     ]
   },
+
   "millard-fillmore": {
     id: "millard-fillmore",
     type: "person",
@@ -334,6 +335,7 @@ RETURN: 24.07.1969
       { label: "Fugitive Slave Act", target: "fugitive-slave-act" }
     ]
   },
+
   "franklin-pierce": {
     id: "franklin-pierce",
     type: "person",
@@ -344,6 +346,7 @@ RETURN: 24.07.1969
       { label: "Kansas-Nebraska Act", target: "kansas-nebraska-act" }
     ]
   },
+
   "james-buchanan": {
     id: "james-buchanan",
     type: "person",
@@ -354,6 +357,7 @@ RETURN: 24.07.1969
       { label: "Dred Scott Decision", target: "dred-scott-decision" }
     ]
   },
+
   "abraham-lincoln": {
     id: "abraham-lincoln",
     type: "person",
@@ -364,6 +368,7 @@ RETURN: 24.07.1969
       { label: "Emancipation Proclamation", target: "emancipation-proclamation" }
     ]
   },
+
   "andrew-johnson": {
     id: "andrew-johnson",
     type: "person",
@@ -374,6 +379,7 @@ RETURN: 24.07.1969
       { label: "Reconstruction Era", target: "reconstruction-era" }
     ]
   },
+
   "ulysses-s-grant": {
     id: "ulysses-s-grant",
     type: "person",
@@ -384,6 +390,7 @@ RETURN: 24.07.1969
       { label: "Fifteenth Amendment", target: "fifteenth-amendment" }
     ]
   },
+
   "rutherford-b-hayes": {
     id: "rutherford-b-hayes",
     type: "person",
@@ -394,7 +401,7 @@ RETURN: 24.07.1969
       { label: "Compromise of 1877", target: "compromise-of-1877" }
     ]
   },
-  
+
   "chester-a-arthur": {
     id: "chester-a-arthur",
     type: "person",
@@ -405,6 +412,7 @@ RETURN: 24.07.1969
       { label: "Pendleton Act", target: "pendleton-act" }
     ]
   },
+
   "grover-cleveland-1": {
     id: "grover-cleveland-1",
     type: "person",
@@ -415,6 +423,7 @@ RETURN: 24.07.1969
       { label: "Interstate Commerce Act", target: "interstate-commerce-act" }
     ]
   },
+
   "benjamin-harrison": {
     id: "benjamin-harrison",
     type: "person",
@@ -425,6 +434,7 @@ RETURN: 24.07.1969
       { label: "Sherman Antitrust Act", target: "sherman-antitrust-act" }
     ]
   },
+
   "grover-cleveland-2": {
     id: "grover-cleveland-2",
     type: "person",
@@ -435,6 +445,7 @@ RETURN: 24.07.1969
       { label: "Panic of 1893", target: "panic-of-1893" }
     ]
   },
+
   "william-mckinley": {
     id: "william-mckinley",
     type: "person",
@@ -445,6 +456,7 @@ RETURN: 24.07.1969
       { label: "Spanish-American War", target: "spanish-american-war" }
     ]
   },
+
   "theodore-roosevelt": {
     id: "theodore-roosevelt",
     type: "person",
@@ -455,6 +467,7 @@ RETURN: 24.07.1969
       { label: "Panama Canal", target: "panama-canal" }
     ]
   },
+
   "william-howard-taft": {
     id: "william-howard-taft",
     type: "person",
@@ -465,6 +478,7 @@ RETURN: 24.07.1969
       { label: "Supreme Court", target: "supreme-court" }
     ]
   },
+
   "woodrow-wilson": {
     id: "woodrow-wilson",
     type: "person",
@@ -475,6 +489,7 @@ RETURN: 24.07.1969
       { label: "World War I", target: "world-war-i" }
     ]
   },
+
   "warren-g-harding": {
     id: "warren-g-harding",
     type: "person",
@@ -485,6 +500,7 @@ RETURN: 24.07.1969
       { label: "Teapot Dome Scandal", target: "teapot-dome" }
     ]
   },
+
   "calvin-coolidge": {
     id: "calvin-coolidge",
     type: "person",
@@ -495,6 +511,7 @@ RETURN: 24.07.1969
       { label: "Roaring Twenties", target: "roaring-twenties" }
     ]
   },
+
   "herbert-hoover": {
     id: "herbert-hoover",
     type: "person",
@@ -505,6 +522,7 @@ RETURN: 24.07.1969
       { label: "Great Depression", target: "great-depression" }
     ]
   },
+
   "franklin-d-roosevelt": {
     id: "franklin-d-roosevelt",
     type: "person",
@@ -515,6 +533,7 @@ RETURN: 24.07.1969
       { label: "World War II", target: "world-war-ii" }
     ]
   },
+
   "harry-s-truman": {
     id: "harry-s-truman",
     type: "person",
@@ -525,6 +544,7 @@ RETURN: 24.07.1969
       { label: "Cold War", target: "cold-war" }
     ]
   },
+
   "dwight-d-eisenhower": {
     id: "dwight-d-eisenhower",
     type: "person",
@@ -535,6 +555,7 @@ RETURN: 24.07.1969
       { label: "Interstate Highway System", target: "interstate-highway" }
     ]
   },
+
   "john-f-kennedy": {
     id: "john-f-kennedy",
     type: "person",
@@ -545,6 +566,7 @@ RETURN: 24.07.1969
       { label: "Apollo Program", target: "apollo-program" }
     ]
   },
+
   "lyndon-b-johnson": {
     id: "lyndon-b-johnson",
     type: "person",
@@ -555,6 +577,7 @@ RETURN: 24.07.1969
       { label: "Civil Rights Act", target: "civil-rights-act" }
     ]
   },
+
   "richard-nixon": {
     id: "richard-nixon",
     type: "person",
@@ -565,6 +588,7 @@ RETURN: 24.07.1969
       { label: "Watergate Scandal", target: "watergate" }
     ]
   },
+
   "gerald-ford": {
     id: "gerald-ford",
     type: "person",
@@ -575,6 +599,7 @@ RETURN: 24.07.1969
       { label: "Nixon Pardon", target: "nixon-pardon" }
     ]
   },
+
   "jimmy-carter": {
     id: "jimmy-carter",
     type: "person",
@@ -584,6 +609,5 @@ RETURN: 24.07.1969
     links: [
       { label: "Camp David Accords", target: "camp-david-accords" }
     ]
-  },
+  }, ]
   
-
