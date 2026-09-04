@@ -218,14 +218,6 @@ if (switchAuth) {
   });
 }
 
-<a
-  href="https://yasarblack.github.io/athar-social-app/"
-  class="x13-gate"
-  aria-label="x.13"
->
-  <span>x.13</span>
-  <i>↗</i>
-</a>
 
 /* =========================
    Logout
