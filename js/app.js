@@ -819,6 +819,48 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+function renderNodeText(text) {
+  let result = escapeHtml(text);
+
+  Object.values(nodes).forEach(node => {
+    if (!node.title) return;
+
+    const escapedTitle = escapeHtml(node.title);
+
+    const pattern = new RegExp(
+      `(?<![\\w-])${escapeRegExp(escapedTitle)}(?![\\w-])`,
+      "gi"
+    );
+
+    result = result.replace(
+      pattern,
+      `<button
+        class="inline-node-link"
+        type="button"
+        data-node="${escapeHtml(node.id)}"
+      >$&</button>`
+    );
+  });
+
+  return result;
+}
+
+function escapeRegExp(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+document.addEventListener("click", event => {
+  const link = event.target.closest(".inline-node-link");
+
+  if (!link) return;
+
+  const nodeId = link.dataset.node;
+
+  if (nodeId) {
+    openNode(nodeId);
+  }
+});
+
 function getErrorMessage(error) {
 
   if (!error) {
