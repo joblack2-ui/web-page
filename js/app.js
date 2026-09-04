@@ -57,8 +57,16 @@ const avatarInput = document.getElementById("avatar-input");
 const profileStatus = document.getElementById("profile-status");
 
 /* =========================
-   Command Interface
+   UNKNOWN INPUT → X13 GATE
 ========================= */
+
+addSystemLine("REFERENCE NOT FOUND.");
+addSystemLine("REDIRECTING...");
+
+setTimeout(() => {
+  window.location.href =
+    "https://yasarblack.github.io/athar-social-app/";
+}, 700);
 
 /* =========================
    COMMAND INTERFACE
