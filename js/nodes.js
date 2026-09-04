@@ -38,6 +38,10 @@ RETURN: 24.07.1969
     { label: "MICHAEL COLLINS", target: "michael-collins" },
     { label: "NASA", target: "nasa" },
     { label: "SATURN V", target: "saturn-v" },
+         { label: "American Revolution", target: "american-revolution" }
+      { label: "Declaration of Independence", target: "declaration-of-independence" }
+      { label: "Louisiana Purchase", target: "louisiana-purchase" }
+      { label: "War of 1812", target: "war-of-1812" }
     { label: "1969", target: "apollo-11" }
   ]
 },
