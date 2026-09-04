@@ -2049,3 +2049,38 @@ button {
   opacity: 1;
   text-decoration-color: rgba(255,255,255,.65);
 }
+.command-history {
+  max-height: 180px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+
+  font-size: 10px;
+  letter-spacing: 2px;
+  line-height: 1.8;
+
+  opacity: .65;
+}
+
+.command-entry {
+  opacity: .85;
+}
+
+.command-response {
+  opacity: .45;
+  margin-left: 14px;
+}
+
+.command-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.command-symbol {
+  opacity: .5;
+  font-size: 14px;
+}
+
+#command-input {
+  flex: 1;
+}
