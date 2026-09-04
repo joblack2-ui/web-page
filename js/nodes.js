@@ -384,8 +384,196 @@ RETURN: 24.07.1969
       { label: "Compromise of 1877", target: "compromise-of-1877" }
     ]
   },
-  "james-a-garfield": {
-    id: "james-a-garfield",
+  
+  "chester-a-arthur": {
+    id: "chester-a-arthur",
     type: "person",
-    title: "James A. Garfield",
+    title: "Chester A. Arthur",
+    text: "Chester A. Arthur was the 21st President of the United States, serving from September 19, 1881, to March 4, 1885. Succeeding James A. Garfield, he surprised critics by championing the Pendleton Civil Service Reform Act to combat political corruption.",
+    meta: "Presidential Term: Sep 19, 1881 – Mar 4, 1885",
+    links: [
+      { label: "Pendleton Act", target: "pendleton-act" }
+    ]
+  },
+  "grover-cleveland-1": {
+    id: "grover-cleveland-1",
+    type: "person",
+    title: "Grover Cleveland (22nd)",
+    text: "Grover Cleveland served as the 22nd President of the United States from March 4, 1885, to March 4, 1889. Known for his political independence, honesty, and anti-corruption stance, he is famous for serving two non-consecutive terms in the White House.",
+    meta: "Presidential Term: Mar 4, 1885 – Mar 4, 1889",
+    links: [
+      { label: "Interstate Commerce Act", target: "interstate-commerce-act" }
+    ]
+  },
+  "benjamin-harrison": {
+    id: "benjamin-harrison",
+    type: "person",
+    title: "Benjamin Harrison",
+    text: "Benjamin Harrison was the 23rd President of the United States, serving from March 4, 1889, to March 4, 1893. The grandson of William Henry Harrison, his presidency was notable for economic legislation including the McKinley Tariff and the Sherman Antitrust Act.",
+    meta: "Presidential Term: Mar 4, 1889 – Mar 4, 1893",
+    links: [
+      { label: "Sherman Antitrust Act", target: "sherman-antitrust-act" }
+    ]
+  },
+  "grover-cleveland-2": {
+    id: "grover-cleveland-2",
+    type: "person",
+    title: "Grover Cleveland (24th)",
+    text: "Grover Cleveland returned as the 24th President of the United States, serving from March 4, 1893, to March 4, 1897. His second term was heavily burdened by a severe economic depression known as the Panic of 1893, leading to intense labor strikes.",
+    meta: "Presidential Term: Mar 4, 1893 – Mar 4, 1897",
+    links: [
+      { label: "Panic of 1893", target: "panic-of-1893" }
+    ]
+  },
+  "william-mckinley": {
+    id: "william-mckinley",
+    type: "person",
+    title: "William McKinley",
+    text: "William McKinley was the 25th President of the United States, serving from March 4, 1897, to September 14, 1901. He led the nation to victory in the Spanish-American War and established protective tariffs before being assassinated in 1901.",
+    meta: "Presidential Term: Mar 4, 1897 – Sep 14, 1901",
+    links: [
+      { label: "Spanish-American War", target: "spanish-american-war" }
+    ]
+  },
+  "theodore-roosevelt": {
+    id: "theodore-roosevelt",
+    type: "person",
+    title: "Theodore Roosevelt",
+    text: "Theodore Roosevelt was the 26th President of the United States, serving from September 14, 1901, to March 4, 1909. A leader of the Progressive movement, he championed 'Square Deal' domestic policies, trust-busting, and expansive environmental conservation.",
+    meta: "Presidential Term: Sep 14, 1901 – Mar 4, 1909",
+    links: [
+      { label: "Panama Canal", target: "panama-canal" }
+    ]
+  },
+  "william-howard-taft": {
+    id: "william-howard-taft",
+    type: "person",
+    title: "William Howard Taft",
+    text: "William Howard Taft was the 27th President of the United States, serving from March 4, 1909, to March 4, 1913. His administration emphasized trust-busting and civil service reform. He later became the only person to serve as both President and Chief Justice of the U.S.",
+    meta: "Presidential Term: Mar 4, 1909 – Mar 4, 1913",
+    links: [
+      { label: "Supreme Court", target: "supreme-court" }
+    ]
+  },
+  "woodrow-wilson": {
+    id: "woodrow-wilson",
+    type: "person",
+    title: "Woodrow Wilson",
+    text: "Woodrow Wilson was the 28th President of the United States, serving from March 4, 1913, to March 4, 1921. He led the U.S. during World War I, established the Federal Reserve, and championed the League of Nations as part of his Fourteen Points.",
+    meta: "Presidential Term: Mar 4, 1913 – Mar 4, 1921",
+    links: [
+      { label: "World War I", target: "world-war-i" }
+    ]
+  },
+  "warren-g-harding": {
+    id: "warren-g-harding",
+    type: "person",
+    title: "Warren G. Harding",
+    text: "Warren G. Harding was the 29th President of the United States, serving from March 4, 1921, to August 2, 1923. Campaigning on a promise of a 'return to normalcy' after WWI, his administration was later overshadowed by political corruption scandals like Teapot Dome.",
+    meta: "Presidential Term: Mar 4, 1921 – Aug 2, 1923",
+    links: [
+      { label: "Teapot Dome Scandal", target: "teapot-dome" }
+    ]
+  },
+  "calvin-coolidge": {
+    id: "calvin-coolidge",
+    type: "person",
+    title: "Calvin Coolidge",
+    text: "Calvin Coolidge was the 30th President of the United States, serving from August 2, 1923, to March 4, 1929. Taking office after Harding's death, he restored public confidence and presided over the economic prosperity of the Roaring Twenties with a hands-off approach.",
+    meta: "Presidential Term: Aug 2, 1923 – Mar 4, 1929",
+    links: [
+      { label: "Roaring Twenties", target: "roaring-twenties" }
+    ]
+  },
+  "herbert-hoover": {
+    id: "herbert-hoover",
+    type: "person",
+    title: "Herbert Hoover",
+    text: "Herbert Hoover was the 31st President of the United States, serving from March 4, 1929, to March 4, 1933. An engineer and humanitarian, his presidency was unfortunately overwhelmed by the onset of the Great Depression following the 1929 stock market crash.",
+    meta: "Presidential Term: Mar 4, 1929 – Mar 4, 1933",
+    links: [
+      { label: "Great Depression", target: "great-depression" }
+    ]
+  },
+  "franklin-d-roosevelt": {
+    id: "franklin-d-roosevelt",
+    type: "person",
+    title: "Franklin D. Roosevelt",
+    text: "Franklin D. Roosevelt was the 32nd President of the United States, serving from March 4, 1933, to April 12, 1945. The only president elected to four terms, he guided America through the Great Depression with the New Deal and led the country through World War II.",
+    meta: "Presidential Term: Mar 4, 1933 – Apr 12, 1945",
+    links: [
+      { label: "World War II", target: "world-war-ii" }
+    ]
+  },
+  "harry-s-truman": {
+    id: "harry-s-truman",
+    type: "person",
+    title: "Harry S. Truman",
+    text: "Harry S. Truman was the 33rd President of the United States, serving from April 12, 1945, to January 20, 1953. Taking office after FDR's death, he made the critical choice to use atomic weapons, implemented the Marshall Plan, and guided foreign policy during the early Cold War.",
+    meta: "Presidential Term: Apr 12, 1945 – Jan 20, 1953",
+    links: [
+      { label: "Cold War", target: "cold-war" }
+    ]
+  },
+  "dwight-d-eisenhower": {
+    id: "dwight-d-eisenhower",
+    type: "person",
+    title: "Dwight D. Eisenhower",
+    text: "Dwight D. Eisenhower was the 34th President of the United States, serving from January 20, 1953, to January 20, 1961. A five-star general who served as Supreme Commander of Allied Forces in WWII, his presidency established the Interstate Highway System.",
+    meta: "Presidential Term: Jan 20, 1953 – Jan 20, 1961",
+    links: [
+      { label: "Interstate Highway System", target: "interstate-highway" }
+    ]
+  },
+  "john-f-kennedy": {
+    id: "john-f-kennedy",
+    type: "person",
+    title: "John F. Kennedy",
+    text: "John F. Kennedy was the 35th President of the United States, serving from January 20, 1961, to November 22, 1963. He navigated the Cuban Missile Crisis, initiated the Apollo space program, and championed civil rights before his assassination in Dallas.",
+    meta: "Presidential Term: Jan 20, 1961 – Nov 22, 1963",
+    links: [
+      { label: "Apollo Program", target: "apollo-program" }
+    ]
+  },
+  "lyndon-b-johnson": {
+    id: "lyndon-b-johnson",
+    type: "person",
+    title: "Lyndon B. Johnson",
+    text: "Lyndon B. Johnson was the 36th President of the United States, serving from November 22, 1963, to January 20, 1969. Assuming office after JFK's death, he passed monumental 'Great Society' civil rights legislation but faced heavy criticism over the escalation of the Vietnam War.",
+    meta: "Presidential Term: Nov 22, 1963 – Jan 20, 1969",
+    links: [
+      { label: "Civil Rights Act", target: "civil-rights-act" }
+    ]
+  },
+  "richard-nixon": {
+    id: "richard-nixon",
+    type: "person",
+    title: "Richard Nixon",
+    text: "Richard Nixon was the 37th President of the United States, serving from January 20, 1969, to August 9, 1974. His presidency achieved significant foreign policy breakthroughs in China and Russia, but he became the first president to resign due to the Watergate scandal.",
+    meta: "Presidential Term: Jan 20, 1969 – Aug 9, 1974",
+    links: [
+      { label: "Watergate Scandal", target: "watergate" }
+    ]
+  },
+  "gerald-ford": {
+    id: "gerald-ford",
+    type: "person",
+    title: "Gerald Ford",
+    text: "Gerald Ford was the 38th President of the United States, serving from August 9, 1974, to January 20, 1977. Taking office after Richard Nixon's historic resignation, he remains the only person to serve as vice president and president without being elected to either office.",
+    meta: "Presidential Term: Aug 9, 1974 – Jan 20, 1977",
+    links: [
+      { label: "Nixon Pardon", target: "nixon-pardon" }
+    ]
+  },
+  "jimmy-carter": {
+    id: "jimmy-carter",
+    type: "person",
+    title: "Jimmy Carter",
+    text: "Jimmy Carter was the 39th President of the United States, serving from January 20, 1977, to January 20, 1981. He emphasized global human rights and brokered the historic Camp David Accords, though his term faced economic inflation and the Iran hostage crisis.",
+    meta: "Presidential Term: Jan 20, 1977 – Jan 20, 1981",
+    links: [
+      { label: "Camp David Accords", target: "camp-david-accords" }
+    ]
+  },
+  
 
