@@ -51,6 +51,20 @@ const traceCount = document.getElementById("trace-count");
 const avatarInput = document.getElementById("avatar-input");
 const profileStatus = document.getElementById("profile-status");
 
+/* Command Interface */
+
+commandInput.addEventListener("keydown", event => {
+  if (event.key !== "Enter") return;
+
+  const command = commandInput.value.trim();
+
+  if (!command) return;
+
+  console.log("COMMAND:", command);
+
+  commandInput.value = "";
+});
+
 /* Initialize App */
 async function init() {
   const user = await getCurrentUser();
