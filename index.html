@@ -569,17 +569,21 @@
 
         <div class="command-interface">
 
-          <div class="command-prefix">
-            <span>&gt;</span>
-          </div>
+  <div class="command-history" id="command-history"></div>
 
-          <input
-            id="command-input"
-            type="text"
-            autocomplete="off"
-            spellcheck="false"
-            placeholder=""
-          >
+  <div class="command-line">
+    <span class="command-symbol">›</span>
+
+    <input
+      id="command-input"
+      type="text"
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="command"
+    >
+  </div>
+
+</div>
 
           <div class="command-cursor"></div>
 
