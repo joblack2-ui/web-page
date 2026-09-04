@@ -191,7 +191,7 @@ RETURN: 24.07.1969
       { label: "HIROSHIMA", target: "hiroshima" },  
       { label: "USA", target: "usa" }
       ]
-       }, 
+    }, 
      "george-washington": {
     id: "george-washington",
     type: "person",
@@ -609,5 +609,6 @@ RETURN: 24.07.1969
     links: [
       { label: "Camp David Accords", target: "camp-david-accords" }
     ]
-  }, ]
+  },
+  };
   
