@@ -613,5 +613,5 @@ RETURN: 24.07.1969
     links: [
       { label: "Camp David Accords", target: "camp-david-accords" }
     ] 
-  }
+   },
 }; 
