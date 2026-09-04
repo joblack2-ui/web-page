@@ -193,7 +193,9 @@ RETURN: 24.07.1969
     ]
   }
 };
-
+ { label: "MANHATTAN PROJECT", target: "manhattan-project" },
+      { label: "HIROSHIMA", target: "hiroshima" },
+      { label: "USA", target: "usa" }
   "george-washington": {
     id: "george-washington",
     type: "person",
@@ -202,8 +204,13 @@ RETURN: 24.07.1969
     meta: "Presidential Term: Apr 30, 1789 – Mar 4, 1797",
     links: [
       { label: "American Revolution", target: "american-revolution" }
-    ]
-  },
+
+    { label: "MANHATTAN PROJECT", target: "manhattan-project" },
+      { label: "HIROSHIMA", target: "hiroshima" },
+      { label: "USA", target: "usa" } 
+  },{ label: "MANHATTAN PROJECT", target: "manhattan-project" },
+      { label: "HIROSHIMA", target: "james-madison" },
+      { label: "USA", target: "george-washington" }
   "john-adams": {
     id: "john-adams",
     type: "person",
@@ -214,6 +221,9 @@ RETURN: 24.07.1969
       { label: "Declaration of Independence", target: "declaration-of-independence" }
     ]
   },
+ { label: "george-washington", target: "thomas-jefferson" },
+      { label: "HIROSHIMA", target: "hiroshima" },
+      { label: "USA", target: "usa" }
   "thomas-jefferson": {
     id: "thomas-jefferson",
     type: "person",
