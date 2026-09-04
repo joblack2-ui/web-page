@@ -6,926 +6,557 @@
   <title>الأثر - اترك أثراً للمستقبل</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
+
   <div id="app">
-    <!-- شاشة تسجيل الدخول -->
-    
-<section id="auth-screen">
-  <div class="temporal-interface">
 
-    <div class="system-mark">
-      <span>ATHAR</span>
-      <i>∕</i>
-      <span>UNRESOLVED</span>
-    </div>
+    <!-- =========================
+         شاشة الدخول
+    ========================== -->
 
-    <div class="signal-readout">
-      <span>CHANNEL 07</span>
-      <span>●</span>
-      <span>INPUT / ACCEPTED</span>
-    </div>
+    <section id="auth-screen">
 
-    <div class="ghost-data ghost-top">
-      <span>ΔT</span>
-      <strong>+00:00:00:17</strong>
-    </div>
+      <div class="temporal-interface">
 
-    <div class="ghost-data ghost-bottom">
-      <span>ORIGIN</span>
-      <strong>— — —</strong>
-    </div>
-
-    <div class="identity-zone">
-
-      <div class="identity-header">
-        <span class="index-number">01</span>
-
-        <div>
-          <div class="identity-title">الأثر</div>
-          <div class="identity-subtitle">
-            identity reconstruction interface
-          </div>
-        </div>
-      </div>
-
-      <div class="identity-line"></div>
-
-      <div class="input-field name-field">
-        <label>
-          <span>IDENTIFIER</span>
-          <small>01</small>
-        </label>
-
-        <input
-          id="display-name"
-          type="text"
-          placeholder="الاسم"
-          class="auth-input"
-        >
-      </div>
-
-      <div class="input-field email-field">
-        <label>
-          <span>ADDRESS</span>
-          <small>02</small>
-        </label>
-
-        <input
-          id="email"
-          type="email"
-          placeholder="البريد الإلكتروني"
-          class="auth-input"
-        >
-      </div>
-
-      <div class="input-field password-field">
-        <label>
-          <span>KEY</span>
-          <small>03</small>
-        </label>
-
-        <input
-          id="password"
-          type="password"
-          placeholder="كلمة المرور"
-          class="auth-input"
-        >
-      </div>
-
-      <div class="action-zone">
-
-        <div class="action-meta">
-          <span>DATA INTEGRITY</span>
-          <strong>STABLE</strong>
+        <div class="system-mark">
+          <span>ATHAR</span>
+          <i>∕</i>
+          <span>UNRESOLVED</span>
         </div>
 
-        <button
-          id="auth-button"
-          class="primary-button auth-button"
-        >
-          <span>INITIALIZE</span>
-          <b>↗</b>
-        </button>
-
-      </div>
-
-      <button id="switch-auth" class="text-button">
-        لدي حساب بالفعل
-      </button>
-
-      <div id="auth-message" class="status-message"></div>
-
-    </div>
-
-    <div class="bottom-readout">
-      <span>MEMORY: PRESENT</span>
-      <span>SYNC: —</span>
-      <span>TIME: UNVERIFIED</span>
-    </div>
-
-    <div class="vertical-code">
-      7F / 19 / A4 / 00 / 71 / Δ
-    </div>
-
-    <div class="cursor-mark"></div>
-
-  </div>
-</section>
-    <!-- التطبيق بعد تسجيل الدخول -->
-    
-     <section id="main-screen" class="hidden">
-
-  <div class="unknown-world">
-
-    <!-- طبقة بيانات محيطة -->
-    <div class="world-code code-a">A7 / 03 / 91</div>
-    <div class="world-code code-b">∆ 19F — 004 — K</div>
-    <div class="world-code code-c">11:48:03</div>
-    <div class="world-code code-d">0x00 / 7A / ∞</div>
-
-    <!-- الرأس -->
-    <header class="world-header">
-
-      <div class="world-mark">
-        <span class="mark-symbol">∴</span>
-        <span class="mark-code">07</span>
-      </div>
-
-      <div class="world-status">
-        <span>●</span>
-        <span>—</span>
-        <span id="user-name"></span>
-      </div>
-
-      <button id="logout-button" class="world-exit">
-        <span>×</span>
-      </button>
-
-    </header>
-
-    <!-- المساحة الرئيسية -->
-    <main class="world-stage">
-
-      <!-- شظايا نصية -->
-      <div class="fragment fragment-one">
-        <span>𐌗</span>
-        <p>
-          ᚠᛇᚻ 𓂀 ∴ 影<br>
-          0017 / 04 / —
-        </p>
-      </div>
-
-      <div class="fragment fragment-two">
-        <span>02</span>
-        <p>
-          Москва<br>
-          1847.03.19
-        </p>
-      </div>
-
-      <div class="fragment fragment-three">
-        <span>Δ</span>
-        <p>
-          未来 / 過去<br>
-          ————————
-        </p>
-      </div>
-
-      <!-- العقدة المركزية -->
-      <section id="page-home" class="page world-page">
-
-        <div class="signal-line">
-          <span>NODE</span>
-          <strong>07</strong>
+        <div class="signal-readout">
+          <span>CHANNEL 07</span>
+          <span>●</span>
+          <span>INPUT / ACCEPTED</span>
         </div>
 
-        <div class="unknown-content">
-<button
-  id="new-trace-button"
-  class="world-action"
-  type="button"
->
-  +
-</button>
-          <div class="unknown-time">
-            03 : 17 : 44
-          </div>
-
-          <div class="unknown-text">
-            <span>𓂀</span>
-            <span>א</span>
-            <span>影</span>
-            <span>ᚠ</span>
-            <span>Δ</span>
-          </div>
-
-          <div class="unknown-line"></div>
-
-          <p class="foreign-fragment">
-            これは記録ではない。<br>
-            これはまだ起きていない。
-          </p>
-
-          <p class="arabic-fragment">
-            لم يتم التعرف على المصدر.
-          </p>
-
+        <div class="ghost-data ghost-top">
+          <span>ΔT</span>
+          <strong>+00:00:00:17</strong>
         </div>
 
-      </section>
-
-      <!-- الآثار القديمة: الوظيفة ما زالت نفسها -->
-      <section id="page-traces" class="page hidden world-page">
-
-        <div class="world-page-header">
-          <span>NODE / 19</span>
-          <span id="trace-count" class="muted">0</span>
+        <div class="ghost-data ghost-bottom">
+          <span>ORIGIN</span>
+          <strong>— — —</strong>
         </div>
 
-        <div id="trace-list" class="trace-list"></div>
+        <div class="identity-zone">
 
-        <button
-          id="new-trace-button-2"
-          class="world-action"
-        >
-          +
-        </button>
+          <div class="identity-header">
+            <span class="index-number">01</span>
 
-      </section>
+            <div>
+              <div class="identity-title">الأثر</div>
 
-      <!-- الملف الشخصي: الوظيفة ما زالت نفسها -->
-      <section id="page-profile" class="page hidden world-page">
-
-        <div class="world-page-header">
-          <span>NODE / 31</span>
-          <span>?</span>
-        </div>
-
-        <div class="world-profile">
-
-          <div id="profile-avatar" class="avatar">
-            أ
-          </div>
-
-          <h2 id="profile-name">—</h2>
-
-          <p id="profile-email" class="muted">—</p>
-
-          <label class="world-upload">
-            <span>+</span>
-            <input
-              id="avatar-input"
-              type="file"
-              accept="image/*"
-            >
-          </label>
-
-          <div id="profile-status" class="status-message"></div>
-
-        </div>
-
-      </section>
-
-      <!-- صفحة جديدة -->
-      <section id="page-archive" class="page hidden world-page">
-
-        <div class="archive-fragments">
-
-          <div>
-            <span>004</span>
-            <p>𓂀 𐌗 ᚠ 影</p>
-          </div>
-
-          <div>
-            <span>118</span>
-            <p>1923 — 2041</p>
-          </div>
-
-          <div>
-            <span>771</span>
-            <p>████████</p>
-          </div>
-
-        </div>
-
-        <div class="archive-center">
-          <div>...</div>
-          <div>—</div>
-          <div>...</div>
-        </div>
-
-      </section>
-
-      <!-- نموذج كتابة الأثر يبقى موجوداً -->
-      <div id="trace-form" class="world-trace-form hidden">
-
-        <textarea
-          id="trace-message"
-          placeholder="..."
-          maxlength="5000"
-          class="trace-textarea"
-        ></textarea>
-
-        <div class="world-form-bottom">
-
-          <span id="character-count">
-            0 / 5000
-          </span>
-
-          <div>
-            <button
-              id="cancel-trace"
-              class="world-action"
-            >
-              ×
-            </button>
-
-            <button
-              id="save-trace"
-              class="world-action primary"
-            >
-              ↗
-            </button>
-          </div>
-
-        </div>
-
-        <div
-          id="trace-message-status"
-          class="status-message"
-        ></div>
-
-      </div>
-
-    </main>
-
-    <!-- التنقل -->
-    <nav class="world-navigation">
-
-      <button
-        data-page="home"
-        class="nav-button active"
-      >
-        <span>07</span>
-      </button>
-
-      <button
-        data-page="traces"
-        class="nav-button"
-      >
-        <span>19</span>
-      </button>
-
-      <button
-        data-page="profile"
-        class="nav-button"
-      >
-        <span>31</span>
-      </button>
-
-      <button
-        data-page="archive"
-        class="nav-button"
-      >
-        <span>∞</span>
-      </button>
-
-    </nav>
-
-    <!-- حقل الأوامر -->
-    <div class="command-interface">
-
-      <div class="command-prefix">
-        <span>&gt;</span>
-      </div>
-
-      <input
-        id="command-input"
-        type="text"
-        autocomplete="off"
-        spellcheck="false"
-        placeholder=""
-      >
-
-      <div class="command-cursor"></div>
-
-    </div>
-
-    <!-- سطر سفلي -->
-    <footer class="world-footer">
-      <span>—</span>
-      <span>03 / 09 / ?</span>
-      <span>?</span>
-      <span>—</span>
-    </footer>
-
-  </div>
-
-</section>
-    <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الأثر - اترك أثراً للمستقبل</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <div id="app">
-    <!-- شاشة تسجيل الدخول -->
-    
-<section id="auth-screen">
-  <div class="temporal-interface">
-
-    <div class="system-mark">
-      <span>ATHAR</span>
-      <i>∕</i>
-      <span>UNRESOLVED</span>
-    </div>
-
-    <div class="signal-readout">
-      <span>CHANNEL 07</span>
-      <span>●</span>
-      <span>INPUT / ACCEPTED</span>
-    </div>
-
-    <div class="ghost-data ghost-top">
-      <span>ΔT</span>
-      <strong>+00:00:00:17</strong>
-    </div>
-
-    <div class="ghost-data ghost-bottom">
-      <span>ORIGIN</span>
-      <strong>— — —</strong>
-    </div>
-
-    <div class="identity-zone">
-
-      <div class="identity-header">
-        <span class="index-number">01</span>
-
-        <div>
-          <div class="identity-title">الأثر</div>
-          <div class="identity-subtitle">
-            identity reconstruction interface
-          </div>
-        </div>
-      </div>
-
-      <div class="identity-line"></div>
-
-      <div class="input-field name-field">
-        <label>
-          <span>IDENTIFIER</span>
-          <small>01</small>
-        </label>
-
-        <input
-          id="display-name"
-          type="text"
-          placeholder="الاسم"
-          class="auth-input"
-        >
-      </div>
-
-      <div class="input-field email-field">
-        <label>
-          <span>ADDRESS</span>
-          <small>02</small>
-        </label>
-
-        <input
-          id="email"
-          type="email"
-          placeholder="البريد الإلكتروني"
-          class="auth-input"
-        >
-      </div>
-
-      <div class="input-field password-field">
-        <label>
-          <span>KEY</span>
-          <small>03</small>
-        </label>
-
-        <input
-          id="password"
-          type="password"
-          placeholder="كلمة المرور"
-          class="auth-input"
-        >
-      </div>
-
-      <div class="action-zone">
-
-        <div class="action-meta">
-          <span>DATA INTEGRITY</span>
-          <strong>STABLE</strong>
-        </div>
-
-        <button
-          id="auth-button"
-          class="primary-button auth-button"
-        >
-          <span>INITIALIZE</span>
-          <b>↗</b>
-        </button>
-
-      </div>
-
-      <button id="switch-auth" class="text-button">
-        لدي حساب بالفعل
-      </button>
-
-      <div id="auth-message" class="status-message"></div>
-
-    </div>
-
-    <div class="bottom-readout">
-      <span>MEMORY: PRESENT</span>
-      <span>SYNC: —</span>
-      <span>TIME: UNVERIFIED</span>
-    </div>
-
-    <div class="vertical-code">
-      7F / 19 / A4 / 00 / 71 / Δ
-    </div>
-
-    <div class="cursor-mark"></div>
-
-  </div>
-</section>
-    <!-- التطبيق بعد تسجيل الدخول -->
-    
-     <section id="main-screen" class="hidden">
-
-  <div class="unknown-world">
-
-    <!-- طبقة بيانات محيطة -->
-    <div class="world-code code-a">A7 / 03 / 91</div>
-    <div class="world-code code-b">∆ 19F — 004 — K</div>
-    <div class="world-code code-c">11:48:03</div>
-    <div class="world-code code-d">0x00 / 7A / ∞</div>
-
-    <!-- الرأس -->
-    <header class="world-header">
-
-      <div class="world-mark">
-        <span class="mark-symbol">∴</span>
-        <span class="mark-code">07</span>
-      </div>
-
-      <div class="world-status">
-        <span>●</span>
-        <span>—</span>
-        <span id="user-name"></span>
-      </div>
-
-      <button id="logout-button" class="world-exit">
-        <span>×</span>
-      </button>
-
-    </header>
-
-    <!-- المساحة الرئيسية -->
-    <main class="world-stage">
-
-      <!-- شظايا نصية -->
-      <div class="fragment fragment-one">
-        <span>𐌗</span>
-        <p>
-          ᚠᛇᚻ 𓂀 ∴ 影<br>
-          0017 / 04 / —
-        </p>
-      </div>
-
-      <div class="fragment fragment-two">
-        <span>02</span>
-        <p>
-          Москва<br>
-          1847.03.19
-        </p>
-      </div>
-
-      <div class="fragment fragment-three">
-        <span>Δ</span>
-        <p>
-          未来 / 過去<br>
-          ————————
-        </p>
-      </div>
-
-      <!-- العقدة المركزية -->
-      <section id="page-home" class="page world-page">
-
-        <div class="signal-line">
-          <span>NODE</span>
-          <strong>07</strong>
-        </div>
-
-        <div class="unknown-content">
-
-          <div class="unknown-time">
-            03 : 17 : 44
-          </div>
-
-          <div class="unknown-text">
-            <span>𓂀</span>
-            <span>א</span>
-            <span>影</span>
-            <span>ᚠ</span>
-            <span>Δ</span>
-          </div>
-
-          <div class="unknown-line"></div>
-
-          <p class="foreign-fragment">
-            これは記録ではない。<br>
-            これはまだ起きていない。
-          </p>
-
-          <p class="arabic-fragment">
-            لم يتم التعرف على المصدر.
-          </p>
-
-        </div>
-
-      </section>
-
-      <!-- الآثار القديمة: الوظيفة ما زالت نفسها -->
-      <section id="page-traces" class="page hidden world-page">
-
-        <div class="world-page-header">
-          <span>NODE / 19</span>
-          <span id="trace-count" class="muted">0</span>
-        </div>
-
-        <div id="trace-list" class="trace-list"></div>
-
-        <button
-          id="new-trace-button-2"
-          class="world-action"
-        >
-          +
-        </button>
-
-      </section>
-
-      <!-- الملف الشخصي: الوظيفة ما زالت نفسها -->
-      <section id="page-profile" class="page hidden world-page">
-
-        <div class="world-page-header">
-          <span>NODE / 31</span>
-          <span>?</span>
-        </div>
-
-        <div class="world-profile">
-
-          <div id="profile-avatar" class="avatar">
-            أ
-          </div>
-
-          <h2 id="profile-name">—</h2>
-
-          <p id="profile-email" class="muted">—</p>
-
-          <label class="world-upload">
-            <span>+</span>
-            <input
-              id="avatar-input"
-              type="file"
-              accept="image/*"
-            >
-          </label>
-
-          <div id="profile-status" class="status-message"></div>
-
-        </div>
-
-      </section>
-
-      <!-- صفحة جديدة -->
-      <section id="page-archive" class="page hidden world-page">
-
-        <div class="archive-fragments">
-
-          <div>
-            <span>004</span>
-            <p>𓂀 𐌗 ᚠ 影</p>
-          </div>
-
-          <div>
-            <span>118</span>
-            <p>1923 — 2041</p>
-          </div>
-
-          <div>
-            <span>771</span>
-            <p>████████</p>
-          </div>
-
-        </div>
-
-        <div class="archive-center">
-          <div>...</div>
-          <div>—</div>
-          <div>...</div>
-        </div>
-
-      </section>
-
-      <!-- نموذج كتابة الأثر يبقى موجوداً -->
-      <div id="trace-form" class="world-trace-form hidden">
-
-        <textarea
-          id="trace-message"
-          placeholder="..."
-          maxlength="5000"
-          class="trace-textarea"
-        ></textarea>
-
-        <div class="world-form-bottom">
-
-          <span id="character-count">
-            0 / 5000
-          </span>
-
-          <div>
-            <button
-              id="cancel-trace"
-              class="world-action"
-            >
-              ×
-            </button>
-
-            <button
-              id="save-trace"
-              class="world-action primary"
-            >
-              ↗
-            </button>
-          </div>
-
-        </div>
-
-        <div
-          id="trace-message-status"
-          class="status-message"
-        ></div>
-
-      </div>
-
-    </main>
-
-    <!-- التنقل -->
-    <nav class="world-navigation">
-
-      <button
-        data-page="home"
-        class="nav-button active"
-      >
-        <span>07</span>
-      </button>
-
-      <button
-        data-page="traces"
-        class="nav-button"
-      >
-        <span>19</span>
-      </button>
-
-      <button
-        data-page="profile"
-        class="nav-button"
-      >
-        <span>31</span>
-      </button>
-
-      <button
-        data-page="archive"
-        class="nav-button"
-      >
-        <span>∞</span>
-      </button>
-
-    </nav>
-
-    <!-- حقل الأوامر -->
-    <div class="command-interface">
-
-      <div class="command-prefix">
-        <span>&gt;</span>
-      </div>
-
-      <input
-        id="command-input"
-        type="text"
-        autocomplete="off"
-        spellcheck="false"
-        placeholder=""
-      >
-
-      <div class="command-cursor"></div>
-
-    </div>
-
-    <!-- سطر سفلي -->
-    <footer class="world-footer">
-      <span>—</span>
-      <span>03 / 09 / ?</span>
-      <span>?</span>
-      <span>—</span>
-    </footer>
-
-  </div>
-
-</section> 
-    
-    <!-- التنقل -->
-      <nav class="navigation">
-        <button data-page="home" class="nav-button active">
-          <span class="nav-icon">🏠</span>
-          الرئيسية
-        </button>
-        <button data-page="traces" class="nav-button">
-          <span class="nav-icon">📝</span>
-          آثاري
-        </button>
-        <button data-page="profile" class="nav-button">
-          <span class="nav-icon">👤</span>
-          ملفي
-        </button>
-      </nav>
-
-      <!-- الرئيسية -->
-      <section id="page-home" class="page">
-        <div class="hero">
-          <span class="small-title">✨ الآن</span>
-          <h1>اترك أثراً<br>للمستقبل</h1>
-          <p>
-            اكتب شيئًا تريد أن يبقى.
-            <br>
-            ربما تقرؤه أنت لاحقًا،
-            وربما يصل إلى شخص اخترته.
-          </p>
-          <button id="new-trace-button" class="primary-button cta-button">
-            ✍️ اترك أثراً
-          </button>
-        </div>
-
-        <!-- إنشاء أثر -->
-        <div id="trace-form" class="card hidden">
-          <h2>📝 أثر جديد</h2>
-          <textarea
-            id="trace-message"
-            placeholder="اكتب أثرك هنا... شارك أفكارك، ذكرياتك، أو رسالتك"
-            maxlength="5000"
-            class="trace-textarea"
-          ></textarea>
-          <div class="form-footer">
-            <span id="character-count" class="char-count">0 / 5000</span>
-            <div class="button-group">
-              <button id="cancel-trace" class="secondary-button">إلغاء</button>
-              <button id="save-trace" class="primary-button">💾 حفظ الأثر</button>
+              <div class="identity-subtitle">
+                identity reconstruction interface
+              </div>
             </div>
           </div>
-          <div id="trace-message-status" class="status-message"></div>
-        </div>
-      </section>
 
-      <!-- الآثار -->
-      <section id="page-traces" class="page hidden">
-        <div class="page-header">
-          <div>
-            <h2>📚 آثاري</h2>
-            <span id="trace-count" class="muted">0 أثر</span>
+          <div class="identity-line"></div>
+
+          <div class="input-field name-field">
+
+            <label>
+              <span>IDENTIFIER</span>
+              <small>01</small>
+            </label>
+
+            <input
+              id="display-name"
+              type="text"
+              placeholder="الاسم"
+              class="auth-input"
+            >
+
           </div>
-          <button id="new-trace-button-2" class="primary-button">➕ أثر جديد</button>
-        </div>
-        <div id="trace-list" class="trace-list"></div>
-      </section>
 
-      <!-- الملف الشخصي -->
-      <section id="page-profile" class="page hidden">
-        <div class="profile-card">
-          <div id="profile-avatar" class="avatar">أ</div>
-          <h2 id="profile-name">—</h2>
-          <p id="profile-email" class="muted">—</p>
-          <label class="upload-button">
-            📷 تغيير الصورة
-            <input id="avatar-input" type="file" accept="image/*">
-          </label>
-          <div id="profile-status" class="status-message"></div>
+          <div class="input-field email-field">
+
+            <label>
+              <span>ADDRESS</span>
+              <small>02</small>
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              placeholder="البريد الإلكتروني"
+              class="auth-input"
+            >
+
+          </div>
+
+          <div class="input-field password-field">
+
+            <label>
+              <span>KEY</span>
+              <small>03</small>
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              placeholder="كلمة المرور"
+              class="auth-input"
+            >
+
+          </div>
+
+          <div class="action-zone">
+
+            <div class="action-meta">
+              <span>DATA INTEGRITY</span>
+              <strong>STABLE</strong>
+            </div>
+
+            <button
+              id="auth-button"
+              class="primary-button auth-button"
+              type="button"
+            >
+              <span>INITIALIZE</span>
+              <b>↗</b>
+            </button>
+
+          </div>
+
+          <button
+            id="switch-auth"
+            class="text-button"
+            type="button"
+          >
+            لدي حساب بالفعل
+          </button>
+
+          <div
+            id="auth-message"
+            class="status-message"
+          ></div>
+
         </div>
-      </section>
+
+        <div class="bottom-readout">
+          <span>MEMORY: PRESENT</span>
+          <span>SYNC: —</span>
+          <span>TIME: UNVERIFIED</span>
+        </div>
+
+        <div class="vertical-code">
+          7F / 19 / A4 / 00 / 71 / Δ
+        </div>
+
+        <div class="cursor-mark"></div>
+
+      </div>
+
     </section>
+
+
+    <!-- =========================
+         العالم بعد الدخول
+    ========================== -->
+
+    <section id="main-screen" class="hidden">
+
+      <div class="unknown-world">
+
+        <!-- بيانات محيطة -->
+
+        <div class="world-code code-a">
+          A7 / 03 / 91
+        </div>
+
+        <div class="world-code code-b">
+          ∆ 19F — 004 — K
+        </div>
+
+        <div class="world-code code-c">
+          11:48:03
+        </div>
+
+        <div class="world-code code-d">
+          0x00 / 7A / ∞
+        </div>
+
+
+        <!-- الرأس -->
+
+        <header class="world-header">
+
+          <div class="world-mark">
+            <span class="mark-symbol">∴</span>
+            <span class="mark-code">07</span>
+          </div>
+
+          <div class="world-status">
+            <span>●</span>
+            <span>—</span>
+            <span id="user-name"></span>
+          </div>
+
+          <button
+            id="logout-button"
+            class="world-exit"
+            type="button"
+          >
+            <span>×</span>
+          </button>
+
+        </header>
+
+
+        <!-- المساحة الرئيسية -->
+
+        <main class="world-stage">
+
+          <!-- شظايا -->
+
+          <div class="fragment fragment-one">
+
+            <span>𐌗</span>
+
+            <p>
+              ᚠᛇᚻ 𓂀 ∴ 影<br>
+              0017 / 04 / —
+            </p>
+
+          </div>
+
+
+          <div class="fragment fragment-two">
+
+            <span>02</span>
+
+            <p>
+              Москва<br>
+              1847.03.19
+            </p>
+
+          </div>
+
+
+          <div class="fragment fragment-three">
+
+            <span>Δ</span>
+
+            <p>
+              未来 / 過去<br>
+              ————————
+            </p>
+
+          </div>
+
+
+          <!-- العقدة الرئيسية -->
+
+          <section
+            id="page-home"
+            class="page world-page"
+          >
+
+            <div class="signal-line">
+              <span>NODE</span>
+              <strong>07</strong>
+            </div>
+
+            <div class="unknown-content">
+
+              <button
+                id="new-trace-button"
+                class="world-action"
+                type="button"
+              >
+                +
+              </button>
+
+              <div class="unknown-time">
+                03 : 17 : 44
+              </div>
+
+              <div class="unknown-text">
+                <span>𓂀</span>
+                <span>א</span>
+                <span>影</span>
+                <span>ᚠ</span>
+                <span>Δ</span>
+              </div>
+
+              <div class="unknown-line"></div>
+
+              <p class="foreign-fragment">
+                これは記録ではない。<br>
+                これはまだ起きていない。
+              </p>
+
+              <p class="arabic-fragment">
+                لم يتم التعرف على المصدر.
+              </p>
+
+            </div>
+
+          </section>
+
+
+          <!-- العقدة 19 -->
+
+          <section
+            id="page-traces"
+            class="page hidden world-page"
+          >
+
+            <div class="world-page-header">
+              <span>NODE / 19</span>
+
+              <span
+                id="trace-count"
+                class="muted"
+              >
+                0
+              </span>
+            </div>
+
+            <div
+              id="trace-list"
+              class="trace-list"
+            ></div>
+
+            <button
+              id="new-trace-button-2"
+              class="world-action"
+              type="button"
+            >
+              +
+            </button>
+
+          </section>
+
+
+          <!-- العقدة 31 -->
+
+          <section
+            id="page-profile"
+            class="page hidden world-page"
+          >
+
+            <div class="world-page-header">
+              <span>NODE / 31</span>
+              <span>?</span>
+            </div>
+
+            <div class="world-profile">
+
+              <div
+                id="profile-avatar"
+                class="avatar"
+              >
+                أ
+              </div>
+
+              <h2 id="profile-name">
+                —
+              </h2>
+
+              <p
+                id="profile-email"
+                class="muted"
+              >
+                —
+              </p>
+
+              <label class="world-upload">
+
+                <span>+</span>
+
+                <input
+                  id="avatar-input"
+                  type="file"
+                  accept="image/*"
+                >
+
+              </label>
+
+              <div
+                id="profile-status"
+                class="status-message"
+              ></div>
+
+            </div>
+
+          </section>
+
+
+          <!-- العقدة غير المعروفة -->
+
+          <section
+            id="page-archive"
+            class="page hidden world-page"
+          >
+
+            <div class="archive-fragments">
+
+              <div>
+                <span>004</span>
+                <p>𓂀 𐌗 ᚠ 影</p>
+              </div>
+
+              <div>
+                <span>118</span>
+                <p>1923 — 2041</p>
+              </div>
+
+              <div>
+                <span>771</span>
+                <p>████████</p>
+              </div>
+
+            </div>
+
+            <div class="archive-center">
+              <div>...</div>
+              <div>—</div>
+              <div>...</div>
+            </div>
+
+          </section>
+
+
+          <!-- نموذج الأثر -->
+
+          <div
+            id="trace-form"
+            class="world-trace-form hidden"
+          >
+
+            <textarea
+              id="trace-message"
+              placeholder="..."
+              maxlength="5000"
+              class="trace-textarea"
+            ></textarea>
+
+            <div class="world-form-bottom">
+
+              <span id="character-count">
+                0 / 5000
+              </span>
+
+              <div>
+
+                <button
+                  id="cancel-trace"
+                  class="world-action"
+                  type="button"
+                >
+                  ×
+                </button>
+
+                <button
+                  id="save-trace"
+                  class="world-action primary"
+                  type="button"
+                >
+                  ↗
+                </button>
+
+              </div>
+
+            </div>
+
+            <div
+              id="trace-message-status"
+              class="status-message"
+            ></div>
+
+          </div>
+
+        </main>
+
+
+        <!-- التنقل -->
+
+        <nav class="world-navigation">
+
+          <button
+            data-page="home"
+            class="nav-button active"
+            type="button"
+          >
+            <span>07</span>
+          </button>
+
+          <button
+            data-page="traces"
+            class="nav-button"
+            type="button"
+          >
+            <span>19</span>
+          </button>
+
+          <button
+            data-page="profile"
+            class="nav-button"
+            type="button"
+          >
+            <span>31</span>
+          </button>
+
+          <button
+            data-page="archive"
+            class="nav-button"
+            type="button"
+          >
+            <span>∞</span>
+          </button>
+
+        </nav>
+
+
+        <!-- صندوق الأوامر -->
+
+        <div class="command-interface">
+
+          <div class="command-prefix">
+            <span>&gt;</span>
+          </div>
+
+          <input
+            id="command-input"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder=""
+          >
+
+          <div class="command-cursor"></div>
+
+        </div>
+
+
+        <!-- السطر السفلي -->
+
+        <footer class="world-footer">
+
+          <span>—</span>
+          <span>03 / 09 / ?</span>
+          <span>?</span>
+          <span>—</span>
+
+        </footer>
+
+      </div>
+
+    </section>
+
   </div>
 
-  <script type="module" src="js/app.js"></script>
-</body>
-</html>
-  
 
-  <script type="module" src="js/app.js"></script>
+  <script
+    type="module"
+    src="js/app.js"
+  ></script>
+
 </body>
 </html>
