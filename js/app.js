@@ -206,6 +206,7 @@ setTimeout(() => {
   window.location.href =
     "https://yasarblack.github.io/athar-social-app/";
 }, 700);
+}
 
 /* =========================
    COMMAND OUTPUT
