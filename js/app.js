@@ -382,6 +382,77 @@ function setAvatar(url) {
   profileAvatar.appendChild(image);
 }
 
+/* =========================
+   NODE ENGINE
+========================= */
+
+const nodeViewer = document.getElementById("node-viewer");
+
+let currentNodeId = "start";
+
+function openNode(nodeId) {
+  const node = nodes[nodeId];
+
+  if (!node || !nodeViewer) return;
+
+  currentNodeId = nodeId;
+
+  const linksHtml = (node.links || [])
+    .map(link => `
+      <button
+        class="node-link"
+        type="button"
+        data-node="${escapeHtml(link.target)}"
+      >
+        ${escapeHtml(link.label)}
+      </button>
+    `)
+    .join("");
+
+  nodeViewer.innerHTML = `
+    <div class="node-frame">
+
+      <div class="node-meta">
+        <span>${escapeHtml(node.type || "unknown")}</span>
+        <span>${escapeHtml(node.id)}</span>
+      </div>
+
+      <h2 class="node-title">
+        ${escapeHtml(node.title || "—")}
+      </h2>
+
+      <p class="node-text">
+        ${escapeHtml(node.text || "")}
+      </p>
+
+      ${
+        node.meta
+          ? `<div class="node-extra">${escapeHtml(node.meta)}</div>`
+          : ""
+      }
+
+      <div class="node-links">
+        ${linksHtml}
+      </div>
+
+    </div>
+  `;
+
+  nodeViewer.querySelectorAll(".node-link").forEach(button => {
+    button.addEventListener("click", () => {
+      openNode(button.dataset.node);
+    });
+  });
+}
+
+function initNodeEngine() {
+  if (!nodeViewer) return;
+
+  openNode("start");
+}
+
+initNodeEngine();
+
 /* Utility Functions */
 function formatDate(value) {
   if (!value) return "";
