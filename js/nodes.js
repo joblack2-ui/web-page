@@ -8,7 +8,7 @@ export const nodes = {
       { label: "1969", target: "apollo-11" },
       { label: "1945", target: "hiroshima" },
       { label: "MARS", target: "mars" },
-      { label: "Oppenheimer", target: "oppenheimer" }
+      { label: "OPPENHEIMER", target: "oppenheimer" }
     ]
   },
 
@@ -19,9 +19,24 @@ export const nodes = {
     text: "MOON / EARTH / APOLLO 11",
     meta: "20.07.1969 / USA",
     links: [
-      { label: "NEIL ARMSTRONG", target: "neil-armstrong" },
-      { label: "NASA", target: "nasa" },
       { label: "MOON", target: "moon" },
+      { label: "EARTH", target: "earth" },
+      { label: "APOLLO 11", target: "apollo-11" },
+      { label: "NEIL ARMSTRONG", target: "neil-armstrong" },
+      { label: "NASA", target: "nasa" }
+    ]
+  },
+
+  earth: {
+    id: "earth",
+    type: "place",
+    title: "EARTH",
+    text: "ORIGIN / HUMAN SPECIES / UNKNOWN",
+    meta: "SOL-3",
+    links: [
+      { label: "MOON", target: "moon" },
+      { label: "MARS", target: "mars" },
+      { label: "NASA", target: "nasa" },
       { label: "1969", target: "apollo-11" }
     ]
   },
@@ -35,7 +50,8 @@ export const nodes = {
     links: [
       { label: "APOLLO 11", target: "apollo-11" },
       { label: "NASA", target: "nasa" },
-      { label: "MOON", target: "moon" }
+      { label: "MOON", target: "moon" },
+      { label: "EARTH", target: "earth" }
     ]
   },
 
@@ -48,7 +64,8 @@ export const nodes = {
     links: [
       { label: "APOLLO 11", target: "apollo-11" },
       { label: "MARS", target: "mars" },
-      { label: "MOON", target: "moon" }
+      { label: "MOON", target: "moon" },
+      { label: "EARTH", target: "earth" }
     ]
   },
 
@@ -59,6 +76,7 @@ export const nodes = {
     text: "EARTH / NATURAL SATELLITE",
     meta: "DISTANCE ≈ 384,400 KM",
     links: [
+      { label: "EARTH", target: "earth" },
       { label: "APOLLO 11", target: "apollo-11" },
       { label: "NASA", target: "nasa" },
       { label: "MARS", target: "mars" }
@@ -72,6 +90,7 @@ export const nodes = {
     text: "EARTH / RED PLANET",
     meta: "STATUS: ACTIVE SUBJECT",
     links: [
+      { label: "EARTH", target: "earth" },
       { label: "NASA", target: "nasa" },
       { label: "MOON", target: "moon" },
       { label: "2050", target: "future-mars" }
@@ -86,11 +105,12 @@ export const nodes = {
     meta: "STATUS: PROJECTED",
     links: [
       { label: "MARS", target: "mars" },
-      { label: "NASA", target: "nasa" }
+      { label: "NASA", target: "nasa" },
+      { label: "EARTH", target: "earth" }
     ]
   },
 
-  "hiroshima": {
+  hiroshima: {
     id: "hiroshima",
     type: "historical",
     title: "1945",
@@ -99,7 +119,21 @@ export const nodes = {
     links: [
       { label: "MANHATTAN PROJECT", target: "manhattan-project" },
       { label: "OPPENHEIMER", target: "oppenheimer" },
-      { label: "1945", target: "hiroshima" }
+      { label: "1945", target: "hiroshima" },
+      { label: "JAPAN", target: "japan" }
+    ]
+  },
+
+  japan: {
+    id: "japan",
+    type: "place",
+    title: "JAPAN",
+    text: "EAST ASIA / PACIFIC",
+    meta: "ISLAND COUNTRY",
+    links: [
+      { label: "HIROSHIMA", target: "hiroshima" },
+      { label: "1945", target: "hiroshima" },
+      { label: "EARTH", target: "earth" }
     ]
   },
 
@@ -112,7 +146,22 @@ export const nodes = {
     links: [
       { label: "OPPENHEIMER", target: "oppenheimer" },
       { label: "HIROSHIMA", target: "hiroshima" },
-      { label: "1945", target: "hiroshima" }
+      { label: "1945", target: "hiroshima" },
+      { label: "USA", target: "usa" }
+    ]
+  },
+
+  usa: {
+    id: "usa",
+    type: "place",
+    title: "USA",
+    text: "NORTH AMERICA / FEDERAL REPUBLIC",
+    meta: "EARTH",
+    links: [
+      { label: "NASA", target: "nasa" },
+      { label: "MANHATTAN PROJECT", target: "manhattan-project" },
+      { label: "APOLLO 11", target: "apollo-11" },
+      { label: "EARTH", target: "earth" }
     ]
   },
 
@@ -124,7 +173,8 @@ export const nodes = {
     meta: "THEORETICAL PHYSICS",
     links: [
       { label: "MANHATTAN PROJECT", target: "manhattan-project" },
-      { label: "HIROSHIMA", target: "hiroshima" }
+      { label: "HIROSHIMA", target: "hiroshima" },
+      { label: "USA", target: "usa" }
     ]
   }
 };
