@@ -747,8 +747,8 @@ function openNode(nodeId) {
       </h2>
 
       <p class="node-text">
-        ${escapeHtml(node.text || "")}
-      </p>
+  ${renderNodeText(node.text || "")}
+</p>
 
       ${
         node.meta
