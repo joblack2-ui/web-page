@@ -13,6 +13,8 @@ import {
   uploadAvatar
 } from "./profile.js";
 
+import { nodes } from "./nodes.js";
+
 import {
   createTrace,
   getMyTraces,
