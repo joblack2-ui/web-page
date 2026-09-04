@@ -218,6 +218,54 @@ if (switchAuth) {
   });
 }
 
+<a
+  href="https://yasarblack.github.io/athar-social-app/"
+  class="x13-gate"
+  aria-label="x.13"
+>
+  <span>x.13</span>
+  <i>↗</i>
+</a>
+
+وأضف هذا في نهاية "style.css":
+
+.x13-gate {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 9px 14px;
+
+  color: inherit;
+  text-decoration: none;
+
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.015);
+
+  font-size: 10px;
+  letter-spacing: 4px;
+
+  opacity: .38;
+  transition: all .35s ease;
+}
+
+.x13-gate i {
+  font-style: normal;
+  font-size: 13px;
+  letter-spacing: 0;
+  transition: transform .35s ease;
+}
+
+.x13-gate:hover {
+  opacity: .85;
+  border-color: rgba(255,255,255,.28);
+  background: rgba(255,255,255,.04);
+}
+
+.x13-gate:hover i {
+  transform: translate(3px, -3px);
+}
+
 /* =========================
    Logout
 ========================= */
