@@ -1,3 +1,4 @@
+
 import { supabase } from "./supabase.js";
 
 import {
@@ -28,18 +29,20 @@ let isRegisterMode = true;
 const authScreen = document.getElementById("auth-screen");
 const commandInput = document.getElementById("command-input");
 const mainScreen = document.getElementById("main-screen");
-const authTitle = document.getElementById("auth-title");
+
 const displayNameInput = document.getElementById("display-name");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const authButton = document.getElementById("auth-button");
 const switchAuth = document.getElementById("switch-auth");
 const authMessage = document.getElementById("auth-message");
+
 const userName = document.getElementById("user-name");
 const profileName = document.getElementById("profile-name");
 const profileEmail = document.getElementById("profile-email");
 const profileAvatar = document.getElementById("profile-avatar");
 const logoutButton = document.getElementById("logout-button");
+
 const traceForm = document.getElementById("trace-form");
 const traceMessage = document.getElementById("trace-message");
 const saveTraceButton = document.getElementById("save-trace");
@@ -50,176 +53,401 @@ const characterCount = document.getElementById("character-count");
 const traceStatus = document.getElementById("trace-message-status");
 const traceList = document.getElementById("trace-list");
 const traceCount = document.getElementById("trace-count");
+
 const avatarInput = document.getElementById("avatar-input");
 const profileStatus = document.getElementById("profile-status");
 
-/* Command Interface */
+/* =========================
+   Command Interface
+========================= */
 
-commandInput.addEventListener("keydown", event => {
-  if (event.key !== "Enter") return;
+if (commandInput) {
+  commandInput.addEventListener("keydown", event => {
+    if (event.key !== "Enter") return;
 
-  const command = commandInput.value.trim();
+    const command = commandInput.value.trim();
 
-  if (!command) return;
+    if (!command) return;
 
-  console.log("COMMAND:", command);
+    console.log("COMMAND:", command);
 
-  commandInput.value = "";
-});
+    commandInput.value = "";
+  });
+}
 
-/* Initialize App */
+/* =========================
+   Initialize App
+========================= */
+
 async function init() {
-  const user = await getCurrentUser();
+  try {
+    const user = await getCurrentUser();
 
-  if (user) {
-    if (!user.email_confirmed_at) {
-      await signOut();
+    if (user) {
+      await showApp(user);
+    } else {
       showAuth();
+    }
+  } catch (error) {
+    console.error("Initialization error:", error);
+    showAuth();
+
+    if (authMessage) {
+      authMessage.textContent = getErrorMessage(error);
+      authMessage.style.color = "#ef4444";
+    }
+  }
+}
+
+init();
+
+/* =========================
+   Authentication
+========================= */
+
+authButton.addEventListener("click", async () => {
+  authMessage.textContent = "جارٍ المعالجة...";
+  authMessage.style.color = "#aaa";
+
+  authButton.disabled = true;
+
+  try {
+    if (isRegisterMode) {
+      const name = displayNameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!name) {
+        throw new Error("اكتب اسمك أولًا");
+      }
+
+      if (!email || !password) {
+        throw new Error("أدخل البريد وكلمة المرور");
+      }
+
+      const { data, error } = await signUp(
+        email,
+        password,
+        name
+      );
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data?.user) {
+        throw new Error("تعذر إنشاء الحساب.");
+      }
+
+      /*
+       * Confirm Email is OFF in Supabase.
+       * لذلك ننتقل مباشرة إلى التطبيق.
+       */
+      await showApp(data.user);
 
     } else {
       const email = emailInput.value.trim();
       const password = passwordInput.value;
 
-      if (!email || !password) throw new Error("أدخل البريد وكلمة المرور");
+      if (!email || !password) {
+        throw new Error("أدخل البريد وكلمة المرور");
+      }
 
-      const { data, error } = await signIn(email, password);
-      if (error) throw error;
+      const { data, error } = await signIn(
+        email,
+        password
+      );
+
+      if (error) {
+        throw error;
+      }
+
+      if (!data?.user) {
+        throw new Error("تعذر تسجيل الدخول.");
+      }
 
       await showApp(data.user);
     }
+
   } catch (error) {
-    console.error(error);
+    console.error("Authentication error:", error);
+
     authMessage.textContent = getErrorMessage(error);
     authMessage.style.color = "#ef4444";
+
+  } finally {
+    authButton.disabled = false;
   }
 });
 
-switchAuth.addEventListener("click", () => {
-  isRegisterMode = !isRegisterMode;
+/*
+ * حالياً ما منستخدم هذا الزر لتغيير واجهة تسجيل الدخول
+ * لأن authTitle غير موجود في HTML الحالي.
+ *
+ * نترك الزر موجود بدون ما يسبب خطأ.
+ */
+if (switchAuth) {
+  switchAuth.addEventListener("click", () => {
+    isRegisterMode = !isRegisterMode;
 
-  
-if (isRegisterMode) {
-  authTitle.textContent = "إنشاء حساب";
+    if (isRegisterMode) {
+      if (displayNameInput) {
+        displayNameInput.style.display = "block";
+      }
 
-  authButton.textContent = "إنشاء الحساب";
+      authButton.innerHTML = `
+        <span>INITIALIZE</span>
+        <b>↗</b>
+      `;
 
-  switchAuth.textContent = "لدي حساب بالفعل";
+      switchAuth.textContent = "لدي حساب بالفعل";
 
-  displayNameInput.style.display = "block";
-} else {
-  authTitle.textContent = "تسجيل الدخول";
+    } else {
+      if (displayNameInput) {
+        displayNameInput.style.display = "none";
+      }
 
-  authButton.textContent = "دخول";
+      authButton.innerHTML = `
+        <span>ENTER</span>
+        <b>↗</b>
+      `;
 
-  switchAuth.textContent = "إنشاء حساب جديد";
+      switchAuth.textContent = "إنشاء حساب جديد";
+    }
 
-  displayNameInput.style.display = "none";
+    authMessage.textContent = "";
+  });
 }
-  authMessage.textContent = "";
-});
+
+/* =========================
+   Logout
+========================= */
 
 logoutButton.addEventListener("click", async () => {
-  await signOut();
+  try {
+    await signOut();
+  } catch (error) {
+    console.error("Logout error:", error);
+  }
+
   currentUser = null;
   showAuth();
 });
 
-/* Show App After Login */
+/* =========================
+   Show App
+========================= */
+
 async function showApp(user) {
   currentUser = user;
+
   authScreen.classList.add("hidden");
   mainScreen.classList.remove("hidden");
 
-  const name = user.user_metadata?.display_name || user.email?.split("@")[0] || "صديق";
+  const name =
+    user.user_metadata?.display_name ||
+    user.email?.split("@")[0] ||
+    "صديق";
 
   userName.textContent = `👋 ${name}`;
   profileName.textContent = name;
   profileEmail.textContent = user.email || "";
-  profileAvatar.textContent = name.charAt(0).toUpperCase();
+
+  profileAvatar.textContent =
+    name.charAt(0).toUpperCase();
 
   try {
-    const { data, error } = await getProfile(user.id);
+    const { data, error } =
+      await getProfile(user.id);
+
     if (!error && data) {
+
       if (data.display_name) {
-        userName.textContent = `👋 ${data.display_name}`;
-        profileName.textContent = data.display_name;
-        profileAvatar.textContent = data.display_name.charAt(0).toUpperCase();
+        userName.textContent =
+          `👋 ${data.display_name}`;
+
+        profileName.textContent =
+          data.display_name;
+
+        profileAvatar.textContent =
+          data.display_name
+            .charAt(0)
+            .toUpperCase();
       }
-      if (data.avatar_url) setAvatar(data.avatar_url);
+
+      if (data.avatar_url) {
+        setAvatar(data.avatar_url);
+      }
     }
+
   } catch (error) {
-    console.error("خطأ في الملف الشخصي:", error);
+    console.error(
+      "خطأ في الملف الشخصي:",
+      error
+    );
   }
 
   await loadTraces();
+
+  initNodeEngine();
 }
+
+/* =========================
+   Show Auth
+========================= */
 
 function showAuth() {
   mainScreen.classList.add("hidden");
   authScreen.classList.remove("hidden");
+
   passwordInput.value = "";
 }
 
-/* Navigation */
-document.querySelectorAll(".nav-button").forEach(button => {
-  button.addEventListener("click", () => {
-    const page = button.dataset.page;
-    document.querySelectorAll(".nav-button").forEach(btn => btn.classList.remove("active"));
-    button.classList.add("active");
-    document.querySelectorAll(".page").forEach(section => section.classList.add("hidden"));
-    document.getElementById(`page-${page}`).classList.remove("hidden");
-    if (page === "traces") loadTraces();
-  });
-});
+/* =========================
+   Navigation
+========================= */
 
-/* Trace Form */
+document
+  .querySelectorAll(".nav-button")
+  .forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      const page = button.dataset.page;
+
+      document
+        .querySelectorAll(".nav-button")
+        .forEach(btn =>
+          btn.classList.remove("active")
+        );
+
+      button.classList.add("active");
+
+      document
+        .querySelectorAll(".page")
+        .forEach(section =>
+          section.classList.add("hidden")
+        );
+
+      const targetPage =
+        document.getElementById(
+          `page-${page}`
+        );
+
+      if (targetPage) {
+        targetPage.classList.remove("hidden");
+      }
+
+      if (page === "traces") {
+        loadTraces();
+      }
+    });
+
+  });
+
+/* =========================
+   Trace Form
+========================= */
+
 function openTraceForm() {
   traceForm.classList.remove("hidden");
   traceMessage.focus();
 }
 
-newTraceButton.addEventListener("click", openTraceForm);
-newTraceButton2.addEventListener("click", openTraceForm);
+newTraceButton.addEventListener(
+  "click",
+  openTraceForm
+);
 
-cancelTraceButton.addEventListener("click", () => {
-  traceForm.classList.add("hidden");
-  traceMessage.value = "";
-  updateCharacterCount();
-  traceStatus.textContent = "";
-});
+newTraceButton2.addEventListener(
+  "click",
+  openTraceForm
+);
 
-/* Character Counter */
-traceMessage.addEventListener("input", updateCharacterCount);
+cancelTraceButton.addEventListener(
+  "click",
+  () => {
+
+    traceForm.classList.add("hidden");
+
+    traceMessage.value = "";
+
+    updateCharacterCount();
+
+    traceStatus.textContent = "";
+  }
+);
+
+/* =========================
+   Character Counter
+========================= */
+
+traceMessage.addEventListener(
+  "input",
+  updateCharacterCount
+);
 
 function updateCharacterCount() {
-  characterCount.textContent = `${traceMessage.value.length} / 5000`;
+  characterCount.textContent =
+    `${traceMessage.value.length} / 5000`;
 }
 
-/* Save Trace */
-saveTraceButton.addEventListener("click", async () => {
-  const message = traceMessage.value.trim();
+/* =========================
+   Save Trace
+========================= */
 
-  if (!message) {
-    traceStatus.textContent = "اكتب أثرك أولًا.";
-    traceStatus.style.color = "#ef4444";
-    return;
-  }
+saveTraceButton.addEventListener(
+  "click",
+  async () => {
 
-  if (!currentUser) {
-    traceStatus.textContent = "يجب تسجيل الدخول أولًا.";
-    return;
-  }
+    const message =
+      traceMessage.value.trim();
 
-  saveTraceButton.disabled = true;
-  traceStatus.textContent = "جارٍ حفظ الأثر...";
-  traceStatus.style.color = "#aaa";
+    if (!message) {
+      traceStatus.textContent =
+        "اكتب أثرك أولًا.";
 
-  try {
-    const { error } = await createTrace(currentUser.id, message);
-    if (error) throw error;
+      traceStatus.style.color =
+        "#ef4444";
 
-    traceStatus.textContent = "✅ تم حفظ أثرك بنجاح!";
-    traceStatus.style.color = "#10b981";
+      return;
+    }
+
+    if (!currentUser) {
+      traceStatus.textContent =
+        "يجب تسجيل الدخول أولًا.";
+
+      traceStatus.style.color =
+        "#ef4444";
+
+      return;
+    }
+
+    saveTraceButton.disabled = true;
+
+    traceStatus.textContent =
+      "جارٍ حفظ الأثر...";
+
+    traceStatus.style.color = "#aaa";
+
+    try {
+
+      const { error } =
+        await createTrace(
+          currentUser.id,
+          message
+        );
+
+      if (error) {
+        throw error;
+      }
+
+      traceStatus.textContent =
+        "تم حفظ أثرك بنجاح!";
+
+      traceStatus.style.color =
+        "#10
+  
     traceMessage.value = "";
     updateCharacterCount();
     await loadTraces();
