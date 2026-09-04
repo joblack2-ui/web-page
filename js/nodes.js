@@ -199,7 +199,7 @@ RETURN: 24.07.1969
     text: "George Washington was the 1st President of the United States, serving from April 30, 1789, to March 4, 1797. As one of the Founding Fathers, he led the Continental Army to victory in the American Revolutionary War and presided over the convention that drafted the U.S. Constitution.",
     meta: "Presidential Term: Apr 30, 1789 – Mar 4, 1797",
     links: [
-      { label: "American Revolution", target: "american-revolution" },
+      { label: "george-washington", target: "american-revolution" },
       { label: "USA", target: "usa" }
     ]
   },
@@ -222,7 +222,7 @@ RETURN: 24.07.1969
     text: "Thomas Jefferson was the 3rd President of the United States, serving from March 4, 1801, to March 4, 1809. A Founding Father and the principal author of the Declaration of Independence, his presidency was highlighted by the Louisiana Purchase.",
     meta: "Presidential Term: Mar 4, 1801 – Mar 4, 1809",
     links: [
-      { label: "Louisiana Purchase", target: "louisiana-purchase" }
+      { label: "george-washington", target: "louisiana-purchase" }
     ]
   },
 
@@ -233,7 +233,7 @@ RETURN: 24.07.1969
     text: "James Madison was the 4th President of the United States, serving from March 4, 1809, to March 4, 1817. Hailed as the 'Father of the Constitution' for his pivotal role in drafting the U.S. Constitution and the Bill of Rights, he led the country through the War of 1812.",
     meta: "Presidential Term: Mar 4, 1809 – Mar 4, 1817",
     links: [
-      { label: "War of 1812", target: "war-of-1812" }
+      { label: "thomas-jefferson", target: "war-of-1812" }
     ]
   },
 
@@ -244,7 +244,7 @@ RETURN: 24.07.1969
     text: "James Monroe was the 5th President of the United States, serving from March 4, 1817, to March 4, 1825. His presidency, known as the Era of Good Feelings, was defined by the Monroe Doctrine, which opposed European colonialism in the Americas.",
     meta: "Presidential Term: Mar 4, 1817 – Mar 4, 1825",
     links: [
-      { label: "Monroe Doctrine", target: "monroe-doctrine" }
+      { label: "john-quincy-adams", target: "monroe-doctrine" }
     ]
   },
 
@@ -255,7 +255,7 @@ RETURN: 24.07.1969
     text: "John Quincy Adams was the 6th President of the United States, serving from March 4, 1825, to March 4, 1829. The son of John Adams, he was a masterful diplomat before his presidency and later served as a dedicated member of Congress fighting against slavery.",
     meta: "Presidential Term: Mar 4, 1825 – Mar 4, 1829",
     links: [
-      { label: "Erie Canal", target: "erie-canal" }
+      { label: "andrew-jackson", target: "erie-canal" }
     ]
   },
 
@@ -266,7 +266,7 @@ RETURN: 24.07.1969
     text: "Andrew Jackson was the 7th President of the United States, serving from March 4, 1829, to March 4, 1837. A general in the War of 1812, his presidency saw the rise of Jacksonian democracy, the expansion of voting rights, and the controversial Indian Removal Act.",
     meta: "Presidential Term: Mar 4, 1829 – Mar 4, 1837",
     links: [
-      { label: "Bank War", target: "bank-war" }
+      { label: "martin-van-buren", target: "bank-war" }
     ]
   },
 
@@ -277,7 +277,7 @@ RETURN: 24.07.1969
     text: "Martin Van Buren was the 8th President of the United States, serving from March 4, 1837, to March 4, 1841. He was the first president born a U.S. citizen. His administration was largely defined by the economic hardships of the Panic of 1837.",
     meta: "Presidential Term: Mar 4, 1837 – Mar 4, 1841",
     links: [
-      { label: "Panic of 1837", target: "panic-of-1837" }
+      { label: "william-henry-harrison", target: "panic-of-1837" }
     ]
   },
 
@@ -608,7 +608,6 @@ RETURN: 24.07.1969
     meta: "Presidential Term: Jan 20, 1977 – Jan 20, 1981",
     links: [
       { label: "Camp David Accords", target: "camp-david-accords" }
-    ]
-  },
-  };
-  
+    ] 
+  }
+}; 
