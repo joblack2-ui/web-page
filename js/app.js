@@ -24,6 +24,7 @@ let isRegisterMode = true;
 
 /* DOM Elements */
 const authScreen = document.getElementById("auth-screen");
+const commandInput = document.getElementById("command-input");
 const mainScreen = document.getElementById("main-screen");
 const authTitle = document.getElementById("auth-title");
 const displayNameInput = document.getElementById("display-name");
