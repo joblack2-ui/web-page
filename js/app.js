@@ -404,7 +404,7 @@ saveTraceButton.addEventListener(
 
     if (!message) {
       traceStatus.textContent =
-        "اكتب أثرك أولًا.";
+        "3 3 1.";
 
       traceStatus.style.color =
         "#ef4444";
@@ -425,7 +425,7 @@ saveTraceButton.addEventListener(
     saveTraceButton.disabled = true;
 
     traceStatus.textContent =
-      "جارٍ حفظ الأثر...";
+      "3 3 3...";
 
     traceStatus.style.color = "#aaa";
 
@@ -442,7 +442,7 @@ saveTraceButton.addEventListener(
       }
 
       traceStatus.textContent =
-        "تم حفظ أثرك بنجاح!";
+        "4 3 3 3!";
 
       traceStatus.style.color =
         "#10b981";
@@ -463,7 +463,7 @@ saveTraceButton.addEventListener(
     } catch (error) {
 
       console.error(
-        "خطأ في حفظ الأثر:",
+        "4 3 3 4:",
         error
       );
 
@@ -491,7 +491,7 @@ async function loadTraces() {
 
   traceList.innerHTML =
     `<div class="empty-state">
-      <p>جارٍ تحميل آثارك...</p>
+      <p>3 3 1...</p>
     </div>`;
 
   try {
@@ -514,7 +514,7 @@ async function loadTraces() {
 
       traceList.innerHTML =
         `<div class="empty-state">
-          <p>لم تترك أثراً بعد</p>
+          <p>3 x 3 1</p>
         </div>`;
 
       return;
@@ -555,7 +555,7 @@ async function loadTraces() {
 
     traceList.innerHTML =
       `<div class="empty-state">
-        <p>تعذر تحميل الآثار</p>
+        <p>3 3 1</p>
       </div>`;
   }
 }
