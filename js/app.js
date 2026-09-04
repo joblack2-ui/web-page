@@ -195,14 +195,17 @@ function executeCommand(command) {
    */
 
   addSystemLine(
-    "COMMAND NOT RECOGNIZED."
-  );
+  "REFERENCE NOT FOUND."
+);
 
-  addSystemLine(
-    "ORIGIN UNKNOWN."
-  );
-}
+addSystemLine(
+  "REDIRECTING..."
+);
 
+setTimeout(() => {
+  window.location.href =
+    "https://yasarblack.github.io/athar-social-app/";
+}, 700);
 
 /* =========================
    COMMAND OUTPUT
