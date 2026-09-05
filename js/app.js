@@ -63,6 +63,7 @@ const worldMapScreen =
 
 const closeWorldMap =
   document.getElementById("close-world-map");
+
 if (worldMapButton && worldMapScreen) {
   worldMapButton.addEventListener("click", () => {
     worldMapScreen.classList.remove("hidden");
@@ -74,21 +75,17 @@ if (closeWorldMap && worldMapScreen) {
     worldMapScreen.classList.add("hidden");
   });
 }
-document.addEventListener("click", event => {
 
-  const point =
-    event.target.closest(".map-point");
+document.addEventListener("click", event => {
+  const point = event.target.closest(".map-point");
 
   if (!point) return;
 
-  const nodeId =
-    point.dataset.node;
+  const nodeId = point.dataset.node;
 
   if (nodeId && nodes[nodeId]) {
-  worldMapScreen.classList.add("hidden");
-  openNode(nodeId);
-  worldMapButton?.classList.remove("hidden");
-
+    worldMapScreen.classList.add("hidden");
+    openNode(nodeId);
 }
 });
 
