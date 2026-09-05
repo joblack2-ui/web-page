@@ -86,10 +86,8 @@ document.addEventListener("click", event => {
 
   if (nodeId && nodes[nodeId]) {
   worldMapScreen.classList.add("hidden");
-
   openNode(nodeId);
 
-  worldMapButton?.classList.remove("hidden");
 }
 });
 
