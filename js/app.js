@@ -74,7 +74,21 @@ if (closeWorldMap && worldMapScreen) {
     worldMapScreen.classList.add("hidden");
   });
 }
+document.addEventListener("click", event => {
 
+  const point =
+    event.target.closest(".map-point");
+
+  if (!point) return;
+
+  const nodeId =
+    point.dataset.node;
+
+  if (nodeId && nodes[nodeId]) {
+    worldMapScreen.classList.add("hidden");
+    openNode(nodeId);
+  }
+});
 
 /* =========================
    COMMAND INTERFACE
