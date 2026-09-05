@@ -55,7 +55,14 @@ const traceCount = document.getElementById("trace-count");
 
 const avatarInput = document.getElementById("avatar-input");
 const profileStatus = document.getElementById("profile-status");
+const worldMapButton =
+  document.getElementById("world-map-button");
 
+const worldMapScreen =
+  document.getElementById("world-map-screen");
+
+const closeWorldMap =
+  document.getElementById("close-world-map");
 /* =========================
    COMMAND INTERFACE
 ========================= */
