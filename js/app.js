@@ -73,6 +73,7 @@ if (worldMapButton && worldMapScreen) {
 if (closeWorldMap && worldMapScreen) {
   closeWorldMap.addEventListener("click", () => {
     worldMapScreen.classList.add("hidden");
+    openNode("start");
   });
 }
 
