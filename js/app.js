@@ -91,7 +91,6 @@ document.addEventListener("click", event => {
 
   worldMapButton?.classList.remove("hidden");
 }
-  }
 });
 
 /* =========================
