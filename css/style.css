@@ -2284,3 +2284,8 @@ button {
   z-index: 500;
   pointer-events: auto;
 }
+.world-header,
+.world-map-button {
+  position: relative;
+  z-index: 500;
+}
