@@ -609,5 +609,35 @@ RETURN: 24.07.1969
     links: [
       { label: "Camp David Accords", target: "camp-david-accords" }
     ] 
-   }
+   },
+  
+  "thonis-heracleion": {
+  id: "thonis-heracleion",
+  type: "archaeological",
+  title: "THONIS",
+
+  text: `
+THONIS / HERACLEION
+
+SUBMERGED CITY
+ABOUKIR BAY / EGYPT
+
+PORT / TEMPLE / STATUES
+FOUND UNDERWATER
+
+DISCOVERED AGAIN
+AFTER CENTURIES
+
+THE CITY IS REAL.
+THE STORY IS NOT COMPLETE.
+  `,
+
+  meta: "EGYPT / MEDITERRANEAN / SUBMERGED",
+
+  links: [
+    { label: "EGYPT", target: "egypt" },
+    { label: "MEDITERRANEAN", target: "mediterranean" },
+    { label: "ABOUKIR BAY", target: "aboukir-bay" }
+  ]
+  }
 }; 
