@@ -63,6 +63,19 @@ const worldMapScreen =
 
 const closeWorldMap =
   document.getElementById("close-world-map");
+if (worldMapButton && worldMapScreen) {
+  worldMapButton.addEventListener("click", () => {
+    worldMapScreen.classList.remove("hidden");
+  });
+}
+
+if (closeWorldMap && worldMapScreen) {
+  closeWorldMap.addEventListener("click", () => {
+    worldMapScreen.classList.add("hidden");
+  });
+}
+
+
 /* =========================
    COMMAND INTERFACE
 ========================= */
