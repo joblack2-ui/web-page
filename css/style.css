@@ -2279,3 +2279,8 @@ button {
 .world-map-status strong {
   font-weight: normal;
 }
+.world-map-button {
+  position: relative;
+  z-index: 500;
+  pointer-events: auto;
+}
