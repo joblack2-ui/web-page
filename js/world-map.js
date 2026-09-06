@@ -2,23 +2,52 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 import { feature } from "https://cdn.jsdelivr.net/npm/topojson-client@3/+esm";
 
 const mapContainer = document.getElementById("world-map");
-const mapScreen = document.getElementById("world-map-screen");
 
-if (!mapContainer || !mapScreen) {
+if (!mapContainer) {
   console.warn("WORLD MAP: container not found");
 } else {
+
   const svg = d3
     .select(mapContainer)
     .append("svg")
-    .attr("aria-label", "World map")
-    .attr("role", "img");
+    .attr("role", "img")
+    .attr("aria-label", "World map");
 
   const mapLayer = svg.append("g");
 
   const graticuleLayer = mapLayer.append("g");
   const landLayer = mapLayer.append("g");
 
+  let worldData = null;
+
+  async function loadWorld() {
+    try {
+      const response = await fetch(
+        "https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json"
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `WORLD MAP DATA ERROR: ${response.status}`
+        );
+      }
+
+      worldData = await response.json();
+
+      drawMap();
+
+    } catch (error) {
+      console.error(
+        "WORLD MAP FAILED:",
+        error
+      );
+    }
+  }
+
   function drawMap() {
+
+    if (!worldData) return;
+
     const width = mapContainer.clientWidth;
     const height = mapContainer.clientHeight;
 
@@ -28,35 +57,22 @@ if (!mapContainer || !mapScreen) {
       .attr("viewBox", `0 0 ${width} ${height}`)
       .attr("preserveAspectRatio", "xMidYMid meet");
 
-    /*
-      Equal Earth projection.
+    const land = feature(
+      worldData,
+      worldData.objects.land
+    );
 
-      Unlike Mercator, this preserves relative
-      area much more faithfully.
-    */
     const projection = d3
       .geoEqualEarth()
-      .fitSize(
-        [width - 30, height - 30],
-        {
-          type: "Sphere"
-        }
+      .fitExtent(
+        [
+          [20, 20],
+          [width - 20, height - 20]
+        ],
+        land
       );
 
-    /*
-      Move the map slightly toward the centre.
-    */
-    projection.translate([
-      width / 2,
-      height / 2
-    ]);
-
     const path = d3.geoPath(projection);
-
-    /*
-      Latitude / longitude grid.
-    */
-    const graticule = d3.geoGraticule10();
 
     graticuleLayer
       .selectAll("*")
@@ -64,58 +80,22 @@ if (!mapContainer || !mapScreen) {
 
     graticuleLayer
       .append("path")
-      .datum(graticule)
+      .datum(d3.geoGraticule10())
       .attr("class", "map-graticule")
       .attr("d", path);
 
-    /*
-      Load real Natural Earth geometry.
-    */
-    fetch(
-      "https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json"
-    )
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(
-            `WORLD MAP DATA ERROR: ${response.status}`
-          );
-        }
+    landLayer
+      .selectAll("*")
+      .remove();
 
-        return response.json();
-      })
-      .then(world => {
-        const land = feature(
-          world,
-          world.objects.land
-        );
-
-        landLayer
-          .selectAll("*")
-          .remove();
-
-        landLayer
-          .append("path")
-          .datum(land)
-          .attr("class", "map-land")
-          .attr("d", path);
-      })
-      .catch(error => {
-        console.error(
-          "WORLD MAP FAILED:",
-          error
-        );
-      });
+    landLayer
+      .append("path")
+      .datum(land)
+      .attr("class", "map-land")
+      .attr("d", path);
   }
 
-  drawMap();
+  loadWorld();
 
-  let resizeTimer;
-
-  window.addEventListener("resize", () => {
-    clearTimeout(resizeTimer);
-
-    resizeTimer = setTimeout(() => {
-      drawMap();
-    }, 120);
-  });
+  window.addEventListener("resize", drawMap);
 }
