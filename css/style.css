@@ -2637,15 +2637,15 @@ button {
 .radar-signal {
   position: absolute;
 
-  width: 5px;
-  height: 5px;
+  width: 7px;
+  height: 7px;
 
   border-radius: 50%;
 
   background: #dce1e4;
 
   box-shadow:
-    0 0 12px rgba(255,255,255,.45);
+    0 0 14px rgba(255,255,255,.45);
 
   animation: signalPulse 2.8s ease-in-out infinite;
 }
@@ -2666,6 +2666,11 @@ button {
   left: 44%;
   top: 72%;
 
+.signal-six {
+  left: 44%;
+  top: 72%;
+
+  
   animation-delay: 1.7s;
 }
 
