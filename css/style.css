@@ -2859,4 +2859,197 @@ button {
 
   cursor: pointer;
 }
+/* =====================================================
+   007 — ENTRY POINT SCREEN
+===================================================== */
+
+.node-007-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+
+  background: #050505;
+  color: #f2f2f2;
+
+  overflow: hidden;
+}
+
+.node-007-screen.hidden {
+  display: none;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.node-007-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 24px 28px;
+
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+
+  font-size: 12px;
+  letter-spacing: 0.18em;
+}
+
+.node-007-code {
+  opacity: 0.8;
+}
+
+.node-007-return {
+  appearance: none;
+  -webkit-appearance: none;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+  color: inherit;
+
+  padding: 8px 0;
+
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+
+  cursor: pointer;
+}
+
+.node-007-return:hover {
+  opacity: 0.6;
+}
+
+.node-007-return:active {
+  opacity: 0.35;
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+.node-007-body {
+  width: min(520px, calc(100% - 56px));
+
+  margin: auto;
+}
+
+
+/* =========================
+   TITLES
+========================= */
+
+.node-007-entry {
+  margin-bottom: 12px;
+
+  font-size: 14px;
+  letter-spacing: 0.22em;
+}
+
+.node-007-found {
+  margin-bottom: 48px;
+
+  color: rgba(255,255,255,0.42);
+
+  font-size: 11px;
+  letter-spacing: 0.16em;
+}
+
+
+/* =========================
+   REFERENCES
+========================= */
+
+.node-007-references {
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.node-007-references button {
+  appearance: none;
+  -webkit-appearance: none;
+
+  display: grid;
+  grid-template-columns: 32px 20px 1fr;
+  align-items: center;
+
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+  color: rgba(255,255,255,0.42);
+
+  font: inherit;
+  font-size: 12px;
+  line-height: 1;
+
+  letter-spacing: 0.14em;
+
+  text-align: left;
+
+  cursor: default;
+}
+
+.node-007-references button span {
+  color: rgba(255,255,255,0.5);
+}
+
+.node-007-references button i {
+  font-style: normal;
+  opacity: 0.5;
+}
+
+.node-007-references button strong {
+  font-weight: normal;
+}
+
+
+/* =========================
+   ACTIVE REFERENCE
+========================= */
+
+.node-007-references button.active {
+  color: #fff;
+}
+
+.node-007-references button.active span {
+  color: #fff;
+}
+
+.node-007-references button.active strong {
+  color: #fff;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  .node-007-header {
+    padding: 20px;
+  }
+
+  .node-007-body {
+    width: calc(100% - 40px);
+  }
+
 }
