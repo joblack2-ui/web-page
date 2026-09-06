@@ -2427,3 +2427,325 @@ button {
 .quantum-radar-button i {
   font-style: normal;
 }
+/* =========================================================
+   QUANTUM ENTITY RADAR
+   STAGE 01
+========================================================= */
+
+.quantum-radar-screen {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1100;
+
+  display: flex;
+  flex-direction: column;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(180,190,200,.035),
+      transparent 60%
+    ),
+    #030405;
+
+  color: #dce1e4;
+
+  overflow: hidden;
+}
+
+
+/* HEADER */
+
+.quantum-radar-header {
+  flex: 0 0 auto;
+
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 28px;
+
+  border-bottom: 1px solid rgba(255,255,255,.045);
+
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+#close-quantum-radar {
+  border: 1px solid rgba(255,255,255,.14);
+
+  background: transparent;
+  color: #737d84;
+
+  padding: 8px 12px;
+
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+
+  cursor: pointer;
+
+  transition:
+    color .25s ease,
+    border-color .25s ease;
+}
+
+#close-quantum-radar:hover {
+  color: #dce1e4;
+  border-color: rgba(255,255,255,.38);
+}
+
+
+/* BODY */
+
+.quantum-radar-body {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 0;
+}
+
+
+/* RADAR */
+
+.quantum-radar-core {
+  position: relative;
+
+  width: min(72vw, 520px);
+  aspect-ratio: 1;
+
+  border: 1px solid rgba(255,255,255,.12);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,255,255,.025),
+      transparent 68%
+    );
+
+  box-shadow:
+    0 0 80px rgba(255,255,255,.025);
+
+  overflow: hidden;
+}
+
+
+/* RINGS */
+
+.radar-ring {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  border-radius: 50%;
+}
+
+.ring-one {
+  width: 33.333%;
+  height: 33.333%;
+}
+
+.ring-two {
+  width: 66.666%;
+  height: 66.666%;
+}
+
+.ring-three {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* CROSS */
+
+.radar-cross {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  background: rgba(255,255,255,.06);
+}
+
+.radar-cross.horizontal {
+  width: 100%;
+  height: 1px;
+
+  transform: translateY(-50%);
+}
+
+.radar-cross.vertical {
+  width: 1px;
+  height: 100%;
+
+  transform: translateX(-50%);
+}
+
+
+/* SWEEP */
+
+.radar-sweep {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 50%;
+  height: 1px;
+
+  transform-origin: left center;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.0),
+      rgba(255,255,255,.45)
+    );
+
+  animation: quantumSweep 5s linear infinite;
+}
+
+@keyframes quantumSweep {
+
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* SIGNALS */
+
+.radar-signal {
+  position: absolute;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #dce1e4;
+
+  box-shadow:
+    0 0 12px rgba(255,255,255,.45);
+
+  animation: signalPulse 2.8s ease-in-out infinite;
+}
+
+.signal-one {
+  left: 32%;
+  top: 38%;
+}
+
+.signal-two {
+  left: 67%;
+  top: 58%;
+
+  animation-delay: .9s;
+}
+
+.signal-three {
+  left: 44%;
+  top: 72%;
+
+  animation-delay: 1.7s;
+}
+
+@keyframes signalPulse {
+
+  0%,
+  100% {
+    opacity: .18;
+    transform: scale(.7);
+  }
+
+  50% {
+    opacity: .9;
+    transform: scale(1.35);
+  }
+
+}
+
+
+/* CORE */
+
+.radar-core-point {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 4px;
+  height: 4px;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: #fff;
+
+  box-shadow:
+    0 0 14px rgba(255,255,255,.6);
+}
+
+
+/* STATUS */
+
+.quantum-radar-status {
+  position: absolute;
+
+  left: 24px;
+  bottom: 22px;
+
+  display: flex;
+  gap: 14px;
+
+  font-family: monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+
+  opacity: .45;
+}
+
+.quantum-radar-status strong {
+  font-weight: normal;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 640px) {
+
+  .quantum-radar-header {
+    height: 58px;
+    padding: 0 18px;
+  }
+
+  .quantum-radar-core {
+    width: 82vw;
+  }
+
+  .quantum-radar-status {
+    left: 18px;
+    bottom: 16px;
+  }
+
+}
