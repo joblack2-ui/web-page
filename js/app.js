@@ -89,7 +89,27 @@ document.addEventListener("click", event => {
     openNode(nodeId);
 }
 });
+const quantumRadarButton =
+  document.getElementById("quantum-radar-button");
 
+const quantumRadarScreen =
+  document.getElementById("quantum-radar-screen");
+
+const closeQuantumRadar =
+  document.getElementById("close-quantum-radar");
+
+if (quantumRadarButton && quantumRadarScreen) {
+  quantumRadarButton.addEventListener("click", () => {
+    quantumRadarScreen.classList.remove("hidden");
+  });
+}
+
+if (closeQuantumRadar && quantumRadarScreen) {
+  closeQuantumRadar.addEventListener("click", () => {
+    quantumRadarScreen.classList.add("hidden");
+    openNode("start");
+  });
+}
 /* =========================
    COMMAND INTERFACE
 ========================= */
