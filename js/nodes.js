@@ -639,7 +639,7 @@ THE STORY IS NOT COMPLETE.
     { label: "MEDITERRANEAN", target: "mediterranean" },
     { label: "ABOUKIR BAY", target: "aboukir-bay" }
   ]
-  }
+  },
 "future-2041": {
   id: "future-2041",
   type: "possible",
