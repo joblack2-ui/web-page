@@ -2757,10 +2757,10 @@ button {
 }
 
 /* ================================
-   NODE 07
+    007
    ================================ */
 
-.node-07-screen {
+.007-screen {
   position: fixed;
   inset: 0;
   z-index: 9999;
@@ -2772,11 +2772,11 @@ button {
   color: #f2f2f2;
 }
 
-.node-07-screen.hidden {
+.007-screen.hidden {
   display: none;
 }
 
-.node-07-header {
+.007-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2803,19 +2803,19 @@ button {
   cursor: pointer;
 }
 
-.node-07-content {
+.007-content {
   width: min(520px, calc(100% - 56px));
   margin: auto;
 }
 
-.node-07-title {
+.007-title {
   margin-bottom: 12px;
 
   font-size: 14px;
   letter-spacing: 0.22em;
 }
 
-.node-07-references {
+.007-references {
   margin-bottom: 48px;
 
   color: rgba(255, 255, 255, 0.48);
@@ -2824,7 +2824,7 @@ button {
   letter-spacing: 0.16em;
 }
 
-.node-07-list {
+.007-list {
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -2833,17 +2833,17 @@ button {
   letter-spacing: 0.14em;
 }
 
-.node-07-list div {
+.007-list div {
   color: rgba(255, 255, 255, 0.42);
 }
 
-.node-07-list div:last-child {
+.007-list div:last-child {
   color: #ffffff;
 }
 
-/* 07 داخل WORLD */
+/* 007 داخل WORLD */
 
-#world-node-07 {
+#world-007 {
   appearance: none;
 
   margin: 0;
