@@ -2239,7 +2239,7 @@ button {
    MAP FRAME
 ========================= */
 
-..world-map {
+.world-map {
   position: relative;
 
   width: min(1100px, 94vw);
