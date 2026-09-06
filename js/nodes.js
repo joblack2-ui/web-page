@@ -657,5 +657,24 @@ STATUS: UNRESOLVED
   links: [
     { label: "ENERGY", target: "energy" }
   ]
+},
+
+"future-2050": {
+  id: "future-2050",
+  type: "possible",
+  title: "2050",
+
+  text: `
+A MAJOR CHANGE IN GLOBAL CLIMATE
+IS CONSIDERED POSSIBLE.
+
+STATUS: UNRESOLVED
+  `,
+
+  meta: "FUTURE / POSSIBILITY",
+
+  links: [
+    { label: "EARTH", target: "earth" }
+  ]
 }
 }; 
