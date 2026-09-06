@@ -2755,4 +2755,108 @@ button {
   padding: 0;
   cursor: pointer;
 }
+
+/* ================================
+   NODE 07
+   ================================ */
+
+.node-07-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #050505;
+  color: #f2f2f2;
+}
+
+.node-07-screen.hidden {
+  display: none;
+}
+
+.node-07-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 24px 28px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+
+  font-size: 12px;
+  letter-spacing: 0.18em;
+}
+
+#close-node-07 {
+  background: transparent;
+  border: 0;
+  color: inherit;
+
+  padding: 8px 0;
+
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+
+  cursor: pointer;
+}
+
+.node-07-content {
+  width: min(520px, calc(100% - 56px));
+  margin: auto;
+}
+
+.node-07-title {
+  margin-bottom: 12px;
+
+  font-size: 14px;
+  letter-spacing: 0.22em;
+}
+
+.node-07-references {
+  margin-bottom: 48px;
+
+  color: rgba(255, 255, 255, 0.48);
+
+  font-size: 11px;
+  letter-spacing: 0.16em;
+}
+
+.node-07-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  font-size: 12px;
+  letter-spacing: 0.14em;
+}
+
+.node-07-list div {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.node-07-list div:last-child {
+  color: #ffffff;
+}
+
+/* 07 داخل WORLD */
+
+#world-node-07 {
+  appearance: none;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: inherit;
+
+  font: inherit;
+  letter-spacing: inherit;
+
+  cursor: pointer;
+}
 }
