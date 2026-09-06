@@ -2239,34 +2239,31 @@ button {
    MAP FRAME
 ========================= */
 
-.world-map {
+..world-map {
   position: relative;
 
-  flex: 1 1 auto;
+  width: min(1100px, 94vw);
+  height: min(560px, 68vh);
 
-  width: min(1500px, 96vw);
-  height: auto;
+  margin: 18px auto 0;
 
-  margin: 0 auto;
-
-  border: 0;
-
-  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.08);
 
   background:
     linear-gradient(
-      rgba(255,255,255,.018) 1px,
+      rgba(255,255,255,.025) 1px,
       transparent 1px
     ),
     linear-gradient(
       90deg,
-      rgba(255,255,255,.018) 1px,
+      rgba(255,255,255,.025) 1px,
       transparent 1px
     );
 
-  background-size: 80px 80px;
-}
+  background-size: 40px 40px;
 
+  overflow: hidden;
+}
 
 /* =========================
    SVG WORLD
