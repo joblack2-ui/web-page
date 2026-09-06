@@ -110,6 +110,18 @@ if (closeQuantumRadar && quantumRadarScreen) {
     openNode("start");
   });
 }
+document.addEventListener("click", event => {
+  const signal = event.target.closest(".radar-signal");
+
+  if (!signal) return;
+
+  const nodeId = signal.dataset.node;
+
+  if (nodeId && nodes[nodeId]) {
+    quantumRadarScreen.classList.add("hidden");
+    openNode(nodeId);
+  }
+});
 /* =========================
    COMMAND INTERFACE
 ========================= */
