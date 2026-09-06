@@ -640,4 +640,22 @@ THE STORY IS NOT COMPLETE.
     { label: "ABOUKIR BAY", target: "aboukir-bay" }
   ]
   }
+"future-2041": {
+  id: "future-2041",
+  type: "possible",
+  title: "2041",
+
+  text: `
+A MAJOR SHIFT IN ENERGY STORAGE
+IS CONSIDERED POSSIBLE.
+
+STATUS: UNRESOLVED
+  `,
+
+  meta: "FUTURE / POSSIBILITY",
+
+  links: [
+    { label: "ENERGY", target: "energy" }
+  ]
+}
 }; 
