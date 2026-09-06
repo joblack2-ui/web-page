@@ -4,9 +4,10 @@ const app = document.getElementById("app");
 const trigger = document.getElementById("world-node-007");
 
 const EDITOR_IDS = new Set([
-  "8c934b52-3105-442d-89d7-f0704682307a",
-  "d1c94e38-c5f4-4a75-a713-1136ccf63a80"
+  "3e0bb005-e13a-4065-bb40-84c33276651d",
+  "677e88a4-17a4-48c6-ae8e-ad457da4a043"
 ]);
+
 
 if (!app) {
   console.error("007: #app not found.");
