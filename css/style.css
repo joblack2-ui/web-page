@@ -2747,5 +2747,9 @@ button {
     left: 18px;
     bottom: 16px;
   }
-
+.radar-signal {
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
 }
