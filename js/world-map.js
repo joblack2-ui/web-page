@@ -1,4 +1,5 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+console.log("WORLD MAP JS LOADED");
 import { feature } from "https://cdn.jsdelivr.net/npm/topojson-client@3/+esm";
 
 const mapContainer = document.getElementById("world-map");
