@@ -843,6 +843,26 @@ async function removeTrace(traceId) {
 
 window.removeTrace = removeTrace;
 
+async function shareTrace(traceId) {
+  if (!currentUser) return;
+
+  try {
+    const { data, error } = await getMyTraces(currentUser.id);
+    if (error) throw error;
+
+    const trace = (data || []).find(t => t.id === traceId);
+    if (!trace) return;
+
+    await shareTraceCard(trace);
+
+  } catch (error) {
+    console.error("share error:", error);
+    alert(getErrorMessage(error));
+  }
+}
+
+window.shareTrace = shareTrace;
+
 /* =========================
    Avatar Upload
 ========================= */
