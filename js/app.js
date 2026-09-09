@@ -7,6 +7,8 @@ import {
   getCurrentUser
 } from "./auth.js";
 
+import { shareTraceCard } from "./share-card.js";
+
 import {
   getProfile,
   saveProfile,
