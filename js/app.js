@@ -1,3 +1,12 @@
+
+window.addEventListener("error", event => {
+  alert("JS ERROR:\n" + event.message + "\n" + (event.filename || "") + ":" + event.lineno);
+});
+
+window.addEventListener("unhandledrejection", event => {
+  alert("PROMISE ERROR:\n" + (event.reason?.message || event.reason));
+});
+
 import { supabase } from "./supabase.js";
 
 import {
