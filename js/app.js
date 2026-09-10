@@ -214,8 +214,6 @@ function stopRadarSound() {
 
   const nodeId = signal.dataset.node;
 
-  }
-});
 /* =========================
    COMMAND INTERFACE
 ========================= */
