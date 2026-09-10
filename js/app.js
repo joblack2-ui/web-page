@@ -802,7 +802,6 @@ async function loadTraces() {
             حذف الأثر
           </button>
         </div>
-      `;
 
       traceList.appendChild(article);
     });
