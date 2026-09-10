@@ -529,7 +529,7 @@ async function showApp(user) {
 
   } catch (error) {
     console.error(
-      "خطأ في الملف الشخصي:",
+      "wrong:",
       error
     );
   }
@@ -792,20 +792,16 @@ async function loadTraces() {
             class="secondary-button"
             onclick="shareTrace('${trace.id}')"
           >
-            مشاركة الأثر
+            share
           </button>
 
           <button
             class="secondary-button"
             onclick="removeTrace('${trace.id}')"
           >
-
-          
-window.shareTrace = shareTrace;
-            حذف الأثر
+            delete 
           </button>
         </div>
-        window.removeTrace = removeTrace;
       `;
 
       traceList.appendChild(article);
@@ -828,7 +824,7 @@ window.shareTrace = shareTrace;
 
 async function removeTrace(traceId) {
 
-  if (!confirm("هل تريد حذف هذا الأثر؟")) {
+  if (!confirm("are you sure؟")) {
     return;
   }
 
@@ -856,12 +852,13 @@ async function removeTrace(traceId) {
   }
 }
 
+window.removeTrace = removeTrace;
 
 async function shareTrace(traceId) {
   const trace = currentTraces.find(t => t.id === traceId);
 
   if (!trace) {
-    alert("تعذر العثور على الأثر.");
+    alert("not found.");
     return;
   }
 
@@ -873,7 +870,7 @@ async function shareTrace(traceId) {
   }
 }
 
-
+window.shareTrace = shareTrace;
 
 /* =========================
    Avatar Upload
