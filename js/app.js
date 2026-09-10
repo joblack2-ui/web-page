@@ -754,6 +754,7 @@ async function loadTraces() {
     }
 
     const traces = data || [];
+    currentTraces = traces;
 
     traceCount.textContent =
       `${traces.length} أثر`;
@@ -772,9 +773,6 @@ async function loadTraces() {
 
     traces.forEach(trace => {
 
-const traces = data || [];
-currentTraces = traces; // ← إضافة
-      
       const article =
         document.createElement("article");
 
@@ -789,29 +787,22 @@ currentTraces = traces; // ← إضافة
           ${formatDate(trace.created_at)}
         </div>
 
-        <button
-          class="secondary-button"
-          onclick="removeTrace('${trace.id}')"
-        >
-          حذف الأثر
-        </button>
-      async function shareTrace(traceId) {
-  const trace = currentTraces.find(t => t.id === traceId);
+        <div class="button-group">
+          <button
+            class="secondary-button"
+            onclick="shareTrace('${trace.id}')"
+          >
+            مشاركة الأثر
+          </button>
 
-  if (!trace) {
-    alert("تعذر العثور على الأثر.");
-    return;
-  }
-
-  try {
-    await shareTraceCard(trace);
-  } catch (error) {
-    console.error("share error:", error);
-    alert(getErrorMessage(error));
-  }
-}
-
-window.shareTrace = shareTrace;
+          <button
+            class="secondary-button"
+            onclick="removeTrace('${trace.id}')"
+          >
+            حذف الأثر
+          </button>
+        </div>
+      `;
 
       traceList.appendChild(article);
     });
