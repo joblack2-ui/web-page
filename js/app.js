@@ -852,8 +852,6 @@ async function removeTrace(traceId) {
   }
 }
 
-window.removeTrace = removeTrace;
-
 async function shareTrace(traceId) {
   if (!currentUser) return;
 
@@ -872,7 +870,6 @@ async function shareTrace(traceId) {
   }
 }
 
-window.shareTrace = shareTrace;
 
 /* =========================
    Avatar Upload
