@@ -444,6 +444,7 @@ init();
 ========================= */
 
 authButton.addEventListener("click", async () => {
+  playMusic();
   authMessage.textContent = "جارٍ المعالجة...";
   authMessage.style.color = "#aaa";
 
