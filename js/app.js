@@ -212,8 +212,7 @@ function stopRadarSound() {
   radarPulseTimeouts = [];
 }
 
-  const nodeId = signal.dataset.node;
-
+  
 /* =========================
    COMMAND INTERFACE
 ========================= */
