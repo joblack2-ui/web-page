@@ -1063,6 +1063,44 @@ function setAvatar(url) {
 }
 
 /* =========================
+   Background Music
+========================= */
+
+function playMusic() {
+  if (!bgMusic) return;
+
+  bgMusic.volume = 0.35;
+
+  bgMusic.play()
+    .then(() => {
+      musicEnabled = true;
+      if (soundIcon) soundIcon.textContent = "🔊";
+    })
+    .catch(() => {
+      musicEnabled = false;
+      if (soundIcon) soundIcon.textContent = "🔇";
+    });
+}
+
+function stopMusic() {
+  if (!bgMusic) return;
+
+  bgMusic.pause();
+  musicEnabled = false;
+  if (soundIcon) soundIcon.textContent = "🔇";
+}
+
+if (soundToggle) {
+  soundToggle.addEventListener("click", () => {
+    if (musicEnabled) {
+      stopMusic();
+    } else {
+      playMusic();
+    }
+  });
+}
+
+/* =========================
    NODE ENGINE
 ========================= */
 
