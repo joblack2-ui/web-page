@@ -795,7 +795,23 @@ currentTraces = traces; // ← إضافة
         >
           حذف الأثر
         </button>
-      `;
+      async function shareTrace(traceId) {
+  const trace = currentTraces.find(t => t.id === traceId);
+
+  if (!trace) {
+    alert("تعذر العثور على الأثر.");
+    return;
+  }
+
+  try {
+    await shareTraceCard(trace);
+  } catch (error) {
+    console.error("share error:", error);
+    alert(getErrorMessage(error));
+  }
+}
+
+window.shareTrace = shareTrace;
 
       traceList.appendChild(article);
     });
