@@ -25,6 +25,7 @@ import {
 
 let currentUser = null;
 let isRegisterMode = true;
+let currentTraces = [];
 
 /* DOM Elements */
 const authScreen = document.getElementById("auth-screen");
