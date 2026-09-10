@@ -864,7 +864,7 @@ async function removeTrace(traceId) {
 window.removeTrace = removeTrace;
 
 async function shareTrace(traceId) {
-  const trace = currentTraces.find(t => t.id === traceId);
+  const trace = currentTraces.find(t => String(t.id) === String(traceId));
 
   if (!trace) {
     alert("not found.");
