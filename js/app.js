@@ -802,6 +802,7 @@ async function loadTraces() {
             حذف الأثر
           </button>
         </div>
+      `;
 
       traceList.appendChild(article);
     });
@@ -851,23 +852,23 @@ async function removeTrace(traceId) {
   }
 }
 
+
 async function shareTrace(traceId) {
-  if (!currentUser) return;
+  const trace = currentTraces.find(t => t.id === traceId);
+
+  if (!trace) {
+    alert("تعذر العثور على الأثر.");
+    return;
+  }
 
   try {
-    const { data, error } = await getMyTraces(currentUser.id);
-    if (error) throw error;
-
-    const trace = (data || []).find(t => t.id === traceId);
-    if (!trace) return;
-
     await shareTraceCard(trace);
-
   } catch (error) {
     console.error("share error:", error);
     alert(getErrorMessage(error));
   }
 }
+
 
 
 /* =========================
