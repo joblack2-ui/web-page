@@ -131,6 +131,15 @@ document.addEventListener("click", event => {
 
   if (!signal) return;
 
+  const nodeId = signal.dataset.node;
+
+  if (nodeId && nodes[nodeId]) {
+    quantumRadarScreen.classList.add("hidden");
+    stopRadarSound();
+    openNode(nodeId);
+  }
+});
+
   /* =========================
    Radar Sound Engine
 ========================= */
@@ -205,9 +214,6 @@ function stopRadarSound() {
 
   const nodeId = signal.dataset.node;
 
-  if (nodeId && nodes[nodeId]) {
-    quantumRadarScreen.classList.add("hidden");
-    openNode(nodeId);
   }
 });
 /* =========================
