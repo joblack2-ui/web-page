@@ -110,18 +110,22 @@ const quantumRadarScreen =
 const closeQuantumRadar =
   document.getElementById("close-quantum-radar");
 
+
 if (quantumRadarButton && quantumRadarScreen) {
   quantumRadarButton.addEventListener("click", () => {
     quantumRadarScreen.classList.remove("hidden");
+    startRadarSound();
   });
 }
 
 if (closeQuantumRadar && quantumRadarScreen) {
   closeQuantumRadar.addEventListener("click", () => {
     quantumRadarScreen.classList.add("hidden");
+    stopRadarSound();
     openNode("start");
   });
 }
+
 document.addEventListener("click", event => {
   const signal = event.target.closest(".radar-signal");
 
