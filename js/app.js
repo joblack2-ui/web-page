@@ -127,6 +127,78 @@ document.addEventListener("click", event => {
 
   if (!signal) return;
 
+  /* =========================
+   Radar Sound Engine
+========================= */
+
+let radarAudioCtx = null;
+let radarSweepInterval = null;
+let radarPulseTimeouts = [];
+
+function getRadarAudioCtx() {
+  if (!radarAudioCtx) {
+    radarAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return radarAudioCtx;
+}
+
+function playBeep({ freq = 880, duration = 0.08, volume = 0.15, type = "sine" }) {
+  const ctx = getRadarAudioCtx();
+
+  const oscillator = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(freq, ctx.currentTime);
+
+  gain.gain.setValueAtTime(volume, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+  oscillator.connect(gain);
+  gain.connect(ctx.destination);
+
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + duration);
+}
+
+function startRadarSound() {
+  stopRadarSound();
+
+  /* نبضة السحب (Sweep) — كل دورة كاملة 5 ثواني */
+  radarSweepInterval = setInterval(() => {
+    playBeep({ freq: 420, duration: 0.05, volume: 0.05, type: "sine" });
+  }, 5000);
+
+  /* نبضات الإشارات الثلاث — بنفس توقيت CSS animation-delay */
+  const pulseConfigs = [
+    { delay: 0, freq: 900 },
+    { delay: 900, freq: 760 },
+    { delay: 1700, freq: 1040 }
+  ];
+
+  pulseConfigs.forEach(({ delay, freq }) => {
+    const loop = () => {
+      playBeep({ freq, duration: 0.09, volume: 0.12, type: "sine" });
+
+      const timeoutId = setTimeout(loop, 2800);
+      radarPulseTimeouts.push(timeoutId);
+    };
+
+    const initialTimeout = setTimeout(loop, delay);
+    radarPulseTimeouts.push(initialTimeout);
+  });
+}
+
+function stopRadarSound() {
+  if (radarSweepInterval) {
+    clearInterval(radarSweepInterval);
+    radarSweepInterval = null;
+  }
+
+  radarPulseTimeouts.forEach(id => clearTimeout(id));
+  radarPulseTimeouts = [];
+}
+
   const nodeId = signal.dataset.node;
 
   if (nodeId && nodes[nodeId]) {
