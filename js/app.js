@@ -772,6 +772,9 @@ async function loadTraces() {
 
     traces.forEach(trace => {
 
+const traces = data || [];
+currentTraces = traces; // ← إضافة
+      
       const article =
         document.createElement("article");
 
