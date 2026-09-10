@@ -13,6 +13,8 @@ export async function createTraceShareCard(trace) {
 
   const ctx = canvas.getContext("2d");
 
+
+   
   /* الخلفية */
   ctx.fillStyle = "#030405";
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
@@ -155,6 +157,42 @@ function wrapText(ctx, text, maxWidth) {
 export async function shareTraceCard(trace) {
   const canvas = await createTraceShareCard(trace);
 
+   canvas.toBlob(async blob => {
+  if (!blob) {
+    console.error("فشل توليد الصورة");
+    return;
+  }
+
+  const fileName = `athar-trace-${Date.now()}.png`;
+  const file = new File([blob], fileName, { type: "image/png" });
+
+  const canUseNativeShare =
+    navigator.share &&
+    (!navigator.canShare || navigator.canShare({ files: [file] }));
+
+  if (canUseNativeShare) {
+    try {
+      await navigator.share({
+        files: [file],
+        title: "ATHAR",
+        text: "أثر من المستقبل غير محلول."
+      });
+      return;
+    } catch (err) {
+      if (err.name === "AbortError") return;
+      console.error("navigator.share failed:", err);
+    }
+  }
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}, "image/png");
   canvas.toBlob(async blob => {
     const fileName = `athar-trace-${Date.now()}.png`;
     const file = new File([blob], fileName, { type: "image/png" });
