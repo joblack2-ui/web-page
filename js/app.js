@@ -799,9 +799,13 @@ async function loadTraces() {
             class="secondary-button"
             onclick="removeTrace('${trace.id}')"
           >
+
+          
+window.shareTrace = shareTrace;
             حذف الأثر
           </button>
         </div>
+        window.removeTrace = removeTrace;
       `;
 
       traceList.appendChild(article);
