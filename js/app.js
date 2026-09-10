@@ -64,7 +64,11 @@ const characterCount = document.getElementById("character-count");
 const traceStatus = document.getElementById("trace-message-status");
 const traceList = document.getElementById("trace-list");
 const traceCount = document.getElementById("trace-count");
+const bgMusic = document.getElementById("bg-music");
+const soundToggle = document.getElementById("sound-toggle");
+const soundIcon = document.getElementById("sound-icon");
 
+let musicEnabled = false;
 const avatarInput = document.getElementById("avatar-input");
 const profileStatus = document.getElementById("profile-status");
 const worldMapButton =
