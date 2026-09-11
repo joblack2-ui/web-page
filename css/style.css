@@ -4071,10 +4071,7 @@ button {
   will-change: transform;
 }
 
-.gate-year {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+
 
 transform:
   rotate(var(--label-angle))
