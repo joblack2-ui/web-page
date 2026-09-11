@@ -4076,6 +4076,18 @@ button {
   top: 50%;
   left: 50%;
 
+transform:
+  rotate(var(--label-angle))
+  translateY(-50%)
+  rotate(
+    calc(
+      -1 * var(--label-angle)
+      - var(--wheel-rotation)
+    )
+  );
+
+
+  
   width: 60px;
   margin-left: -30px;
 
