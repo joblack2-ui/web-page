@@ -11,7 +11,7 @@ const GATE_YEARS = [
 const IMAGES_PER_YEAR = 10;
 const STEP = 360 / GATE_YEARS.length;
 
-const FRICTION = 0.95;
+const FRICTION = 0.93;
 const VELOCITY_STOP_THRESHOLD = 0.02;
 const SNAP_DURATION = 550;
 
@@ -43,8 +43,8 @@ if (gateButton && gateScreen && wheel) {
     const label = document.createElement("div");
     label.className = "gate-year";
     label.textContent = year;
-    label.style.transform =
-      `rotate(${angle}deg) translateY(-50%)`;
+
+    label.style.setProperty("--label-angle", `${angle}deg`);
 
     wheel.appendChild(label);
   });
@@ -56,7 +56,9 @@ if (gateButton && gateScreen && wheel) {
   let rotation = 0;
   let isDragging = false;
   let isSettled = true;
-  let selectedIndex = null;
+
+  // البداية دائماً على 1923
+  let selectedIndex = 0;
 
   let startPointerAngle = 0;
   let startRotation = 0;
@@ -65,12 +67,15 @@ if (gateButton && gateScreen && wheel) {
   let inertiaFrame = null;
   let snapFrame = null;
 
+  selectedYearLabel.textContent = GATE_YEARS[selectedIndex];
+
   /* =========================
      أدوات حسابية
   ========================= */
 
   function getCenter() {
     const rect = wheelWrap.getBoundingClientRect();
+
     return {
       x: rect.left + rect.width / 2,
       y: rect.top + rect.height / 2
@@ -80,22 +85,34 @@ if (gateButton && gateScreen && wheel) {
   function getAngle(clientX, clientY, center) {
     const dx = clientX - center.x;
     const dy = clientY - center.y;
+
     return Math.atan2(dx, -dy) * (180 / Math.PI);
   }
 
   function normalizeDelta(delta) {
     while (delta > 180) delta -= 360;
     while (delta < -180) delta += 360;
+
     return delta;
   }
 
   function applyRotation(deg) {
     rotation = deg;
+
     wheel.style.transform = `rotate(${rotation}deg)`;
+
+    // نرسل دوران العجلة للـCSS
+    // حتى تبقى أرقام السنوات مستقيمة دائماً
+    wheel.style.setProperty(
+      "--wheel-rotation",
+      `${rotation}deg`
+    );
   }
 
   function getSelectedIndexFromRotation(rot) {
-    const normalized = ((-rot % 360) + 360) % 360;
+    const normalized =
+      ((-rot % 360) + 360) % 360;
+
     return Math.round(normalized / STEP) % GATE_YEARS.length;
   }
 
@@ -116,26 +133,52 @@ if (gateButton && gateScreen && wheel) {
     gateHint.textContent = "دوّري البوابة";
 
     const center = getCenter();
-    startPointerAngle = getAngle(event.clientX, event.clientY, center);
+
+    startPointerAngle =
+      getAngle(event.clientX, event.clientY, center);
+
     startRotation = rotation;
 
-    angleHistory = [{ angle: rotation, time: performance.now() }];
+    angleHistory = [{
+      angle: rotation,
+      time: performance.now()
+    }];
 
     wheelWrap.setPointerCapture(event.pointerId);
   }
+
+  /* =========================
+     أثناء السحب
+  ========================= */
 
   function onPointerMove(event) {
     if (!isDragging) return;
 
     const center = getCenter();
-    const currentAngle = getAngle(event.clientX, event.clientY, center);
-    const delta = normalizeDelta(currentAngle - startPointerAngle);
+
+    const currentAngle =
+      getAngle(event.clientX, event.clientY, center);
+
+    const delta =
+      normalizeDelta(
+        currentAngle - startPointerAngle
+      );
 
     applyRotation(startRotation + delta);
 
-    angleHistory.push({ angle: rotation, time: performance.now() });
-    if (angleHistory.length > 5) angleHistory.shift();
+    angleHistory.push({
+      angle: rotation,
+      time: performance.now()
+    });
+
+    if (angleHistory.length > 5) {
+      angleHistory.shift();
+    }
   }
+
+  /* =========================
+     رفع الإصبع
+  ========================= */
 
   function onPointerUp() {
     if (!isDragging) return;
@@ -145,12 +188,17 @@ if (gateButton && gateScreen && wheel) {
     let velocity = 0;
 
     if (angleHistory.length >= 2) {
+
       const first = angleHistory[0];
       const last = angleHistory[angleHistory.length - 1];
+
       const dt = last.time - first.time;
 
       if (dt > 0) {
-        velocity = (last.angle - first.angle) / dt * 16;
+        velocity =
+          (last.angle - first.angle) /
+          dt *
+          16;
       }
     }
 
@@ -164,17 +212,26 @@ if (gateButton && gateScreen && wheel) {
   function runInertia(velocity) {
 
     function step() {
-      velocity *= FRICTION;
-      applyRotation(rotation + velocity);
 
-      if (Math.abs(velocity) > VELOCITY_STOP_THRESHOLD) {
-        inertiaFrame = requestAnimationFrame(step);
+      velocity *= FRICTION;
+
+      applyRotation(
+        rotation + velocity
+      );
+
+      if (
+        Math.abs(velocity) >
+        VELOCITY_STOP_THRESHOLD
+      ) {
+        inertiaFrame =
+          requestAnimationFrame(step);
       } else {
         snapToNearest();
       }
     }
 
-    inertiaFrame = requestAnimationFrame(step);
+    inertiaFrame =
+      requestAnimationFrame(step);
   }
 
   /* =========================
@@ -183,12 +240,21 @@ if (gateButton && gateScreen && wheel) {
 
   function snapToNearest() {
 
-    const index = getSelectedIndexFromRotation(rotation);
-    const rawTarget = -index * STEP;
+    const index =
+      getSelectedIndexFromRotation(rotation);
+
+    const rawTarget =
+      -index * STEP;
 
     let target = rawTarget;
-    while (target - rotation > 180) target -= 360;
-    while (target - rotation < -180) target += 360;
+
+    while (target - rotation > 180) {
+      target -= 360;
+    }
+
+    while (target - rotation < -180) {
+      target += 360;
+    }
 
     const startRot = rotation;
     const startTime = performance.now();
@@ -198,32 +264,57 @@ if (gateButton && gateScreen && wheel) {
     }
 
     function animate() {
-      const elapsed = performance.now() - startTime;
-      const t = Math.min(elapsed / SNAP_DURATION, 1);
 
-      applyRotation(startRot + (target - startRot) * ease(t));
+      const elapsed =
+        performance.now() - startTime;
+
+      const t =
+        Math.min(
+          elapsed / SNAP_DURATION,
+          1
+        );
+
+      applyRotation(
+        startRot +
+        (target - startRot) *
+        ease(t)
+      );
 
       if (t < 1) {
-        snapFrame = requestAnimationFrame(animate);
+
+        snapFrame =
+          requestAnimationFrame(animate);
+
       } else {
+
         finishSettle(index);
       }
     }
 
-    snapFrame = requestAnimationFrame(animate);
+    snapFrame =
+      requestAnimationFrame(animate);
   }
 
+  /* =========================
+     لحظة الهدوء
+  ========================= */
+
   function finishSettle(index) {
+
     isSettled = true;
     selectedIndex = index;
 
-    const year = GATE_YEARS[index];
+    const year =
+      GATE_YEARS[index];
 
     selectedYearLabel.textContent = year;
 
     setTimeout(() => {
+
       gateCore.classList.add("ready");
-      gateHint.textContent = "اضغطي لفتح البوابة";
+      gateHint.textContent =
+        "اضغطي لفتح البوابة";
+
     }, 400);
   }
 
@@ -232,33 +323,65 @@ if (gateButton && gateScreen && wheel) {
   ========================= */
 
   gateCore.addEventListener("click", () => {
-    if (!isSettled || selectedIndex === null) return;
-    if (!gateCore.classList.contains("ready")) return;
 
-    openYearGallery(GATE_YEARS[selectedIndex]);
+    if (!isSettled) return;
+    if (selectedIndex === null) return;
+
+    if (
+      !gateCore.classList.contains("ready")
+    ) {
+      return;
+    }
+
+    openYearGallery(
+      GATE_YEARS[selectedIndex]
+    );
   });
 
   /* =========================
-     أحداث اللمس/الفأرة
+     أحداث اللمس / الفأرة
   ========================= */
 
-  wheelWrap.addEventListener("pointerdown", onPointerDown);
-  wheelWrap.addEventListener("pointermove", onPointerMove);
-  wheelWrap.addEventListener("pointerup", onPointerUp);
-  wheelWrap.addEventListener("pointercancel", onPointerUp);
+  wheelWrap.addEventListener(
+    "pointerdown",
+    onPointerDown
+  );
+
+  wheelWrap.addEventListener(
+    "pointermove",
+    onPointerMove
+  );
+
+  wheelWrap.addEventListener(
+    "pointerup",
+    onPointerUp
+  );
+
+  wheelWrap.addEventListener(
+    "pointercancel",
+    onPointerUp
+  );
 
   /* =========================
-     فتح/إغلاق شاشة البوابة
+     فتح / إغلاق البوابة
   ========================= */
 
   gateButton.addEventListener("click", () => {
+
     gateScreen.classList.remove("hidden");
+
   });
 
   if (closeGateButton) {
-    closeGateButton.addEventListener("click", () => {
-      gateScreen.classList.add("hidden");
-    });
+
+    closeGateButton.addEventListener(
+      "click",
+      () => {
+
+        gateScreen.classList.add("hidden");
+
+      }
+    );
   }
 
   /* =========================
@@ -270,10 +393,21 @@ if (gateButton && gateScreen && wheel) {
     galleryYearLabel.textContent = year;
     galleryGrid.innerHTML = "";
 
-    for (let i = 1; i <= IMAGES_PER_YEAR; i++) {
-      const img = document.createElement("img");
-      img.src = `${year}-${i}.jpg`;
-      img.alt = `${year} / ${i}`;
+    for (
+      let i = 1;
+      i <= IMAGES_PER_YEAR;
+      i++
+    ) {
+
+      const img =
+        document.createElement("img");
+
+      img.src =
+        `${year}-${i}.jpg`;
+
+      img.alt =
+        `${year} / ${i}`;
+
       img.loading = "lazy";
 
       img.onerror = () => {
@@ -287,13 +421,24 @@ if (gateButton && gateScreen && wheel) {
     gallery.classList.remove("hidden");
   }
 
-  if (closeGalleryButton) {
-    closeGalleryButton.addEventListener("click", () => {
-      gallery.classList.add("hidden");
-      gateScreen.classList.remove("hidden");
+  /* =========================
+     العودة من المعرض
+  ========================= */
 
-      gateCore.classList.remove("ready");
-      isSettled = true;
-    });
+  if (closeGalleryButton) {
+
+    closeGalleryButton.addEventListener(
+      "click",
+      () => {
+
+        gallery.classList.add("hidden");
+        gateScreen.classList.remove("hidden");
+
+        gateCore.classList.remove("ready");
+
+        isSettled = true;
+
+      }
+    );
   }
 }
