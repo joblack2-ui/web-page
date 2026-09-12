@@ -188,10 +188,10 @@ RETURN: 24.07.1969
     meta: "THEORETICAL PHYSICS",
     links: [
       { label: "MANHATTAN PROJECT", target: "manhattan-project" },
-      { label: "HIROSHIMA", target: "hiroshima" },  
+      { label: "HIROSHIMA", target: "hiroshima" },
       { label: "USA", target: "usa" }
       ]
-    }, 
+    },
      "george-washington": {
     id: "george-washington",
     type: "person",
@@ -232,13 +232,12 @@ RETURN: 24.07.1969
     title: "James Madison",
     text: "James Madison was the 4th President of the United States, serving from March 4, 1809, to March 4, 1817. Hailed as the 'Father of the Constitution' for his pivotal role in drafting the U.S. Constitution and the Bill of Rights, he led the country through the War of 1812.",
     meta: "Presidential Term: Mar 4, 1809 – Mar 4, 1817",
-  
+
     links: [
       { label: "1969", target: "apollo-11" },
       { label: "1945", target: "hiroshima" },
       { label: "MARS", target: "mars" },
-      { label: "OPPENHEIMER", target: "oppenheimer" }
-      
+      { label: "OPPENHEIMER", target: "oppenheimer" },
       { label: "thomas-jefferson", target: "war-of-1812" }
     ]
   },
@@ -253,8 +252,7 @@ RETURN: 24.07.1969
       { label: "1969", target: "apollo-11" },
       { label: "1945", target: "hiroshima" },
       { label: "MARS", target: "mars" },
-      { label: "OPPENHEIMER", target: "oppenheimer" }
-
+      { label: "OPPENHEIMER", target: "oppenheimer" },
       { label: "john-quincy-adams", target: "monroe-doctrine" }
     ]
   },
@@ -266,12 +264,11 @@ RETURN: 24.07.1969
     text: "John Quincy Adams was the 6th President of the United States, serving from March 4, 1825, to March 4, 1829. The son of John Adams, he was a masterful diplomat before his presidency and later served as a dedicated member of Congress fighting against slavery.",
     meta: "Presidential Term: Mar 4, 1825 – Mar 4, 1829",
     links: [
-      { label: "andrew-jackson", target: "erie-canal" }
+      { label: "andrew-jackson", target: "erie-canal" },
       { label: "1969", target: "apollo-11" },
       { label: "1945", target: "hiroshima" },
       { label: "MARS", target: "mars" },
       { label: "OPPENHEIMER", target: "oppenheimer" }
-
     ]
   },
 
@@ -282,12 +279,11 @@ RETURN: 24.07.1969
     text: "Andrew Jackson was the 7th President of the United States, serving from March 4, 1829, to March 4, 1837. A general in the War of 1812, his presidency saw the rise of Jacksonian democracy, the expansion of voting rights, and the controversial Indian Removal Act.",
     meta: "Presidential Term: Mar 4, 1829 – Mar 4, 1837",
     links: [
-      { label: "martin-van-buren", target: "bank-war" }
+      { label: "martin-van-buren", target: "bank-war" },
       { label: "1969", target: "apollo-11" },
       { label: "1945", target: "hiroshima" },
       { label: "MARS", target: "mars" },
       { label: "OPPENHEIMER", target: "oppenheimer" }
-
     ]
   },
 
@@ -298,12 +294,11 @@ RETURN: 24.07.1969
     text: "Martin Van Buren was the 8th President of the United States, serving from March 4, 1837, to March 4, 1841. He was the first president born a U.S. citizen. His administration was largely defined by the economic hardships of the Panic of 1837.",
     meta: "Presidential Term: Mar 4, 1837 – Mar 4, 1841",
     links: [
-      { label: "william-henry-harrison", target: "panic-of-1837" }
+      { label: "william-henry-harrison", target: "panic-of-1837" },
       { label: "1969", target: "apollo-11" },
       { label: "1945", target: "hiroshima" },
       { label: "MARS", target: "mars" },
       { label: "OPPENHEIMER", target: "oppenheimer" }
-
     ]
   },
 
@@ -314,12 +309,11 @@ RETURN: 24.07.1969
     text: "William Henry Harrison was the 9th President of the United States, serving from March 4, 1841, to April 4, 1841. He was a military officer famous for the Battle of Tippecanoe. He became the first U.S. president to die in office, serving for just 31 days.",
     meta: "Presidential Term: Mar 4, 1841 – Apr 4, 1841",
     links: [
-      { label: "Battle of Tippecanoe", target: "battle-of-tippecanoe" }
+      { label: "Battle of Tippecanoe", target: "battle-of-tippecanoe" },
       { label: "1969", target: "apollo-11" },
       { label: "1945", target: "hiroshima" },
       { label: "MARS", target: "mars" },
       { label: "OPPENHEIMER", target: "oppenheimer" }
-
     ]
   },
 
@@ -639,9 +633,9 @@ RETURN: 24.07.1969
     meta: "Presidential Term: Jan 20, 1977 – Jan 20, 1981",
     links: [
       { label: "Camp David Accords", target: "camp-david-accords" }
-    ] 
+    ]
    },
-  
+
   "thonis-heracleion": {
   id: "thonis-heracleion",
   type: "archaeological",
@@ -708,4 +702,4 @@ STATUS: UNRESOLVED
     { label: "EARTH", target: "earth" }
   ]
 }
-}; 
+};
