@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>x - 3 1 3</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <div id="app">
+
+    <!-- =========================
+         شاشة الدخول
+    ========================== -->
+
+    <section id="auth-screen">
+
+      <div class="temporal-interface">
+
+        <div class="system-mark">
+          <span>ATHAR</span>
+          <i>∕</i>
+          <span>UNRESOLVED</span>
+        </div>
+
+        <div class="signal-readout">
+          <span>CHANNEL 07</span>
+          <span>●</span>
+          <span>INPUT / ACCEPTED</span>
+        </div>
+
+        <div class="ghost-data ghost-top">
+          <span>ΔT</span>
+          <strong>+00:00:00:17</strong>
+        </div>
+
+        <div class="ghost-data ghost-bottom">
+          <span>ORIGIN</span>
+          <strong>— — —</strong>
+        </div>
+
+        <div class="identity-zone">
+
+          <div class="identity-header">
+            <span class="index-number">01</span>
+
+            <div>
+              <div class="identity-title">x13</div>
+
+              <div class="identity-subtitle">
+                identity reconstruction interface
+              </div>
+            </div>
+          </div>
+
+          <div class="identity-line"></div>
+
+          <div class="input-field name-field">
+            <label>
+              <span>IDENTIFIER</span>
+              <small>01</small>
+            </label>
+            <input id="display-name" type="text" placeholder="الاسم" class="auth-input">
+          </div>
+
+          <div class="input-field email-field">
+            <label>
+              <span>ADDRESS</span>
+              <small>02</small>
+            </label>
+            <input id="email" type="email" placeholder="البريد الإلكتروني" class="auth-input">
+          </div>
+
+          <div class="input-field password-field">
+            <label>
+              <span>KEY</span>
+              <small>03</small>
+            </label>
+            <input id="password" type="password" placeholder="كلمة المرور" class="auth-input">
+          </div>
+
+          <div class="action-zone">
+            <div class="action-meta">
+              <span>DATA INTEGRITY</span>
+              <strong>STABLE</strong>
+            </div>
+
+            <button id="auth-button" class="primary-button auth-button" type="button">
+              <span>INITIALIZE</span>
+              <b>↗</b>
+            </button>
+          </div>
+
+          <button id="switch-auth" class="text-button" type="button">
+            لدي حساب بالفعل
+          </button>
+
+          <a href="https://yasarblack.github.io/athar-social-app/" class="x13-gate" aria-label="x.13">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+              <path d="M12 4v16"/>
+              <path d="M12 8c-2-4-8-4-9 0-1 3 2 5 5 4 2-1 3-2 4-4z"/>
+              <path d="M12 8c2-4 8-4 9 0 1 3-2 5-5 4-2-1-3-2-4-4z"/>
+              <path d="M12 13c-1.5-2-6-2-7 1-1 2 1 4 3 3.5 1.5-.5 3-2 4-4.5z"/>
+              <path d="M12 13c1.5-2 6-2 7 1 1 2-1 4-3 3.5-1.5-.5-3-2-4-4.5z"/>
+            </svg>
+          </a>
+
+          <div id="auth-message" class="status-message"></div>
+
+        </div>
+
+        <div class="bottom-readout">
+          <span>MEMORY: PRESENT</span>
+          <span>SYNC: —</span>
+          <span>TIME: UNVERIFIED</span>
+        </div>
+
+        <div class="vertical-code">
+          7F / 19 / A4 / 00 / 71 / Δ
+        </div>
+
+        <div class="cursor-mark"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         العالم بعد الدخول
+    ========================== -->
+
+    <section id="main-screen" class="hidden">
+
+      <audio id="bg-music" src="ambient.mp3" loop preload="auto"></audio>
+
+      <button id="sound-toggle" class="sound-toggle" type="button" aria-label="تشغيل/كتم الصوت">
+        <span id="sound-icon">🔇</span>
+      </button>
+
+      <div class="unknown-world">
+
+        <!-- بيانات محيطة -->
+        <div class="world-code code-a">A7 / 03 / 91</div>
+        <div class="world-code code-b">∆ 19F — 004 — K</div>
+        <div class="world-code code-c">11:48:03</div>
+        <div class="world-code code-d">0x00 / 7A / ∞</div>
+
+        <!-- الرأس -->
+        <header class="world-header">
+
+          <div class="world-mark">
+            <span class="mark-symbol">∴</span>
+            <span class="mark-code">07</span>
+          </div>
+
+          <div class="world-status">
+            <span>●</span>
+            <span>—</span>
+            <span id="user-name"></span>
+          </div>
+
+          <button id="logout-button" class="world-exit" type="button">
+            <span>×</span>
+          </button>
+
+        </header>
+
+        <!-- صف الأيقونات الرئيسي -->
+        <div class="top-icon-row">
+
+          <button id="world-map-button" class="icon-button" type="button" aria-label="World Map">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+              <circle cx="12" cy="12" r="9"/>
+              <ellipse cx="12" cy="12" rx="4" ry="9"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <path d="M5 7.5c2 1.2 12 1.2 14 0"/>
+              <path d="M5 16.5c2-1.2 12-1.2 14 0"/>
+            </svg>
+          </button>
+
+          <button id="quantum-radar-button" class="icon-button" type="button" aria-label="Quantum Radar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+              <circle cx="12" cy="12" r="9"/>
+              <circle cx="12" cy="12" r="5.5"/>
+              <circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/>
+              <line x1="12" y1="12" x2="19" y2="6"/>
+            </svg>
+          </button>
+
+          <button id="time-gate-button" class="icon-button" type="button" aria-label="Time Gate 008">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+              <path d="M6 4h12v3.5c0 2-2.5 3.5-6 4.5-3.5-1-6-2.5-6-4.5V4z"/>
+              <path d="M6 20h12v-3.5c0-2-2.5-3.5-6-4.5-3.5 1-6 2.5-6 4.5V20z"/>
+            </svg>
+          </button>
+
+          <button id="world-node-007" class="icon-button" type="button" aria-label="Node 007">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+              <path d="M2 12c2.5-4.5 6-7 10-7s7.5 2.5 10 7c-2.5 4.5-6 7-10 7s-7.5-2.5-10-7z"/>
+              <circle cx="12" cy="12" r="2.6" fill="currentColor" stroke="none"/>
+            </svg>
+          </button>
+
+        </div>
+
+        <!-- شاشة الخريطة -->
+        <section id="world-map-screen" class="world-map-screen hidden">
+
+          <div class="world-map-header">
+            <span>WORLD</span>
+            <button id="close-world-map" type="button">RETURN</button>
+          </div>
+
+          <div id="world-map" class="world-map"></div>
+
+          <div class="world-map-status">
+            <span>MAP STATUS</span>
+            <strong>PARTIAL / UNRESOLVED</strong>
+          </div>
+
+        </section>
+
+        <!-- شاشة الرادار الكمي -->
+        <section id="quantum-radar-screen" class="quantum-radar-screen hidden">
+
+          <div class="quantum-radar-header">
+            <span>QUANTUM / 13</span>
+            <button id="close-quantum-radar" type="button">RETURN</button>
+          </div>
+
+          <div class="quantum-radar-body">
+
+            <div class="quantum-radar-core">
+
+              <div class="radar-ring ring-one"></div>
+              <div class="radar-ring ring-two"></div>
+              <div class="radar-ring ring-three"></div>
+
+              <div class="radar-cross horizontal"></div>
+              <div class="radar-cross vertical"></div>
+
+              <div class="radar-sweep"></div>
+
+              <button class="radar-signal signal-one" type="button" data-node="future-2041" aria-label="SIGNAL 2041"></button>
+              <button class="radar-signal signal-two" type="button" data-node="future-2050" aria-label="SIGNAL 2050"></button>
+              <div class="radar-signal signal-three"></div>
+
+              <div class="radar-core-point"></div>
+
+            </div>
+
+          </div>
+
+          <div class="quantum-radar-status">
+            <span>FIELD STATUS</span>
+            <strong>SCANNING / UNRESOLVED</strong>
+          </div>
+
+        </section>
+
+        <!-- =========================
+             008 — TIME GATE (WHEEL)
+        ========================= -->
+
+        <section id="node-008-screen" class="node-008-screen hidden">
+
+          <div class="node-008-header">
+            <span>GATE / 008</span>
+            <button id="close-node-008" type="button">RETURN</button>
+          </div>
+
+          <div class="node-008-body">
+
+            <div class="gate-pointer"></div>
+
+            <div class="gate-wheel-wrap" id="gate-wheel-wrap">
+              <div class="gate-wheel" id="gate-wheel"></div>
+            </div>
+
+            <div class="gate-core" id="gate-core">
+              <div class="gate-core-ring"></div>
+              <div id="gate-selected-year" class="gate-selected-year">—</div>
+              <div id="gate-hint" class="gate-hint">دوّري البوابة</div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =========================
+             008 — YEAR GALLERY
+        ========================= -->
+
+        <section id="node-008-gallery" class="node-008-gallery hidden">
+
+          <div class="node-008-gallery-header">
+            <span id="gallery-year-label">—</span>
+            <button id="close-gallery-008" type="button">RETURN</button>
+          </div>
+
+          <div id="gallery-grid" class="node-008-gallery-grid"></div>
+
+        </section>
+
+        <!-- المساحة الرئيسية -->
+        <main class="world-stage">
+
+          <div class="fragment fragment-one">
+            <span>𐌗</span>
+            <p>ᚠᛇᚻ ™ ∴ 影<br>0017 / 04 / —</p>
+          </div>
+
+          <div class="fragment fragment-two">
+            <span>02</span>
+            <p>Москва<br>1847.03.19</p>
+          </div>
+
+          <div class="fragment fragment-three">
+            <span>Δ</span>
+            <p>未来 / 過去<br>————————</p>
+          </div>
+
+          <!-- العقدة الرئيسية -->
+          <section id="page-home" class="page world-page">
+
+            <div class="signal-line">
+              <span>NODE</span>
+              <strong>07</strong>
+            </div>
+
+            <div class="unknown-content">
+
+              <!-- ATHAR TIME SYSTEM -->
+              <div class="athar-time-system">
+
+                <div class="athar-clock">
+
+                  <div class="athar-clock-face">
+                    <span class="clock-number clock-12">12</span>
+                    <span class="clock-number clock-1">1</span>
+                    <span class="clock-number clock-2">2</span>
+                    <span class="clock-number clock-3">3</span>
+                    <span class="clock-number clock-4">4</span>
+                    <span class="clock-number clock-5">5</span>
+                    <span class="clock-number clock-6">6</span>
+                    <span class="clock-number clock-7">7</span>
+                    <span class="clock-number clock-8">8</span>
+                    <span class="clock-number clock-9">9</span>
+                    <span class="clock-number clock-10">10</span>
+                    <span class="clock-number clock-11">11</span>
+
+                    <div id="athar-hour-hand" class="athar-clock-hand athar-hour-hand"></div>
+                    <div id="athar-minute-hand" class="athar-clock-hand athar-minute-hand"></div>
+                    <div id="athar-second-hand" class="athar-clock-hand athar-second-hand"></div>
+                    <div class="athar-clock-center"></div>
+                  </div>
+
+                  <div id="athar-clock-digital" class="athar-clock-digital">00:00:00</div>
+                  <div class="athar-clock-label">REAL TIME / REVERSED</div>
+
+                </div>
+
+                <button id="athar-calendar-button" class="athar-calendar-button" type="button" aria-label="فتح تقويم الأثر">
+                  <span class="athar-calendar-rings"><i></i><i></i></span>
+                  <span id="athar-calendar-button-day" class="athar-calendar-button-day">01</span>
+                  <span class="athar-calendar-button-month">ATHAR</span>
+                </button>
+
+              </div>
+
+              <!-- ATHAR CALENDAR -->
+              <section id="athar-calendar" class="athar-calendar hidden">
+
+                <div class="athar-calendar-top">
+                  <button id="athar-calendar-close" type="button">×</button>
+                  <div class="athar-calendar-system">ATHAR / TEMPORAL ARCHIVE</div>
+                </div>
+
+                <div class="athar-calendar-navigation">
+                  <button id="athar-prev-year" type="button">‹‹</button>
+                  <button id="athar-prev-month" type="button">‹</button>
+
+                  <div class="athar-calendar-current">
+                    <span>ATHAR YEAR</span>
+                    <strong id="athar-calendar-year">4926</strong>
+                    <small id="athar-calendar-month">—</small>
+                  </div>
+
+                  <button id="athar-next-month" type="button">›</button>
+                  <button id="athar-next-year" type="button">››</button>
+                </div>
+
+                <div class="athar-calendar-today">
+                  <strong id="athar-calendar-day">1</strong>
+                  <span id="athar-calendar-month-full">—</span>
+                  <small>ATHAR ERA</small>
+                </div>
+
+                <div class="athar-calendar-weekdays">
+                  <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+                </div>
+
+                <div id="athar-calendar-grid" class="athar-calendar-grid"></div>
+
+                <div class="athar-calendar-footer">
+                  <span>ORIGIN / ~2900 BCE</span>
+                  <span>ERA <strong>0 — 5240</strong></span>
+                </div>
+
+              </section>
+
+              <button id="new-trace-button" class="world-action" type="button">+</button>
+
+              <div id="node-viewer" class="node-viewer"></div>
+
+              <div class="unknown-time">03 : 17 : 44</div>
+
+              <div class="unknown-text">
+                <span>𓂀</span><span>א</span><span>影</span><span>ᚠ</span><span>Δ</span>
+              </div>
+
+              <div class="unknown-line"></div>
+
+              <p class="foreign-fragment">
+                これは記録ではない。<br>
+                これはまだ起きていない。
+              </p>
+
+              <p class="arabic-fragment">لم يتم التعرف على المصدر.</p>
+
+            </div>
+
+          </section>
+
+          <!-- العقدة 19 -->
+          <section id="page-traces" class="page hidden world-page">
+
+            <div class="world-page-header">
+              <span>NODE / 19</span>
+              <span id="trace-count" class="muted">0</span>
+            </div>
+
+            <div id="trace-list" class="trace-list"></div>
+
+            <button id="new-trace-button-2" class="world-action" type="button">+</button>
+
+          </section>
+
+          <!-- العقدة 31 -->
+          <section id="page-profile" class="page hidden world-page">
+
+            <div class="world-page-header">
+              <span>NODE / 31</span>
+              <span>?</span>
+            </div>
+
+            <div class="world-profile">
+
+              <div id="profile-avatar" class="avatar">أ</div>
+
+              <h2 id="profile-name">—</h2>
+              <p id="profile-email" class="muted">—</p>
+
+              <label class="world-upload">
+                <span>+</span>
+                <input id="avatar-input" type="file" accept="image/*">
+              </label>
+
+              <div id="profile-status" class="status-message"></div>
+
+            </div>
+
+          </section>
+
+          <!-- العقدة غير المعروفة -->
+          <section id="page-archive" class="page hidden world-page">
+
+            <div class="archive-fragments">
+              <div><span>004</span><p>𓂀 𐌗 ᚠ 影</p></div>
+              <div><span>118</span><p>1923 — 2041</p></div>
+              <div><span>771</span><p>████████</p></div>
+            </div>
+
+            <div class="archive-center">
+              <div>...</div>
+              <div>—</div>
+              <div>...</div>
+            </div>
+
+          </section>
+
+          <!-- نموذج الأثر -->
+          <div id="trace-form" class="world-trace-form hidden">
+
+            <textarea id="trace-message" placeholder="..." maxlength="5000" class="trace-textarea"></textarea>
+
+            <div class="world-form-bottom">
+              <span id="character-count">0 / 5000</span>
+
+              <div>
+                <button id="cancel-trace" class="world-action" type="button">×</button>
+                <button id="save-trace" class="world-action primary" type="button">↗</button>
+              </div>
+            </div>
+
+            <div id="trace-message-status" class="status-message"></div>
+
+          </div>
+
+        </main>
+
+        <!-- التنقل -->
+        <nav class="world-navigation">
+          <button data-page="home" class="nav-button active" type="button"><span>07</span></button>
+          <button data-page="traces" class="nav-button" type="button"><span>19</span></button>
+          <button data-page="profile" class="nav-button" type="button"><span>31</span></button>
+          <button data-page="archive" class="nav-button" type="button"><span>∞</span></button>
+        </nav>
+
+        <!-- صندوق الأوامر -->
+        <div class="command-interface">
+          <div class="command-history" id="command-history"></div>
+
+          <div class="command-line">
+            <span class="command-symbol">›</span>
+            <input id="command-input" type="text" autocomplete="off" spellcheck="false" aria-label="command">
+          </div>
+        </div>
+
+        <div class="command-cursor"></div>
+
+        <!-- السطر السفلي -->
+        <footer class="world-footer">
+          <span>—</span>
+          <span>03 / 09 / ?</span>
+          <span>?</span>
+          <span>—</span>
+        </footer>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/world-map.js"></script>
+  <script type="module" src="js/time-system.js"></script>
+  <script type="module" src="js/007.js"></script>
+  <script type="module" src="js/time-gate.js"></script>
+
+</body>
+</html>
