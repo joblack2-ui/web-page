@@ -1562,7 +1562,7 @@ button {
   display: flex;
   align-items: center;
   border-bottom: 1px solid #31383e;
-  z-index: 40;
+  z-index: 900;
 }
 
 .command-prefix {
