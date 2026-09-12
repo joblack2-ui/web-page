@@ -3,7 +3,7 @@ export const nodes = {
     id: "start",
     type: "unknown",
     title: "07",
-    text: "لم يتم التعرف على المصدر.",
+    text: "It is only with the heart that one can see rightly; what is essential is invisible to the eye.",
     links: [
       { label: "1969", target: "apollo-11" },
       { label: "1945", target: "hiroshima" },
@@ -232,7 +232,13 @@ RETURN: 24.07.1969
     title: "James Madison",
     text: "James Madison was the 4th President of the United States, serving from March 4, 1809, to March 4, 1817. Hailed as the 'Father of the Constitution' for his pivotal role in drafting the U.S. Constitution and the Bill of Rights, he led the country through the War of 1812.",
     meta: "Presidential Term: Mar 4, 1809 – Mar 4, 1817",
+  
     links: [
+      { label: "1969", target: "apollo-11" },
+      { label: "1945", target: "hiroshima" },
+      { label: "MARS", target: "mars" },
+      { label: "OPPENHEIMER", target: "oppenheimer" }
+      
       { label: "thomas-jefferson", target: "war-of-1812" }
     ]
   },
@@ -244,6 +250,11 @@ RETURN: 24.07.1969
     text: "James Monroe was the 5th President of the United States, serving from March 4, 1817, to March 4, 1825. His presidency, known as the Era of Good Feelings, was defined by the Monroe Doctrine, which opposed European colonialism in the Americas.",
     meta: "Presidential Term: Mar 4, 1817 – Mar 4, 1825",
     links: [
+      { label: "1969", target: "apollo-11" },
+      { label: "1945", target: "hiroshima" },
+      { label: "MARS", target: "mars" },
+      { label: "OPPENHEIMER", target: "oppenheimer" }
+
       { label: "john-quincy-adams", target: "monroe-doctrine" }
     ]
   },
@@ -256,6 +267,11 @@ RETURN: 24.07.1969
     meta: "Presidential Term: Mar 4, 1825 – Mar 4, 1829",
     links: [
       { label: "andrew-jackson", target: "erie-canal" }
+      { label: "1969", target: "apollo-11" },
+      { label: "1945", target: "hiroshima" },
+      { label: "MARS", target: "mars" },
+      { label: "OPPENHEIMER", target: "oppenheimer" }
+
     ]
   },
 
@@ -267,6 +283,11 @@ RETURN: 24.07.1969
     meta: "Presidential Term: Mar 4, 1829 – Mar 4, 1837",
     links: [
       { label: "martin-van-buren", target: "bank-war" }
+      { label: "1969", target: "apollo-11" },
+      { label: "1945", target: "hiroshima" },
+      { label: "MARS", target: "mars" },
+      { label: "OPPENHEIMER", target: "oppenheimer" }
+
     ]
   },
 
@@ -278,6 +299,11 @@ RETURN: 24.07.1969
     meta: "Presidential Term: Mar 4, 1837 – Mar 4, 1841",
     links: [
       { label: "william-henry-harrison", target: "panic-of-1837" }
+      { label: "1969", target: "apollo-11" },
+      { label: "1945", target: "hiroshima" },
+      { label: "MARS", target: "mars" },
+      { label: "OPPENHEIMER", target: "oppenheimer" }
+
     ]
   },
 
@@ -289,6 +315,11 @@ RETURN: 24.07.1969
     meta: "Presidential Term: Mar 4, 1841 – Apr 4, 1841",
     links: [
       { label: "Battle of Tippecanoe", target: "battle-of-tippecanoe" }
+      { label: "1969", target: "apollo-11" },
+      { label: "1945", target: "hiroshima" },
+      { label: "MARS", target: "mars" },
+      { label: "OPPENHEIMER", target: "oppenheimer" }
+
     ]
   },
 
