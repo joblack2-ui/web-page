@@ -1,0 +1,421 @@
+.sound-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 34px;
+  z-index: 60;
+
+  width: 34px;
+  height: 34px;
+
+  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(3,4,5,.8);
+  color: #dce1e4;
+
+  font-size: 14px;
+  cursor: pointer;
+
+  transition: border-color .25s ease, opacity .25s ease;
+  opacity: .7;
+}
+
+.sound-toggle:hover {
+  opacity: 1;
+  border-color: rgba(255,255,255,.4);
+}
+
+@media (max-width: 640px) {
+  .sound-toggle {
+    right: 12px;
+    bottom: 90px;
+  }
+}
+
+
+/* =========================================================
+   ICON BUTTONS
+========================================================= */
+
+.top-icon-row {
+  position: relative;
+  z-index: 500;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px auto;
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+  padding: 0;
+
+  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.025);
+
+  color: rgba(220,225,228,.75);
+
+  cursor: pointer;
+  opacity: .75;
+
+  transition:
+    opacity .3s ease,
+    border-color .3s ease,
+    background .3s ease,
+    color .3s ease;
+}
+
+.icon-button:hover {
+  opacity: 1;
+  border-color: rgba(255,255,255,.4);
+  background: rgba(255,255,255,.05);
+  color: #fff;
+}
+
+.icon-button svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+
+/* =========================================================
+   TIME GATE BUTTON (شاشة البوابة نفسها)
+========================================================= */
+
+.node-008-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+
+  display: flex;
+  flex-direction: column;
+
+  background:
+    radial-gradient(circle at center, rgba(180,190,200,.04), transparent 60%),
+    #030405;
+
+  color: #dce1e4;
+  overflow: hidden;
+}
+
+.node-008-header {
+  flex: 0 0 auto;
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 28px;
+
+  border-bottom: 1px solid rgba(255,255,255,.045);
+
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+}
+
+#close-node-008,
+#close-gallery-008 {
+  border: 1px solid rgba(255,255,255,.14);
+  background: transparent;
+  color: #737d84;
+  padding: 8px 12px;
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: color .25s ease, border-color .25s ease;
+}
+
+#close-node-008:hover,
+#close-gallery-008:hover {
+  color: #dce1e4;
+  border-color: rgba(255,255,255,.38);
+}
+
+.node-008-body {
+  flex: 1;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  touch-action: none;
+}
+
+
+/* =========================================================
+   POINTER (المؤشر الثابت)
+========================================================= */
+
+.gate-pointer {
+  position: absolute;
+  top: calc(50% - min(46vw, 230px) - 18px);
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 0;
+  height: 0;
+
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 12px solid rgba(255,255,255,.6);
+
+  z-index: 20;
+}
+
+
+/* =========================================================
+   WHEEL
+========================================================= */
+
+.gate-wheel-wrap {
+  position: relative;
+
+  width: min(92vw, 460px);
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.12);
+
+  background: radial-gradient(circle, rgba(255,255,255,.02), transparent 70%);
+
+  touch-action: none;
+  cursor: grab;
+}
+
+.gate-wheel {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.gate-year {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 60px;
+  margin-left: -30px;
+
+  text-align: center;
+
+  color: rgba(220,225,228,.55);
+  font-family: monospace;
+  font-size: 13px;
+  letter-spacing: 1px;
+
+  transform-origin: center calc(-1 * (min(46vw, 230px) - 34px));
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   CORE (المركز)
+========================================================= */
+
+.gate-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 34%;
+  aspect-ratio: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(3,4,5,.85);
+
+  z-index: 10;
+  cursor: default;
+
+  transition: border-color .4s ease, box-shadow .4s ease;
+}
+
+.gate-core.ready {
+  cursor: pointer;
+  border-color: rgba(255,255,255,.55);
+  box-shadow: 0 0 40px rgba(255,255,255,.08);
+}
+
+.gate-core-ring {
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 50%;
+}
+
+.gate-selected-year {
+  font-family: monospace;
+  font-size: clamp(20px, 5vw, 30px);
+  letter-spacing: 2px;
+  color: #e7eaed;
+}
+
+.gate-hint {
+  font-family: monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,.35);
+  text-align: center;
+  padding: 0 10px;
+}
+
+
+/* =========================================================
+   GALLERY
+========================================================= */
+
+.node-008-gallery {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #030405;
+  color: #dce1e4;
+
+  overflow-y: auto;
+}
+
+.node-008-gallery-header {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 20px 28px;
+
+  background: #030405;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+
+  font-family: monospace;
+  font-size: 20px;
+  letter-spacing: 3px;
+
+  z-index: 5;
+}
+
+.node-008-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3px;
+
+  padding: 3px;
+}
+
+.node-008-gallery-grid img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+
+  filter: grayscale(15%) contrast(1.05);
+}
+
+
+/* =========================================================
+   BUTTERFLY GATE (x13-gate) — نسخة الأيقونة
+========================================================= */
+
+.x13-gate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+
+  margin-top: 22px;
+
+  color: inherit;
+  text-decoration: none;
+
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.015);
+
+  opacity: .5;
+  transition: all .35s ease;
+}
+
+.x13-gate svg {
+  width: 17px;
+  height: 17px;
+  display: block;
+}
+
+.x13-gate:hover {
+  opacity: .9;
+  border-color: rgba(255,255,255,.3);
+  background: rgba(255,255,255,.04);
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+
+  .gate-wheel-wrap {
+    width: 88vw;
+  }
+
+  .node-008-gallery-header {
+    padding: 16px 18px;
+    font-size: 16px;
+  }
+
+  .athar-time-system {
+    margin-top: 18px;
+    gap: 12px;
+  }
+
+  .athar-clock-face {
+    width: 125px;
+    height: 125px;
+  }
+
+  .athar-clock {
+    width: 140px;
+  }
+
+  .athar-hour-hand {
+    height: 32px;
+  }
+
+  .athar-minute-hand {
+    height: 44px;
+  }
+
+  .athar-second-hand {
+    height: 50px;
+  }
+
+  .athar-calendar {
+    padding: 15px;
+  }
+
+  .athar-calendar-day {
+    min-height: 34px;
+  }
+}
