@@ -563,13 +563,14 @@
   <script type="module" src="js/time-system.js"></script>
   <script type="module" src="js/007.js"></script>
   <script type="module" src="js/time-gate.js"></script>
-
 <script type="module">
   import { supabase } from "./js/supabase.js";
   supabase.auth.getSession().then(({ data }) => {
-    alert(data.session?.access_token ?? "لا يوجد جلسة حالياً — سجّلي دخول أولاً");
+    const token = data.session?.access_token ?? "لا يوجد جلسة حالياً";
+    prompt("انسخي الـ Token:", token);
   });
 </script>
+
   
 </body>
 </html>
