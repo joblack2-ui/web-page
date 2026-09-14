@@ -24,10 +24,10 @@ export async function signOut() {
 
   if (error) {
     console.error("Logout failed:", error);
-    throw error;
+    return { error };
   }
 
-  return true;
+  return { error: null };
 }
 
 export async function getCurrentUser() {
