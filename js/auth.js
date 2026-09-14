@@ -2,8 +2,8 @@ import { supabase } from "./supabase.js";
 
 export async function signUp(email, password, displayName) {
   return await supabase.auth.signUp({
-    email: email,
-    password: password,
+    email,
+    password,
     options: {
       data: {
         display_name: displayName
@@ -14,16 +14,29 @@ export async function signUp(email, password, displayName) {
 
 export async function signIn(email, password) {
   return await supabase.auth.signInWithPassword({
-    email: email,
-    password: password
+    email,
+    password
   });
 }
 
 export async function signOut() {
-  return await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Logout failed:", error);
+    throw error;
+  }
+
+  return true;
 }
 
 export async function getCurrentUser() {
-  const result = await supabase.auth.getUser();
-  return result.data.user;
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) {
+    console.error("Get current user failed:", error);
+    return null;
+  }
+
+  return data.user;
 }
