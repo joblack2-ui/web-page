@@ -564,5 +564,11 @@
   <script type="module" src="js/007.js"></script>
   <script type="module" src="js/time-gate.js"></script>
 
+<script>
+  supabase.auth.getSession().then(({ data }) => {
+    alert(data.session.access_token);
+  });
+</script>
+  
 </body>
 </html>
