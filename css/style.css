@@ -1298,13 +1298,13 @@ button {
   top: 0;
   left: 0;
   right: 0;
-  height: 74px;
+  height: 55px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 34px;
+  padding: 0 22px;
   border-bottom: 1px solid rgba(255,255,255,.045);
-  z-index: 600;
+  z-index: 40;
 }
 
 .world-mark {
@@ -1345,8 +1345,8 @@ button {
 }
 
 .world-exit {
-  width: 28px;
-  height: 28px;
+  width: 8px;
+  height: 8px;
   border: 1px solid #252b30;
   background: transparent;
   color: #555e65;
