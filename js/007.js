@@ -92,54 +92,7 @@ if (!app) {
 
       </div>
 
-      <!-- =====================================================
-           SHAMS SPACE
-      ====================================================== -->
 
-      <div class="node-007-shams">
-
-        <div class="node-007-shams-header">
-          <span>SHAMS</span>
-          <span>MEMORY / 007</span>
-        </div>
-
-        <div
-          id="node-007-shams-status"
-          class="node-007-shams-status"
-        >
-          READY
-        </div>
-
-        <div
-          id="node-007-shams-notes"
-          class="node-007-shams-notes"
-        >
-          <div class="node-007-shams-empty">
-            NO MEMORY
-          </div>
-        </div>
-
-        <div class="node-007-shams-write">
-
-          <textarea
-            id="node-007-shams-input"
-            class="node-007-shams-input"
-            placeholder="اترك أثراً لشمس..."
-            maxlength="2000"
-            spellcheck="false"
-          ></textarea>
-
-          <button
-            id="node-007-shams-save"
-            class="node-007-shams-save"
-            type="button"
-          >
-            WRITE
-          </button>
-
-        </div>
-
-      </div>
 
       <!-- =====================================================
            المحتوى الأصلي لـ 007
