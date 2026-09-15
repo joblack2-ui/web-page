@@ -742,8 +742,10 @@ async function showApp(user) {
     );
   }
 
-  await loadTraces();
 
+await loadTraces();
+await loadShamsMessages();
+  
   initNodeEngine();
 }
 
