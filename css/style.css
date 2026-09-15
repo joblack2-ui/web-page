@@ -1304,7 +1304,7 @@ button {
   justify-content: space-between;
   padding: 0 34px;
   border-bottom: 1px solid rgba(255,255,255,.045);
-  z-index: 20;
+  z-index: 600;
 }
 
 .world-mark {
