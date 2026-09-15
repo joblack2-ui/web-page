@@ -144,6 +144,94 @@ document.addEventListener("click", event => {
   }
 });
 
+/* =========================================================
+   SHAMS — MEMORY
+========================================================= */
+
+const SHAMS_MEMORY_KEY = "shams_memory_v1";
+
+const shamsInput = document.getElementById("shams-input");
+const shamsSave = document.getElementById("shams-save");
+const shamsNotes = document.getElementById("shams-notes");
+
+function getShamsMemory() {
+  try {
+    return JSON.parse(
+      localStorage.getItem(SHAMS_MEMORY_KEY) || "[]"
+    );
+  } catch {
+    return [];
+  }
+}
+
+function saveShamsMemory(memory) {
+  localStorage.setItem(
+    SHAMS_MEMORY_KEY,
+    JSON.stringify(memory)
+  );
+}
+
+function renderShamsMemory() {
+  const memory = getShamsMemory();
+
+  shamsNotes.innerHTML = "";
+
+  memory
+    .slice()
+    .reverse()
+    .forEach(note => {
+      const article = document.createElement("article");
+      article.className = "shams-note";
+
+      const text = document.createElement("div");
+      text.textContent = note.text;
+
+      const time = document.createElement("span");
+      time.className = "shams-note-time";
+      time.textContent = note.time;
+
+      article.appendChild(text);
+      article.appendChild(time);
+
+      shamsNotes.appendChild(article);
+    });
+}
+
+function addShamsNote() {
+  const text = shamsInput.value.trim();
+
+  if (!text) return;
+
+  const memory = getShamsMemory();
+
+  memory.push({
+    id: crypto.randomUUID(),
+    text,
+    time: new Date().toLocaleString()
+  });
+
+  saveShamsMemory(memory);
+
+  shamsInput.value = "";
+
+  renderShamsMemory();
+}
+
+shamsSave.addEventListener("click", addShamsNote);
+
+shamsInput.addEventListener("keydown", event => {
+  if (
+    event.key === "Enter" &&
+    (event.ctrlKey || event.metaKey)
+  ) {
+    addShamsNote();
+  }
+});
+
+renderShamsMemory();
+
+
+
   /* =========================
    Radar Sound Engine
 ========================= */
