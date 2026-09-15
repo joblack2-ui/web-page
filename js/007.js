@@ -8,7 +8,6 @@ const EDITOR_IDS = new Set([
   "677e88a4-17a4-48c6-ae8e-ad457da4a043"
 ]);
 
-
 if (!app) {
   console.error("007: #app not found.");
 } else if (!trigger) {
@@ -93,6 +92,59 @@ if (!app) {
 
       </div>
 
+      <!-- =====================================================
+           SHAMS SPACE
+      ====================================================== -->
+
+      <div class="node-007-shams">
+
+        <div class="node-007-shams-header">
+          <span>SHAMS</span>
+          <span>MEMORY / 007</span>
+        </div>
+
+        <div
+          id="node-007-shams-status"
+          class="node-007-shams-status"
+        >
+          READY
+        </div>
+
+        <div
+          id="node-007-shams-notes"
+          class="node-007-shams-notes"
+        >
+          <div class="node-007-shams-empty">
+            NO MEMORY
+          </div>
+        </div>
+
+        <div class="node-007-shams-write">
+
+          <textarea
+            id="node-007-shams-input"
+            class="node-007-shams-input"
+            placeholder="اترك أثراً لشمس..."
+            maxlength="2000"
+            spellcheck="false"
+          ></textarea>
+
+          <button
+            id="node-007-shams-save"
+            class="node-007-shams-save"
+            type="button"
+          >
+            WRITE
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- =====================================================
+           المحتوى الأصلي لـ 007
+      ====================================================== -->
+
       <div
         id="node-007-content"
         class="node-007-content"
@@ -113,6 +165,18 @@ if (!app) {
   const closeButton =
     screen.querySelector("#close-node-007");
 
+  const shamsNotes =
+    screen.querySelector("#node-007-shams-notes");
+
+  const shamsInput =
+    screen.querySelector("#node-007-shams-input");
+
+  const shamsSave =
+    screen.querySelector("#node-007-shams-save");
+
+  const shamsStatus =
+    screen.querySelector("#node-007-shams-status");
+
 
   /* =========================
      فتح 007
@@ -126,6 +190,7 @@ if (!app) {
     screen.classList.remove("hidden");
 
     await load007();
+    loadShamsMemory();
 
   });
 
@@ -349,6 +414,168 @@ if (!app) {
 
 
   /* =========================
+     SHAMS MEMORY
+  ========================= */
+
+  function getShamsMemory() {
+
+    try {
+
+      return JSON.parse(
+        localStorage.getItem(
+          "shams_memory_007"
+        ) || "[]"
+      );
+
+    } catch {
+
+      return [];
+
+    }
+
+  }
+
+
+  function saveShamsMemory(memory) {
+
+    localStorage.setItem(
+      "shams_memory_007",
+      JSON.stringify(memory)
+    );
+
+  }
+
+
+  function loadShamsMemory() {
+
+    const memory =
+      getShamsMemory();
+
+    shamsNotes.innerHTML = "";
+
+    if (!memory.length) {
+
+      shamsNotes.innerHTML = `
+        <div class="node-007-shams-empty">
+          NO MEMORY
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    memory
+      .slice()
+      .reverse()
+      .forEach(note => {
+
+        const item =
+          document.createElement("article");
+
+        item.className =
+          "node-007-shams-note";
+
+
+        const text =
+          document.createElement("div");
+
+        text.textContent =
+          note.text;
+
+
+        const time =
+          document.createElement("time");
+
+        time.textContent =
+          note.time;
+
+
+        item.appendChild(text);
+        item.appendChild(time);
+
+        shamsNotes.appendChild(item);
+
+      });
+
+  }
+
+
+  function addShamsMemory() {
+
+    const text =
+      shamsInput.value.trim();
+
+    if (!text) {
+      return;
+    }
+
+
+    const memory =
+      getShamsMemory();
+
+
+    memory.push({
+
+      id:
+        crypto.randomUUID(),
+
+      text,
+
+      time:
+        new Date().toLocaleString()
+
+    });
+
+
+    saveShamsMemory(memory);
+
+    shamsInput.value = "";
+
+    shamsStatus.textContent =
+      "MEMORY WRITTEN";
+
+
+    loadShamsMemory();
+
+
+    setTimeout(() => {
+
+      shamsStatus.textContent =
+        "READY";
+
+    }, 1500);
+
+  }
+
+
+  shamsSave.addEventListener(
+    "click",
+    addShamsMemory
+  );
+
+
+  shamsInput.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Enter" &&
+        (event.ctrlKey || event.metaKey)
+      ) {
+
+        event.preventDefault();
+
+        addShamsMemory();
+
+      }
+
+    }
+  );
+
+
+  /* =========================
      حماية عرض النص
   ========================= */
 
@@ -357,7 +584,8 @@ if (!app) {
     const div =
       document.createElement("div");
 
-    div.textContent = text;
+    div.textContent =
+      text;
 
     return div.innerHTML
       .replace(/\n/g, "<br>");
