@@ -145,92 +145,119 @@ document.addEventListener("click", event => {
 });
 
 /* =========================================================
-   SHAMS — MEMORY
+   SHAMS — PRIVATE CHAT
 ========================================================= */
-
-const SHAMS_MEMORY_KEY = "shams_memory_v1";
 
 const shamsInput = document.getElementById("shams-input");
 const shamsSave = document.getElementById("shams-save");
 const shamsNotes = document.getElementById("shams-notes");
 
-function getShamsMemory() {
-  try {
-    return JSON.parse(
-      localStorage.getItem(SHAMS_MEMORY_KEY) || "[]"
-    );
-  } catch {
-    return [];
-  }
-}
-
-function saveShamsMemory(memory) {
-  localStorage.setItem(
-    SHAMS_MEMORY_KEY,
-    JSON.stringify(memory)
-  );
-}
-
-function renderShamsMemory() {
-  const memory = getShamsMemory();
+async function loadShamsMessages() {
+  if (!shamsNotes || !currentUser) return;
 
   shamsNotes.innerHTML = "";
 
-  memory
-    .slice()
-    .reverse()
-    .forEach(note => {
-      const article = document.createElement("article");
-      article.className = "shams-note";
-
-      const text = document.createElement("div");
-      text.textContent = note.text;
-
-      const time = document.createElement("span");
-      time.className = "shams-note-time";
-      time.textContent = note.time;
-
-      article.appendChild(text);
-      article.appendChild(time);
-
-      shamsNotes.appendChild(article);
+  const { data, error } =
+    await supabase.rpc("shams_messages_for_owner", {
+      p_limit: 200
     });
-}
 
-function addShamsNote() {
-  const text = shamsInput.value.trim();
+  if (error) {
+    console.error("Shams load error:", error);
+    return;
+  }
 
-  if (!text) return;
-
-  const memory = getShamsMemory();
-
-  memory.push({
-    id: crypto.randomUUID(),
-    text,
-    time: new Date().toLocaleString()
+  (data || []).forEach(message => {
+    renderShamsMessage(message);
   });
 
-  saveShamsMemory(memory);
-
-  shamsInput.value = "";
-
-  renderShamsMemory();
+  shamsNotes.scrollTop = shamsNotes.scrollHeight;
 }
 
-shamsSave.addEventListener("click", addShamsNote);
+function renderShamsMessage(message) {
+  const article = document.createElement("article");
+  article.className = "shams-note";
 
-shamsInput.addEventListener("keydown", event => {
-  if (
-    event.key === "Enter" &&
-    (event.ctrlKey || event.metaKey)
-  ) {
-    addShamsNote();
+  const text = document.createElement("div");
+  text.textContent = message.content;
+
+  const time = document.createElement("span");
+  time.className = "shams-note-time";
+  time.textContent = formatDate(message.created_at);
+
+  article.appendChild(text);
+  article.appendChild(time);
+
+  if (message.role === "shams") {
+    article.dataset.role = "shams";
+  } else {
+    article.dataset.role = "admin";
   }
-});
 
-renderShamsMemory();
+  shamsNotes.appendChild(article);
+}
 
+async function sendShamsMessage() {
+  const text = shamsInput?.value.trim();
 
+  if (!text || !currentUser) return;
+
+  shamsSave.disabled = true;
+  shamsInput.disabled = true;
+
+  try {
+    const { error } =
+      await supabase.functions.invoke(
+        "shams-chat-v1",
+        {
+          body: {
+            message: text
+          }
+        }
+      );
+
+    if (error) {
+      throw error;
+    }
+
+    shamsInput.value = "";
+
+    await loadShamsMessages();
+
+  } catch (error) {
+    console.error("Shams chat error:", error);
+    alert(getErrorMessage(error));
+
+  } finally {
+    shamsSave.disabled = false;
+    shamsInput.disabled = false;
+    shamsInput.focus();
+  }
+}
+
+if (shamsSave) {
+  shamsSave.addEventListener(
+    "click",
+    sendShamsMessage
+  );
+}
+
+if (shamsInput) {
+  shamsInput.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Enter" &&
+        (event.ctrlKey || event.metaKey)
+      ) {
+        event.preventDefault();
+        sendShamsMessage();
+      }
+
+    }
+  );
+}
 
   /* =========================
    Radar Sound Engine
