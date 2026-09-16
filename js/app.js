@@ -277,8 +277,10 @@ function getApprovalContainer() {
 }
 
 
+
 /* =========================================================
    LOAD PENDING SECURITY APPROVALS
+   DIRECT RPC — بدون المرور عبر Edge Function
 ========================================================= */
 
 async function loadSecurityApprovals() {
@@ -297,24 +299,32 @@ async function loadSecurityApprovals() {
     const {
       data,
       error
-    } =
-      await supabase.functions.invoke(
-        "shams-chat-v1",
-        {
-          method: "GET"
-        }
-      );
+    } = await supabase.rpc(
+      "pending_security_approvals"
+    );
 
     if (error) {
+
       console.error(
         "Security approval load error:",
         error
       );
+
+      const container =
+        getApprovalContainer();
+
+      if (container) {
+        container.innerHTML = "";
+        container.style.display = "none";
+      }
+
       return;
     }
 
     renderSecurityApprovals(
-      data?.pending_approvals || []
+      Array.isArray(data)
+        ? data
+        : []
     );
 
   } catch (error) {
@@ -509,8 +519,12 @@ function renderSecurityApprovals(
 }
 
 
+
+  
+
 /* =========================================================
    REVIEW SECURITY APPROVAL
+   DIRECT RPC
 ========================================================= */
 
 async function reviewSecurityApproval(
@@ -524,9 +538,7 @@ async function reviewSecurityApproval(
   }
 
   const buttons =
-    card?.querySelectorAll(
-      "button"
-    );
+    card?.querySelectorAll("button");
 
   buttons?.forEach(
     button => {
@@ -539,19 +551,13 @@ async function reviewSecurityApproval(
     const {
       data,
       error
-    } =
-      await supabase.functions.invoke(
-        "shams-chat-v1",
-        {
-          body: {
-            approval_id:
-              approvalId,
-
-            approve:
-              approve
-          }
-        }
-      );
+    } = await supabase.rpc(
+      "review_security_approval",
+      {
+        p_request_id: approvalId,
+        p_approve: approve
+      }
+    );
 
     if (error) {
       throw error;
