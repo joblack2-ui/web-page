@@ -556,6 +556,8 @@ function renderSecurityApprovals(
 
   
 
+
+
 /* =========================================================
    REVIEW SECURITY APPROVAL
    DIRECT RPC
@@ -567,20 +569,24 @@ async function reviewSecurityApproval(
   card
 ) {
 
-  if (!approvalId) {
-    return;
-  }
+  if (!approvalId) return;
 
   const buttons =
     card?.querySelectorAll("button");
 
-  buttons?.forEach(
-    button => {
-      button.disabled = true;
-    }
-  );
+  buttons?.forEach(button => {
+    button.disabled = true;
+  });
 
   try {
+
+    console.log(
+      "REVIEW SECURITY APPROVAL:",
+      {
+        approvalId,
+        approve
+      }
+    );
 
     const {
       data,
@@ -598,10 +604,16 @@ async function reviewSecurityApproval(
     }
 
     console.log(
-      "Security approval reviewed:",
+      "SECURITY APPROVAL RESULT:",
       data
     );
 
+    /* إزالة الطلب فور نجاح العملية */
+    if (card) {
+      card.remove();
+    }
+
+    /* تحديث القائمة من قاعدة البيانات */
     await loadSecurityApprovals();
 
     await loadShamsMessages();
@@ -617,14 +629,11 @@ async function reviewSecurityApproval(
       getErrorMessage(error)
     );
 
-    buttons?.forEach(
-      button => {
-        button.disabled = false;
-      }
-    );
+    buttons?.forEach(button => {
+      button.disabled = false;
+    });
   }
 }
-
 
 /* =========================================================
    SECURITY APPROVAL POLLING
