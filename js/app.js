@@ -579,12 +579,6 @@ if (shamsInput) {
 
 startSecurityApprovalPolling();
 
-      }
-
-    }
-  );
-}
-
   /* =========================
    Radar Sound Engine
 ========================= */
