@@ -652,9 +652,14 @@ async function sendShamsMessage() {
 
     shamsInput.value = "";
 
-    await loadShamsMessages();
 
-    await loadSecurityApprovals();
+  await loadTraces();
+await loadShamsMessages();
+await loadSecurityApprovals();
+
+initNodeEngine();
+
+
 
   } catch (error) {
 
