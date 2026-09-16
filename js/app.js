@@ -285,16 +285,21 @@ function getApprovalContainer() {
 
 async function loadSecurityApprovals() {
 
-  if (
-    !currentUser ||
-    shamsApprovalBusy
-  ) {
+  if (!currentUser || shamsApprovalBusy) {
     return;
   }
 
   shamsApprovalBusy = true;
 
   try {
+
+    console.log(
+      "SHAMS APPROVAL CHECK",
+      {
+        userId: currentUser.id,
+        email: currentUser.email
+      }
+    );
 
     const {
       data,
@@ -303,29 +308,54 @@ async function loadSecurityApprovals() {
       "pending_security_approvals"
     );
 
+    console.log(
+      "SHAMS APPROVAL RPC RESULT",
+      {
+        data,
+        error
+      }
+    );
+
     if (error) {
 
-      console.error(
-        "Security approval load error:",
-        error
+      alert(
+        "APPROVAL RPC ERROR:\n" +
+        (error.message || error)
       );
-
-      const container =
-        getApprovalContainer();
-
-      if (container) {
-        container.innerHTML = "";
-        container.style.display = "none";
-      }
 
       return;
     }
 
-    renderSecurityApprovals(
-      Array.isArray(data)
-        ? data
-        : []
+    console.log(
+      "PENDING APPROVALS:",
+      data
     );
+
+    if (!Array.isArray(data)) {
+
+      alert(
+        "APPROVAL DATA ليست Array:\n" +
+        JSON.stringify(data)
+      );
+
+      return;
+    }
+
+    renderSecurityApprovals(data);
+
+    if (data.length === 0) {
+
+      console.warn(
+        "RPC يعمل لكن لا يوجد طلب موافقة."
+      );
+
+    } else {
+
+      console.log(
+        "FOUND APPROVALS:",
+        data.length
+      );
+    }
 
   } catch (error) {
 
@@ -334,12 +364,16 @@ async function loadSecurityApprovals() {
       error
     );
 
+    alert(
+      "APPROVAL JS ERROR:\n" +
+      (error?.message || error)
+    );
+
   } finally {
 
     shamsApprovalBusy = false;
   }
 }
-
 
 /* =========================================================
    RENDER SECURITY APPROVALS
