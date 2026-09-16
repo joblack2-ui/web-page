@@ -241,123 +241,7 @@ function getApprovalContainer() {
    LOAD PENDING SECURITY APPROVALS
 ========================================================= */
 
-async function loadSecurityApprovals() {
-  if (!currentUser || shamsApprovalBusy) return;
-
-  shamsApprovalBusy = true;
-
-  try {
-    const { data, error } =
-      await supabase.functions.invoke(
-        "shams-chat-v1",
-        {
-          method: "GET"
-        }
-      );
-
-    if (error) {
-      console.error(
-        "Security approval load error:",
-        error
-      );
-      return;
-    }
-
-    renderSecurityApprovals(
-      data?.pending_approvals || []
-    );
-
-  } catch (error) {
-    console.error(
-      "Security approval error:",
-      error
-    );
-
-  } finally {
-    shamsApprovalBusy = false;
-  }
-}
-
-/* =========================================================
-   SECURITY APPROVAL — SAFE INIT
-   لا يعمل قبل جاهزية تسجيل الدخول
-========================================================= */
-
-let shamsApprovalTimer = null;
-
-async function loadSecurityApprovals() {
-  if (
-    typeof currentUser === "undefined" ||
-    !currentUser
-  ) return;
-
-  try {
-    const { data, error } =
-      await supabase.functions.invoke(
-        "shams-chat-v1",
-        {
-          method: "GET"
-        }
-      );
-
-    if (error) {
-      console.error(
-        "Security approval load error:",
-        error
-      );
-      return;
-    }
-
-    const approvals =
-      data?.pending_approvals || [];
-
-    if (!approvals.length) return;
-
-    let box =
-      document.getElementById(
-        "shams-security-approvals"
-      );
-
-    if (!box) {
-      box = document.createElement("div");
-      box.id = "shams-security-approvals";
-      box.style.margin = "12px 0";
-
-      shamsNotes?.parentNode?.insertBefore(
-        box,
-        shamsNotes
-      );
-    }
-
-    box.innerHTML = "";
-
-    approvals.forEach(request => {
-
-      const card =
-        document.createElement("div");
-
-      card.style.padding = "12px";
-      card.style.marginBottom = "10px";
-      card.style.border = "1px solid rgba(255,255,255,.2)";
-      card.style.borderRadius = "10px";
-
-      const title =
-        document.createElement("div");
-
-      title.textContent =
-        "⚠️ طلب موافقة أمنية";
-
-      const action =
-        document.createElement("div");
-
-      action.textContent =
-        request.action || "security_boundary";
-
-      const approve =
-        document.createElement("button");
-
-      approve.textContent = "موافق";
-      approve.type = "button";
+button";
 
       const reject =
         document.createElement("button");
@@ -407,113 +291,6 @@ async function reviewSecurityApproval(
         {
           body: {
             approval_id: approvalId,
-            approve
-          }
-        }
-      );
-
-    if (error) throw error;
-
-    await loadSecurityApprovals();
-
-  } catch (error) {
-    console.error(
-      "Security approval review error:",
-      error
-    );
-
-    alert(
-      getErrorMessage(error)
-    );
-  }
-}
-
-
-/* =========================================================
-   SAFE POLLING
-========================================================= */
-
-if (!shamsApprovalTimer) {
-
-  shamsApprovalTimer =
-    setInterval(() => {
-
-      if (
-        typeof currentUser !== "undefined" &&
-        currentUser
-      ) {
-        loadSecurityApprovals();
-      }
-
-    }, 15000);
-}
-/* =========================================================
-   RENDER APPROVALS
-========================================================= */
-
-function renderSecurityApprovals(approvals) {
-  const container = getApprovalContainer();
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  if (!approvals.length) {
-    container.style.display = "none";
-    return;
-  }
-
-  container.style.display = "block";
-
-  approvals.forEach(request => {
-    const card = document.createElement("section");
-
-    card.className =
-      "shams-security-approval";
-
-    card.dataset.approvalId = request.id;
-
-
-    /* ---------------------------------------------
-       TITLE
-    --------------------------------------------- */
-
-    const title = document.createElement("strong");
-
-    title.textContent =
-      "طلب موافقة أمنية من شمس";
-
-
-    /* ---------------------------------------------
-       ACTION
-    --------------------------------------------- */
-
-    const action = document.createElement("div");
-
-    action.className =
-      "shams-security-action";
-
-    action.textContent =
-      request.action || "security_boundary";
-
-
-    /* ---------------------------------------------
-       TIME
-    --------------------------------------------- */
-
-    const time = document.createElement("small");
-
-    if (request.requested_at) {
-      time.textContent =
-        formatDate(request.requested_at);
-    }
-
-
-    /* ---------------------------------------------
-       BUTTONS
-    --------------------------------------------- */
-
-    const buttons = document.createElement("div");
 
     buttons.className =
       "shams-security-buttons";
@@ -632,24 +409,431 @@ async function reviewSecurityApproval(
   }
 }
 
-
 /* =========================================================
-   START SECURITY APPROVAL POLLING
+   SHAMS — PRIVATE CHAT
+   + SECURITY APPROVAL
 ========================================================= */
 
-function startSecurityApprovalPolling() {
+const shamsInput = document.getElementById("shams-input");
+const shamsSave = document.getElementById("shams-save");
+const shamsNotes = document.getElementById("shams-notes");
 
-  loadSecurityApprovals();
+let shamsApprovalTimer = null;
+let shamsApprovalBusy = false;
 
-  if (shamsApprovalTimer) {
-    clearInterval(shamsApprovalTimer);
+
+/* =========================================================
+   LOAD SHAMS MESSAGES
+========================================================= */
+
+async function loadShamsMessages() {
+  if (!shamsNotes || !currentUser) return;
+
+  shamsNotes.innerHTML = "";
+
+  const { data, error } =
+    await supabase.rpc("shams_messages_for_owner", {
+      p_limit: 200
+    });
+
+  if (error) {
+    console.error("Shams load error:", error);
+    return;
   }
 
-  shamsApprovalTimer =
-    setInterval(
-      loadSecurityApprovals,
-      15000
+  (data || []).forEach(message => {
+    renderShamsMessage(message);
+  });
+
+  shamsNotes.scrollTop = shamsNotes.scrollHeight;
+}
+
+
+/* =========================================================
+   RENDER SHAMS MESSAGE
+========================================================= */
+
+function renderShamsMessage(message) {
+  const article = document.createElement("article");
+  article.className = "shams-note";
+
+  const text = document.createElement("div");
+  text.textContent = message.content;
+
+  const time = document.createElement("span");
+  time.className = "shams-note-time";
+  time.textContent = formatDate(message.created_at);
+
+  article.appendChild(text);
+  article.appendChild(time);
+
+  if (message.role === "shams") {
+    article.dataset.role = "shams";
+  } else {
+    article.dataset.role = "admin";
+  }
+
+  shamsNotes.appendChild(article);
+}
+
+
+/* =========================================================
+   APPROVAL CONTAINER
+========================================================= */
+
+function getApprovalContainer() {
+  if (!shamsNotes || !shamsNotes.parentNode) {
+    return null;
+  }
+
+  let container =
+    document.getElementById(
+      "shams-security-approvals"
     );
+
+  if (!container) {
+    container = document.createElement("div");
+
+    container.id =
+      "shams-security-approvals";
+
+    container.className =
+      "shams-security-approvals";
+
+    shamsNotes.parentNode.insertBefore(
+      container,
+      shamsNotes
+    );
+  }
+
+  return container;
+}
+
+
+/* =========================================================
+   LOAD PENDING SECURITY APPROVALS
+========================================================= */
+
+async function loadSecurityApprovals() {
+
+  if (
+    typeof currentUser === "undefined" ||
+    !currentUser ||
+    shamsApprovalBusy
+  ) {
+    return;
+  }
+
+  shamsApprovalBusy = true;
+
+  try {
+
+    const {
+      data,
+      error
+    } = await supabase.functions.invoke(
+      "shams-chat-v1",
+      {
+        method: "GET"
+      }
+    );
+
+    if (error) {
+      console.error(
+        "Security approval load error:",
+        error
+      );
+
+      return;
+    }
+
+    renderSecurityApprovals(
+      data?.pending_approvals || []
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Security approval error:",
+      error
+    );
+
+  } finally {
+
+    shamsApprovalBusy = false;
+  }
+}
+
+
+/* =========================================================
+   RENDER SECURITY APPROVALS
+========================================================= */
+
+function renderSecurityApprovals(approvals) {
+
+  const container =
+    getApprovalContainer();
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  if (!approvals.length) {
+    container.style.display = "none";
+    return;
+  }
+
+  container.style.display = "block";
+
+
+  approvals.forEach(request => {
+
+    const card =
+      document.createElement("section");
+
+    card.className =
+      "shams-security-approval";
+
+    card.dataset.approvalId =
+      request.id;
+
+
+    /* TITLE */
+
+    const title =
+      document.createElement("strong");
+
+    title.textContent =
+      "⚠️ طلب موافقة أمنية من شمس";
+
+
+    /* ACTION */
+
+    const action =
+      document.createElement("div");
+
+    action.className =
+      "shams-security-action";
+
+    action.textContent =
+      request.action ||
+      "security_boundary";
+
+
+    /* TASK */
+
+    const task =
+      document.createElement("small");
+
+    if (request.task_id) {
+
+      task.textContent =
+        `Task: ${request.task_id}`;
+
+    }
+
+
+    /* TIME */
+
+    const time =
+      document.createElement("small");
+
+    if (request.requested_at) {
+
+      time.textContent =
+        formatDate(
+          request.requested_at
+        );
+
+    }
+
+
+    /* BUTTONS */
+
+    const buttons =
+      document.createElement("div");
+
+    buttons.className =
+      "shams-security-buttons";
+
+
+    /* APPROVE */
+
+    const approveButton =
+      document.createElement("button");
+
+    approveButton.type = "button";
+
+    approveButton.textContent =
+      "موافق";
+
+
+    /* REJECT */
+
+    const rejectButton =
+      document.createElement("button");
+
+    rejectButton.type = "button";
+
+    rejectButton.textContent =
+      "لا";
+
+
+    approveButton.addEventListener(
+      "click",
+      () => {
+
+        reviewSecurityApproval(
+          request.id,
+          true,
+          card
+        );
+
+      }
+    );
+
+
+    rejectButton.addEventListener(
+      "click",
+      () => {
+
+        reviewSecurityApproval(
+          request.id,
+          false,
+          card
+        );
+
+      }
+    );
+
+
+    buttons.appendChild(
+      approveButton
+    );
+
+    buttons.appendChild(
+      rejectButton
+    );
+
+
+    card.appendChild(title);
+    card.appendChild(action);
+
+    if (request.task_id) {
+      card.appendChild(task);
+    }
+
+    if (request.requested_at) {
+      card.appendChild(time);
+    }
+
+    card.appendChild(buttons);
+
+    container.appendChild(card);
+
+  });
+}
+
+
+/* =========================================================
+   REVIEW SECURITY APPROVAL
+========================================================= */
+
+async function reviewSecurityApproval(
+  approvalId,
+  approve,
+  card
+) {
+
+  if (!approvalId) return;
+
+
+  const buttons =
+    card?.querySelectorAll("button");
+
+
+  buttons?.forEach(button => {
+    button.disabled = true;
+  });
+
+
+  try {
+
+    const {
+      data,
+      error
+    } = await supabase.functions.invoke(
+      "shams-chat-v1",
+      {
+        body: {
+          approval_id: approvalId,
+          approve: approve
+        }
+      }
+    );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    console.log(
+      "Security approval reviewed:",
+      data
+    );
+
+
+    await loadSecurityApprovals();
+
+    await loadShamsMessages();
+
+
+  } catch (error) {
+
+    console.error(
+      "Security approval review error:",
+      error
+    );
+
+
+    alert(
+      getErrorMessage(error)
+    );
+
+
+    buttons?.forEach(button => {
+      button.disabled = false;
+    });
+
+  }
+}
+
+
+/* =========================================================
+   SAFE SECURITY APPROVAL POLLING
+========================================================= */
+
+if (!shamsApprovalTimer) {
+
+  shamsApprovalTimer =
+    setInterval(() => {
+
+      /*
+       * لا نلمس Auth.
+       * الفحص يحدث فقط بعد وجود currentUser.
+       */
+
+      if (
+        typeof currentUser !== "undefined" &&
+        currentUser
+      ) {
+
+        loadSecurityApprovals();
+
+      }
+
+    }, 15000);
 }
 
 
@@ -658,12 +842,18 @@ function startSecurityApprovalPolling() {
 ========================================================= */
 
 async function sendShamsMessage() {
-  const text = shamsInput?.value.trim();
 
-  if (!text || !currentUser) return;
+  const text =
+    shamsInput?.value.trim();
+
+  if (!text || !currentUser) {
+    return;
+  }
+
 
   shamsSave.disabled = true;
   shamsInput.disabled = true;
+
 
   try {
 
@@ -678,14 +868,19 @@ async function sendShamsMessage() {
       }
     );
 
+
     if (error) {
       throw error;
     }
 
+
     shamsInput.value = "";
 
+
     await loadShamsMessages();
+
     await loadSecurityApprovals();
+
 
   } catch (error) {
 
@@ -694,30 +889,41 @@ async function sendShamsMessage() {
       error
     );
 
+
     alert(
       getErrorMessage(error)
     );
 
+
   } finally {
 
     shamsSave.disabled = false;
+
     shamsInput.disabled = false;
+
     shamsInput.focus();
+
   }
 }
 
 
 /* =========================================================
-   EVENTS
+   SEND BUTTON
 ========================================================= */
 
 if (shamsSave) {
+
   shamsSave.addEventListener(
     "click",
     sendShamsMessage
   );
+
 }
 
+
+/* =========================================================
+   CTRL + ENTER
+========================================================= */
 
 if (shamsInput) {
 
@@ -727,24 +933,28 @@ if (shamsInput) {
 
       if (
         event.key === "Enter" &&
-        (event.ctrlKey || event.metaKey)
+        (event.ctrlKey ||
+         event.metaKey)
       ) {
+
         event.preventDefault();
 
         sendShamsMessage();
+
       }
 
     }
   );
+
 }
 
 
 /* =========================================================
-   INIT
+   END
+   لا يوجد استدعاء مباشر للفحص هنا.
+   الـpolling ينتظر currentUser بعد تسجيل الدخول.
 ========================================================= */
-
-startSecurityApprovalPolling();
-
+    
   /* =========================
    Radar Sound Engine
 ========================= */
