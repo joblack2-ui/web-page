@@ -158,294 +158,41 @@ let shamsApprovalBusy = false;
 
 
 /* =========================================================
-   LOAD MESSAGES
-========================================================= */
-
-async function loadShamsMessages() {
-  if (!shamsNotes || !currentUser) return;
-
-  shamsNotes.innerHTML = "";
-
-  const { data, error } =
-    await supabase.rpc("shams_messages_for_owner", {
-      p_limit: 200
-    });
-
-  if (error) {
-    console.error("Shams load error:", error);
-    return;
-  }
-
-  (data || []).forEach(message => {
-    renderShamsMessage(message);
-  });
-
-  shamsNotes.scrollTop = shamsNotes.scrollHeight;
-}
-
-
-/* =========================================================
-   RENDER MESSAGE
-========================================================= */
-
-function renderShamsMessage(message) {
-  const article = document.createElement("article");
-  article.className = "shams-note";
-
-  const text = document.createElement("div");
-  text.textContent = message.content;
-
-  const time = document.createElement("span");
-  time.className = "shams-note-time";
-  time.textContent = formatDate(message.created_at);
-
-  article.appendChild(text);
-  article.appendChild(time);
-
-  if (message.role === "shams") {
-    article.dataset.role = "shams";
-  } else {
-    article.dataset.role = "admin";
-  }
-
-  shamsNotes.appendChild(article);
-}
-
-
-/* =========================================================
-   SECURITY APPROVAL CONTAINER
-========================================================= */
-
-function getApprovalContainer() {
-  if (!shamsNotes) return null;
-
-  let container =
-    document.getElementById("shams-security-approvals");
-
-  if (!container) {
-    container = document.createElement("div");
-    container.id = "shams-security-approvals";
-    container.className = "shams-security-approvals";
-
-    shamsNotes.parentNode.insertBefore(
-      container,
-      shamsNotes
-    );
-  }
-
-  return container;
-}
-
-
-/* =========================================================
-   LOAD PENDING SECURITY APPROVALS
-========================================================= */
-
-button";
-
-      const reject =
-        document.createElement("button");
-
-      reject.textContent = "لا";
-      reject.type = "button";
-
-      approve.style.margin = "8px 8px 0 0";
-      reject.style.marginTop = "8px";
-
-      approve.onclick =
-        () => reviewSecurityApproval(
-          request.id,
-          true
-        );
-
-      reject.onclick =
-        () => reviewSecurityApproval(
-          request.id,
-          false
-        );
-
-      card.appendChild(title);
-      card.appendChild(action);
-      card.appendChild(approve);
-      card.appendChild(reject);
-
-      box.appendChild(card);
-    });
-  } catch (error) {
-    console.error(
-      "Security approval error:",
-      error
-    );
-  }
-}
-
-
-async function reviewSecurityApproval(
-  approvalId,
-  approve
-) {
-  try {
-    const { error } =
-      await supabase.functions.invoke(
-        "shams-chat-v1",
-        {
-          body: {
-            approval_id: approvalId,
-
-    buttons.className =
-      "shams-security-buttons";
-
-
-    const approveButton =
-      document.createElement("button");
-
-    approveButton.type = "button";
-    approveButton.textContent = "موافق";
-    approveButton.dataset.approval =
-      "approve";
-
-
-    const rejectButton =
-      document.createElement("button");
-
-    rejectButton.type = "button";
-    rejectButton.textContent = "لا";
-    rejectButton.dataset.approval =
-      "reject";
-
-
-    approveButton.addEventListener(
-      "click",
-      () => reviewSecurityApproval(
-        request.id,
-        true,
-        card
-      )
-    );
-
-    rejectButton.addEventListener(
-      "click",
-      () => reviewSecurityApproval(
-        request.id,
-        false,
-        card
-      )
-    );
-
-
-    buttons.appendChild(approveButton);
-    buttons.appendChild(rejectButton);
-
-
-    card.appendChild(title);
-    card.appendChild(action);
-    card.appendChild(time);
-    card.appendChild(buttons);
-
-    container.appendChild(card);
-  });
-}
-
-
-/* =========================================================
-   REVIEW SECURITY APPROVAL
-========================================================= */
-
-async function reviewSecurityApproval(
-  approvalId,
-  approve,
-  card
-) {
-  if (!approvalId) return;
-
-  const buttons =
-    card?.querySelectorAll("button");
-
-  buttons?.forEach(button => {
-    button.disabled = true;
-  });
-
-  try {
-
-    const {
-      data,
-      error
-    } = await supabase.functions.invoke(
-      "shams-chat-v1",
-      {
-        body: {
-          approval_id: approvalId,
-          approve: approve
-        }
-      }
-    );
-
-    if (error) {
-      throw error;
-    }
-
-    console.log(
-      "Security approval reviewed:",
-      data
-    );
-
-    await loadSecurityApprovals();
-    await loadShamsMessages();
-
-  } catch (error) {
-
-    console.error(
-      "Security approval review error:",
-      error
-    );
-
-    alert(
-      getErrorMessage(error)
-    );
-
-    buttons?.forEach(button => {
-      button.disabled = false;
-    });
-  }
-}
-
-/* =========================================================
-   SHAMS — PRIVATE CHAT
-   + SECURITY APPROVAL
-========================================================= */
-
-const shamsInput = document.getElementById("shams-input");
-const shamsSave = document.getElementById("shams-save");
-const shamsNotes = document.getElementById("shams-notes");
-
-let shamsApprovalTimer = null;
-let shamsApprovalBusy = false;
-
-
-/* =========================================================
    LOAD SHAMS MESSAGES
 ========================================================= */
 
 async function loadShamsMessages() {
-  if (!shamsNotes || !currentUser) return;
+
+  if (!shamsNotes || !currentUser) {
+    return;
+  }
 
   shamsNotes.innerHTML = "";
 
   const { data, error } =
-    await supabase.rpc("shams_messages_for_owner", {
-      p_limit: 200
-    });
+    await supabase.rpc(
+      "shams_messages_for_owner",
+      {
+        p_limit: 200
+      }
+    );
 
   if (error) {
-    console.error("Shams load error:", error);
+    console.error(
+      "Shams load error:",
+      error
+    );
     return;
   }
 
-  (data || []).forEach(message => {
-    renderShamsMessage(message);
-  });
+  (data || []).forEach(
+    message => {
+      renderShamsMessage(message);
+    }
+  );
 
-  shamsNotes.scrollTop = shamsNotes.scrollHeight;
+  shamsNotes.scrollTop =
+    shamsNotes.scrollHeight;
 }
 
 
@@ -454,15 +201,29 @@ async function loadShamsMessages() {
 ========================================================= */
 
 function renderShamsMessage(message) {
-  const article = document.createElement("article");
-  article.className = "shams-note";
 
-  const text = document.createElement("div");
-  text.textContent = message.content;
+  const article =
+    document.createElement("article");
 
-  const time = document.createElement("span");
-  time.className = "shams-note-time";
-  time.textContent = formatDate(message.created_at);
+  article.className =
+    "shams-note";
+
+  const text =
+    document.createElement("div");
+
+  text.textContent =
+    message.content;
+
+  const time =
+    document.createElement("span");
+
+  time.className =
+    "shams-note-time";
+
+  time.textContent =
+    formatDate(
+      message.created_at
+    );
 
   article.appendChild(text);
   article.appendChild(time);
@@ -482,7 +243,11 @@ function renderShamsMessage(message) {
 ========================================================= */
 
 function getApprovalContainer() {
-  if (!shamsNotes || !shamsNotes.parentNode) {
+
+  if (
+    !shamsNotes ||
+    !shamsNotes.parentNode
+  ) {
     return null;
   }
 
@@ -492,7 +257,9 @@ function getApprovalContainer() {
     );
 
   if (!container) {
-    container = document.createElement("div");
+
+    container =
+      document.createElement("div");
 
     container.id =
       "shams-security-approvals";
@@ -517,7 +284,6 @@ function getApprovalContainer() {
 async function loadSecurityApprovals() {
 
   if (
-    typeof currentUser === "undefined" ||
     !currentUser ||
     shamsApprovalBusy
   ) {
@@ -531,19 +297,19 @@ async function loadSecurityApprovals() {
     const {
       data,
       error
-    } = await supabase.functions.invoke(
-      "shams-chat-v1",
-      {
-        method: "GET"
-      }
-    );
+    } =
+      await supabase.functions.invoke(
+        "shams-chat-v1",
+        {
+          method: "GET"
+        }
+      );
 
     if (error) {
       console.error(
         "Security approval load error:",
         error
       );
-
       return;
     }
 
@@ -569,169 +335,177 @@ async function loadSecurityApprovals() {
    RENDER SECURITY APPROVALS
 ========================================================= */
 
-function renderSecurityApprovals(approvals) {
+function renderSecurityApprovals(
+  approvals
+) {
 
   const container =
     getApprovalContainer();
 
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  if (!approvals.length) {
-    container.style.display = "none";
+  if (!container) {
     return;
   }
 
-  container.style.display = "block";
+  container.innerHTML = "";
+
+  if (
+    !Array.isArray(approvals) ||
+    approvals.length === 0
+  ) {
+
+    container.style.display =
+      "none";
+
+    return;
+  }
+
+  container.style.display =
+    "block";
 
 
-  approvals.forEach(request => {
+  approvals.forEach(
+    request => {
 
-    const card =
-      document.createElement("section");
+      const card =
+        document.createElement("section");
 
-    card.className =
-      "shams-security-approval";
+      card.className =
+        "shams-security-approval";
 
-    card.dataset.approvalId =
-      request.id;
-
-
-    /* TITLE */
-
-    const title =
-      document.createElement("strong");
-
-    title.textContent =
-      "⚠️ طلب موافقة أمنية من شمس";
+      card.dataset.approvalId =
+        request.id;
 
 
-    /* ACTION */
+      /* TITLE */
 
-    const action =
-      document.createElement("div");
+      const title =
+        document.createElement("strong");
 
-    action.className =
-      "shams-security-action";
-
-    action.textContent =
-      request.action ||
-      "security_boundary";
+      title.textContent =
+        "⚠️ طلب موافقة أمنية من شمس";
 
 
-    /* TASK */
+      /* ACTION */
 
-    const task =
-      document.createElement("small");
+      const action =
+        document.createElement("div");
 
-    if (request.task_id) {
+      action.className =
+        "shams-security-action";
 
-      task.textContent =
-        `Task: ${request.task_id}`;
-
-    }
-
-
-    /* TIME */
-
-    const time =
-      document.createElement("small");
-
-    if (request.requested_at) {
-
-      time.textContent =
-        formatDate(
-          request.requested_at
-        );
-
-    }
+      action.textContent =
+        request.action ||
+        "security_boundary";
 
 
-    /* BUTTONS */
+      /* TASK */
 
-    const buttons =
-      document.createElement("div");
+      if (request.task_id) {
 
-    buttons.className =
-      "shams-security-buttons";
+        const task =
+          document.createElement("small");
 
+        task.textContent =
+          `Task: ${request.task_id}`;
 
-    /* APPROVE */
-
-    const approveButton =
-      document.createElement("button");
-
-    approveButton.type = "button";
-
-    approveButton.textContent =
-      "موافق";
-
-
-    /* REJECT */
-
-    const rejectButton =
-      document.createElement("button");
-
-    rejectButton.type = "button";
-
-    rejectButton.textContent =
-      "لا";
-
-
-    approveButton.addEventListener(
-      "click",
-      () => {
-
-        reviewSecurityApproval(
-          request.id,
-          true,
-          card
-        );
-
+        card.appendChild(task);
       }
-    );
 
 
-    rejectButton.addEventListener(
-      "click",
-      () => {
+      /* TIME */
 
-        reviewSecurityApproval(
-          request.id,
-          false,
-          card
-        );
+      if (request.requested_at) {
 
+        const time =
+          document.createElement("small");
+
+        time.textContent =
+          formatDate(
+            request.requested_at
+          );
+
+        card.appendChild(time);
       }
-    );
 
 
-    buttons.appendChild(
-      approveButton
-    );
+      /* BUTTONS */
 
-    buttons.appendChild(
-      rejectButton
-    );
+      const buttons =
+        document.createElement("div");
+
+      buttons.className =
+        "shams-security-buttons";
 
 
-    card.appendChild(title);
-    card.appendChild(action);
+      /* APPROVE */
 
-    if (request.task_id) {
-      card.appendChild(task);
+      const approveButton =
+        document.createElement("button");
+
+      approveButton.type =
+        "button";
+
+      approveButton.textContent =
+        "موافق";
+
+
+      /* REJECT */
+
+      const rejectButton =
+        document.createElement("button");
+
+      rejectButton.type =
+        "button";
+
+      rejectButton.textContent =
+        "لا";
+
+
+      approveButton.addEventListener(
+        "click",
+        () => {
+
+          reviewSecurityApproval(
+            request.id,
+            true,
+            card
+          );
+
+        }
+      );
+
+
+      rejectButton.addEventListener(
+        "click",
+        () => {
+
+          reviewSecurityApproval(
+            request.id,
+            false,
+            card
+          );
+
+        }
+      );
+
+
+      buttons.appendChild(
+        approveButton
+      );
+
+      buttons.appendChild(
+        rejectButton
+      );
+
+
+      card.appendChild(title);
+      card.appendChild(action);
+      card.appendChild(buttons);
+
+      container.appendChild(card);
+
     }
-
-    if (request.requested_at) {
-      card.appendChild(time);
-    }
-
-    card.appendChild(buttons);
-
-    container.appendChild(card);
-
-  });
+  );
 }
 
 
@@ -745,49 +519,52 @@ async function reviewSecurityApproval(
   card
 ) {
 
-  if (!approvalId) return;
-
+  if (!approvalId) {
+    return;
+  }
 
   const buttons =
-    card?.querySelectorAll("button");
+    card?.querySelectorAll(
+      "button"
+    );
 
-
-  buttons?.forEach(button => {
-    button.disabled = true;
-  });
-
+  buttons?.forEach(
+    button => {
+      button.disabled = true;
+    }
+  );
 
   try {
 
     const {
       data,
       error
-    } = await supabase.functions.invoke(
-      "shams-chat-v1",
-      {
-        body: {
-          approval_id: approvalId,
-          approve: approve
-        }
-      }
-    );
+    } =
+      await supabase.functions.invoke(
+        "shams-chat-v1",
+        {
+          body: {
+            approval_id:
+              approvalId,
 
+            approve:
+              approve
+          }
+        }
+      );
 
     if (error) {
       throw error;
     }
-
 
     console.log(
       "Security approval reviewed:",
       data
     );
 
-
     await loadSecurityApprovals();
 
     await loadShamsMessages();
-
 
   } catch (error) {
 
@@ -796,44 +573,36 @@ async function reviewSecurityApproval(
       error
     );
 
-
     alert(
       getErrorMessage(error)
     );
 
-
-    buttons?.forEach(button => {
-      button.disabled = false;
-    });
-
+    buttons?.forEach(
+      button => {
+        button.disabled = false;
+      }
+    );
   }
 }
 
 
 /* =========================================================
-   SAFE SECURITY APPROVAL POLLING
+   SECURITY APPROVAL POLLING
 ========================================================= */
 
 if (!shamsApprovalTimer) {
 
   shamsApprovalTimer =
-    setInterval(() => {
+    setInterval(
+      () => {
 
-      /*
-       * لا نلمس Auth.
-       * الفحص يحدث فقط بعد وجود currentUser.
-       */
+        if (currentUser) {
+          loadSecurityApprovals();
+        }
 
-      if (
-        typeof currentUser !== "undefined" &&
-        currentUser
-      ) {
-
-        loadSecurityApprovals();
-
-      }
-
-    }, 15000);
+      },
+      15000
+    );
 }
 
 
@@ -846,41 +615,40 @@ async function sendShamsMessage() {
   const text =
     shamsInput?.value.trim();
 
-  if (!text || !currentUser) {
+  if (
+    !text ||
+    !currentUser
+  ) {
     return;
   }
 
-
   shamsSave.disabled = true;
-  shamsInput.disabled = true;
 
+  shamsInput.disabled = true;
 
   try {
 
     const {
       error
-    } = await supabase.functions.invoke(
-      "shams-chat-v1",
-      {
-        body: {
-          message: text
+    } =
+      await supabase.functions.invoke(
+        "shams-chat-v1",
+        {
+          body: {
+            message: text
+          }
         }
-      }
-    );
-
+      );
 
     if (error) {
       throw error;
     }
 
-
     shamsInput.value = "";
-
 
     await loadShamsMessages();
 
     await loadSecurityApprovals();
-
 
   } catch (error) {
 
@@ -889,11 +657,9 @@ async function sendShamsMessage() {
       error
     );
 
-
     alert(
       getErrorMessage(error)
     );
-
 
   } finally {
 
@@ -902,7 +668,6 @@ async function sendShamsMessage() {
     shamsInput.disabled = false;
 
     shamsInput.focus();
-
   }
 }
 
@@ -917,7 +682,6 @@ if (shamsSave) {
     "click",
     sendShamsMessage
   );
-
 }
 
 
@@ -933,28 +697,20 @@ if (shamsInput) {
 
       if (
         event.key === "Enter" &&
-        (event.ctrlKey ||
-         event.metaKey)
+        (
+          event.ctrlKey ||
+          event.metaKey
+        )
       ) {
 
         event.preventDefault();
 
         sendShamsMessage();
-
       }
 
     }
   );
-
 }
-
-
-/* =========================================================
-   END
-   لا يوجد استدعاء مباشر للفحص هنا.
-   الـpolling ينتظر currentUser بعد تسجيل الدخول.
-========================================================= */
-    
   /* =========================
    Radar Sound Engine
 ========================= */
