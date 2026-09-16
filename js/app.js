@@ -614,9 +614,11 @@ async function reviewSecurityApproval(
     }
 
     /* تحديث القائمة من قاعدة البيانات */
-    await loadSecurityApprovals();
+    if (card) {
+  card.remove();
+}
 
-    await loadShamsMessages();
+await loadShamsMessages();
 
   } catch (error) {
 
