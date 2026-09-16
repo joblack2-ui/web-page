@@ -614,9 +614,7 @@ async function reviewSecurityApproval(
     }
 
     /* تحديث القائمة من قاعدة البيانات */
-    if (card) {
-  card.remove();
-}
+
 
 await loadShamsMessages();
 
