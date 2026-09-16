@@ -241,37 +241,51 @@ function getApprovalContainer() {
    LOAD PENDING SECURITY APPROVALS
 ========================================================= */
 
-async function loadSecurityApprovals() {
+async async function loadSecurityApprovals() {
   if (!currentUser || shamsApprovalBusy) return;
 
   shamsApprovalBusy = true;
 
   try {
     const {
-      data,
-      error
-    } = await supabase.functions.invoke(
-      "shams-chat-v1",
-      {
-        method: "GET"
-      }
-    );
+      data: { session },
+      error: sessionError
+    } = await supabase.auth.getSession();
 
-    if (error) {
+    if (sessionError || !session) {
       console.error(
-        "Security approval load error:",
-        error
+        "Security approval session error:",
+        sessionError
       );
       return;
     }
 
+    const response = await fetch(
+      "https://segvezobgcguucugmgwi.supabase.co/functions/v1/shams-chat-v1",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+          apikey: session.access_token
+        }
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        result?.error || "approvals_failed"
+      );
+    }
+
     renderSecurityApprovals(
-      data?.pending_approvals || []
+      result?.pending_approvals || []
     );
 
   } catch (error) {
     console.error(
-      "Security approval error:",
+      "Security approval load error:",
       error
     );
 
