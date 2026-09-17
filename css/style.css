@@ -1293,6 +1293,7 @@ button {
    HEADER
    ========================= */
 
+
 .world-header {
   position: absolute;
   top: 0;
@@ -1305,8 +1306,12 @@ button {
   padding: 0 22px;
   border-bottom: 1px solid rgba(255,255,255,.045);
   z-index: 600;
+  pointer-events: none;
 }
 
+.world-header > * {
+  pointer-events: auto;
+}
 .world-mark {
   display: flex;
   align-items: center;
