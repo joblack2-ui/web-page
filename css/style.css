@@ -1307,6 +1307,11 @@ button {
   z-index: 600;
 }
 
+.world-header > * {
+  pointer-events: auto;
+}
+
+
 .world-mark {
   display: flex;
   align-items: center;
