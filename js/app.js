@@ -981,12 +981,13 @@ function executeCommand(command) {
 );
 
 addSystemLine(
-  "NO EXTERNAL ROUTE."
+  "REDIRECTING..."
 );
 
-addSystemLine(
-  "INPUT REMAINS UNRESOLVED."
-);
+setTimeout(() => {
+  window.location.href =
+    "https://yasarblack.github.io/athar-social-app/";
+}, 700);
 }
 
 /* =========================
