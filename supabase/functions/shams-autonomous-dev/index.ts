@@ -21,6 +21,28 @@ async function readFile(path: string) {
   const bytes = Uint8Array.from(atob(String(d.content).replace(/\n/g, "")), (c) => c.charCodeAt(0));
   return new TextDecoder().decode(bytes);
 }
+function validate(path: string, content: string) {
+  if (!content.trim()) return "Proposed file is empty";
+  if (path.endsWith(".html")) {
+    if (!/^<!doctype html>/i.test(content.trim())) return "HTML validation failed: missing doctype";
+    if (!/<html[\\s>]/i.test(content) || !/<\\/html>/i.test(content)) return "HTML validation failed: missing html root";
+    if (!/<body[\\s>]/i.test(content) || !/<\\/body>/i.test(content)) return "HTML validation failed: missing body";
+  }
+  if (path.endsWith(".js") || path.endsWith(".ts")) {
+    if (/\\b(function|if|for|while|switch)\\s*\\([^)]*$/.test(content)) return "Code validation failed: unclosed control expression";
+    let depth = 0, quote = "";
+    for (let i = 0; i < content.length; i++) {
+      const ch = content[i], prev = content[i - 1];
+      if (quote) { if (ch === quote && prev !== "\\\\") quote = ""; continue; }
+      if (ch === '"' || ch === "'" || ch === "`") { quote = ch; continue; }
+      if (ch === "{") depth++;
+      if (ch === "}") depth--;
+      if (depth < 0) return "Code validation failed: unmatched closing brace";
+    }
+    if (quote || depth !== 0) return "Code validation failed: unbalanced syntax";
+  }
+  return null;
+}
 async function callModel(task: string, context: string) {
   const key = Deno.env.get("GROQ_API_KEY");
   if (!key) throw new Error("GROQ_API_KEY is not configured");
@@ -70,12 +92,22 @@ Deno.serve(async (req) => {
     const message = String(proposal.message || "Shams autonomous development change");
     if (!allowedPath(path)) return json({ error: "Model proposed a protected or invalid path" }, 403);
     if (content.length > 500000) return json({ error: "Proposed file is too large" }, 413);
+    const previousContent = await readFile(path).catch(() => "");
+    const validationError = validate(path, content);
+    if (validationError) return json({ error: validationError, rolled_back: false }, 422);
     const bridgeKey = Deno.env.get("SHAMS_DEV_BRIDGE_KEY");
     if (!bridgeKey) throw new Error("SHAMS_DEV_BRIDGE_KEY is not configured");
     const write = await fetch(BRIDGE_URL, { method: "POST", headers: { Authorization: "Bearer " + bridgeKey, "Content-Type": "application/json" }, body: JSON.stringify({ action: "write_file", branch: BRANCH, path, content, message }) });
     const result = await write.json();
     if (!write.ok) return json({ error: "Bridge rejected change", bridge: result }, write.status);
-    return json({ ok: true, mode: "autonomous-dev", repository: REPO, branch: BRANCH, proposal: { path, message }, bridge: result });
+    const written = await readFile(path);
+    const postValidation = validate(path, written);
+    if (postValidation && previousContent) {
+      const rollback = await fetch(BRIDGE_URL, { method: "POST", headers: { Authorization: "Bearer " + bridgeKey, "Content-Type": "application/json" }, body: JSON.stringify({ action: "restore_file", branch: BRANCH, path, content: previousContent, message: "Shams automatic rollback after failed validation" }) });
+      const rollbackResult = await rollback.json();
+      return json({ ok: false, error: postValidation, rolled_back: rollback.ok, bridge: result, rollback: rollbackResult }, 422);
+    }
+    return json({ ok: true, mode: "autonomous-dev", repository: REPO, branch: BRANCH, proposal: { path, message }, bridge: result, validation: "passed" });
   } catch (error) {
     console.error("SHAMS AUTONOMOUS DEV:", error);
     return json({ error: error instanceof Error ? error.message : "Unknown error" }, 500);
