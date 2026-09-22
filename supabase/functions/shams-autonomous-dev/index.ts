@@ -22,33 +22,62 @@ async function readFile(path: string) {
   return new TextDecoder().decode(bytes);
 }
 async function callModel(task: string, context: string) {
-  const key = Deno.env.get("Chat");
-  if (!key) throw new Error("Chat secret is not configured");
+  const key = Deno.env.get("GROQ_API_KEY");
+  if (!key) throw new Error("GROQ_API_KEY is not configured");
   const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. Never touch protected paths: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, content, message. Choose one file only. Task: " + task + "\n\nRepository context:\n" + context;
-  const r = await fetch("https://openrouter.ai/api/v1/chat/completions", { method: "POST", headers: { Authorization: "Bearer " + key, "Content-Type": "application/json", "HTTP-Referer": SUPABASE_URL, "X-Title": "Athar Shams Autonomous Developer" }, body: JSON.stringify({ model: "poolside/laguna-s-2.1:free", temperature: 0, response_format: { type: "json_object" }, messages: [{ role: "system", content: "Return ONLY valid JSON. Required object fields: path, content, message. All three values must be strings. No markdown or commentary." }, { role: "user", content: prompt }] }) });
-  if (!r.ok) throw new Error("Model request failed: " + r.status);
-  const d = await r.json(); const raw = d.choices?.[0]?.message?.content; if (!raw) throw new Error("Model returned no content");
-  const cleaned = String(raw).trim().replace(/^\\`\\`\\`(?:json)?\\s*/i, "").replace(/\\s*\\`\\`\\`$/i, "").trim();
+  const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "llama-3.3-70b-versatile",
+      temperature: 0,
+      response_format: { type: "json_object" },
+      messages: [
+        { role: "system", content: "Return ONLY valid JSON. Required object fields: path, content, message. All three values must be strings. No markdown or commentary." },
+        { role: "user", content: prompt }
+      ]
+    })
+  });
+  if (!r.ok) {
+    const detail = await r.text();
+    throw new Error("Groq model request failed: " + r.status + " " + detail.slice(0, 500));
+  }
+  const d = await r.json();
+  const raw = d.choices?.[0]?.message?.content;
+  if (!raw) throw new Error("Groq model returned no content");
+  const cleaned = String(raw).trim();
   const first = cleaned.indexOf("{");
   const last = cleaned.lastIndexOf("}");
-  if (first < 0 || last <= first) throw new Error("Model returned invalid JSON");
+  if (first < 0 || last <= first) throw new Error("Groq model returned invalid JSON");
   try { return JSON.parse(cleaned.slice(first, last + 1)); }
-  catch { throw new Error("Model returned invalid JSON"); }
+  catch { throw new Error("Groq model returned invalid JSON"); }
 }
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   if (req.method !== "POST") return json({ error: "POST only" }, 405);
   try {
-    const body = await req.json(); const task = String(body.task || "").trim(); if (!task) return json({ error: "task is required" }, 400);
+    const body = await req.json();
+    const task = String(body.task || "").trim();
+    if (!task) return json({ error: "task is required" }, 400);
     const requested = Array.isArray(body.context_paths) ? body.context_paths.map(String).filter(allowedPath).slice(0, 8) : ["SHAMS_DEV.md", "SHAMS_AUTONOMY.md"];
-    const parts: string[] = []; for (const path of requested) { try { parts.push("\n--- " + path + " ---\n" + (await readFile(path)).slice(0, 120000)); } catch {} }
+    const parts: string[] = [];
+    for (const path of requested) {
+      try { parts.push("\n--- " + path + " ---\n" + (await readFile(path)).slice(0, 120000)); } catch {}
+    }
     const proposal = await callModel(task, parts.join("\n"));
-    const path = String(proposal.path || ""); const content = String(proposal.content ?? ""); const message = String(proposal.message || "Shams autonomous development change");
+    const path = String(proposal.path || "");
+    const content = String(proposal.content ?? "");
+    const message = String(proposal.message || "Shams autonomous development change");
     if (!allowedPath(path)) return json({ error: "Model proposed a protected or invalid path" }, 403);
     if (content.length > 500000) return json({ error: "Proposed file is too large" }, 413);
-    const bridgeKey = Deno.env.get("SHAMS_DEV_BRIDGE_KEY"); if (!bridgeKey) throw new Error("SHAMS_DEV_BRIDGE_KEY is not configured");
+    const bridgeKey = Deno.env.get("SHAMS_DEV_BRIDGE_KEY");
+    if (!bridgeKey) throw new Error("SHAMS_DEV_BRIDGE_KEY is not configured");
     const write = await fetch(BRIDGE_URL, { method: "POST", headers: { Authorization: "Bearer " + bridgeKey, "Content-Type": "application/json" }, body: JSON.stringify({ action: "write_file", branch: BRANCH, path, content, message }) });
-    const result = await write.json(); if (!write.ok) return json({ error: "Bridge rejected change", bridge: result }, write.status);
+    const result = await write.json();
+    if (!write.ok) return json({ error: "Bridge rejected change", bridge: result }, write.status);
     return json({ ok: true, mode: "autonomous-dev", repository: REPO, branch: BRANCH, proposal: { path, message }, bridge: result });
-  } catch (error) { console.error("SHAMS AUTONOMOUS DEV:", error); return json({ error: error instanceof Error ? error.message : "Unknown error" }, 500); }
+  } catch (error) {
+    console.error("SHAMS AUTONOMOUS DEV:", error);
+    return json({ error: error instanceof Error ? error.message : "Unknown error" }, 500);
+  }
 });
