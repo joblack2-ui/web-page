@@ -46,7 +46,7 @@ function validate(path: string, content: string) {
 async function callModel(task: string, context: string) {
   const key = Deno.env.get("GROQ_API_KEY");
   if (!key) throw new Error("GROQ_API_KEY is not configured");
-  const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. Never touch protected paths: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, find, replace, message. Choose one file only. the find string must exactly match existing text and replace must contain the replacement text. Keep both as short as possible. Task: " + task + "\n\nRepository context:\n" + context;
+  const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. Never touch protected paths: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, find, replace, message. Choose one file only. The find string must exactly match existing text. The replace value must contain only the replacement text. Keep both as short as possible. Task: " + task + "\n\nRepository context:\n" + context;
   const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
@@ -87,20 +87,43 @@ Deno.serve(async (req) => {
     for (const path of requested) {
       try { parts.push("\n--- " + path + " ---\n" + (await readFile(path)).slice(0, 120000)); } catch {}
     }
-    const proposal = await callModel(task, parts.join("\n"));
-    const path = String(proposal.path || "");
-    const find = String(proposal.find ?? "");
-    const replace = String(proposal.replace ?? "");
-    const message = String(proposal.message || "Shams autonomous development change");
-    if (!allowedPath(path)) return json({ error: "Model proposed a protected or invalid path" }, 403);
-    if (!find) return json({ error: "Model did not provide a find string" }, 422);
-    const previousContent = await readFile(path).catch(() => "");
-    if (!previousContent) return json({ error: "Target file could not be read before change" }, 422);
-    if (!previousContent.includes(find)) return json({ error: "Model find string was not found in target file" }, 422);
-    if (replace.length > 100000) return json({ error: "Proposed replacement is too large" }, 413);
-    const content = previousContent.replace(find, replace);
-    const validationError = validate(path, content);
-    if (validationError) return json({ error: validationError, rolled_back: false }, 422);
+    let proposal = await callModel(task, parts.join("\n"));
+    let path = String(proposal.path || "");
+    let find = String(proposal.find ?? "");
+    let replace = String(proposal.replace ?? "");
+    let message = String(proposal.message || "Shams autonomous development change");
+    let previousContent = "";
+    let content = "";
+    let validationError: string | null = null;
+    let retryUsed = false;
+
+    for (let attempt = 0; attempt < 2; attempt++) {
+      if (!allowedPath(path)) return json({ error: "Model proposed a protected or invalid path" }, 403);
+      if (!find) return json({ error: "Model did not provide a find string" }, 422);
+      previousContent = await readFile(path).catch(() => "");
+      if (!previousContent) return json({ error: "Target file could not be read before change" }, 422);
+
+      if (!previousContent.includes(find)) {
+        if (attempt === 0) {
+          retryUsed = true;
+          const targetContext = parts.join("\n") + "\n\n--- CURRENT TARGET FILE: " + path + " ---\n" + previousContent.slice(0, 140000);
+          proposal = await callModel(task, targetContext);
+          path = String(proposal.path || "");
+          find = String(proposal.find ?? "");
+          replace = String(proposal.replace ?? "");
+          message = String(proposal.message || "Shams autonomous development change");
+          continue;
+        }
+        return json({ error: "Model find string was not found in target file after retry", retry_used: retryUsed }, 422);
+      }
+
+      if (replace.length > 100000) return json({ error: "Proposed replacement is too large" }, 413);
+      content = previousContent.replace(find, replace);
+      validationError = validate(path, content);
+      if (validationError) return json({ error: validationError, rolled_back: false }, 422);
+      break;
+    }
+
     const bridgeKey = Deno.env.get("SHAMS_DEV_BRIDGE_KEY");
     if (!bridgeKey) throw new Error("SHAMS_DEV_BRIDGE_KEY is not configured");
     const write = await fetch(BRIDGE_URL, { method: "POST", headers: { Authorization: "Bearer " + bridgeKey, "Content-Type": "application/json" }, body: JSON.stringify({ action: "write_file", branch: BRANCH, path, content, message }) });
@@ -113,7 +136,7 @@ Deno.serve(async (req) => {
       const rollbackResult = await rollback.json();
       return json({ ok: false, error: postValidation, rolled_back: rollback.ok, bridge: result, rollback: rollbackResult }, 422);
     }
-    return json({ ok: true, mode: "autonomous-dev", repository: REPO, branch: BRANCH, proposal: { path, message }, bridge: result, validation: "passed" });
+    return json({ ok: true, mode: "autonomous-dev", repository: REPO, branch: BRANCH, proposal: { path, message }, bridge: result, validation: "passed", retry_used: retryUsed });
   } catch (error) {
     console.error("SHAMS AUTONOMOUS DEV:", error);
     return json({ error: error instanceof Error ? error.message : "Unknown error" }, 500);
