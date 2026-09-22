@@ -33,7 +33,7 @@ function validate(path: string, content: string) {
     let depth = 0, quote = "";
     for (let i = 0; i < content.length; i++) {
       const ch = content[i], prev = content[i - 1];
-      if (quote) { if (ch === quote && prev !== "\\\\") quote = ""; continue; }
+      if (quote) { if (ch === quote && prev !== "\\") quote = ""; continue; }
       if (ch === '"' || ch === "'" || ch === "`") { quote = ch; continue; }
       if (ch === "{") depth++;
       if (ch === "}") depth--;
