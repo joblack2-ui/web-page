@@ -969,6 +969,55 @@ function executeCommand(command) {
   }
 
 
+  if (normalized === "map") {
+
+    if (worldMapScreen) {
+      worldMapScreen.classList.remove("hidden");
+      addSystemLine("MAP / OPEN");
+    }
+
+    return;
+  }
+
+
+  if (normalized === "scan") {
+
+    if (quantumRadarScreen) {
+      quantumRadarScreen.classList.remove("hidden");
+      startRadarSound();
+      addSystemLine("RADAR / SCANNING");
+    }
+
+    return;
+  }
+
+
+  if (normalized === "links") {
+
+    const node = nodes[currentNodeId];
+
+    if (!node) {
+      addSystemLine("NODE CONTEXT LOST.");
+      return;
+    }
+
+    const links = node.links || [];
+
+    if (!links.length) {
+      addSystemLine("NO LINKS.");
+      return;
+    }
+
+    links.forEach(link => {
+      addSystemLine(
+        `LINK: ${link.target} / ${link.label}`
+      );
+    });
+
+    return;
+  }
+
+
   if (normalized === "return") {
 
     addSystemLine(
