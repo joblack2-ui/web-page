@@ -47,12 +47,18 @@ async function callModel(task: string, context: string) {
   const key = Deno.env.get("GROQ_API_KEY");
   if (!key) throw new Error("GROQ_API_KEY is not configured");
   const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. Never touch protected paths: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, content, message. Choose one file only. Task: " + task + "\n\nRepository context:\n" + context;
-  const r = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent", {
+  const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
-    headers: { "Content-Type": "application/json", "x-goog-api-key": key },
+    headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
     body: JSON.stringify({
-      generationConfig: { responseMimeType: "application/json" },
-      contents: [{ role: "user", parts: [{ text: prompt }] }]
+      model: "qwen/qwen3.8-27b",
+      temperature: 0,
+      max_tokens: 900,
+      response_format: { type: "json_object" },
+      messages: [
+        { role: "system", content: "Return ONLY valid JSON. Required object fields: path, content, message. All three values must be strings. No markdown or commentary." },
+        { role: "user", content: prompt }
+      ]
     })
   });
   if (!r.ok) {
