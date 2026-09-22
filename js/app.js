@@ -910,6 +910,65 @@ function executeCommand(command) {
   }
 
 
+  /*
+   * =========================
+   * NODE SEARCH
+   * =========================
+   */
+
+  if (normalized.startsWith("find ")) {
+
+    const query = normalized.slice(5).trim();
+
+    if (!query) {
+      addSystemLine("FIND WHAT?");
+      return;
+    }
+
+    const matches = Object.values(nodes).filter(node => {
+      const haystack = [
+        node.id,
+        node.title,
+        node.text,
+        node.meta
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return haystack.includes(query);
+    }).slice(0, 8);
+
+    if (!matches.length) {
+      addSystemLine("NO NODE MATCH.");
+      return;
+    }
+
+    matches.forEach(node => {
+      addSystemLine(
+        \`NODE: \${node.id} / \${node.title || "—"}\`
+      );
+    });
+
+    return;
+  }
+
+
+  if (normalized.startsWith("open ")) {
+
+    const nodeId = normalized.slice(5).trim();
+
+    if (nodes[nodeId]) {
+      openNode(nodeId);
+      addSystemLine(\`NODE: \${nodeId}\`);
+    } else {
+      addSystemLine("NODE NOT FOUND.");
+    }
+
+    return;
+  }
+
+
   if (normalized === "return") {
 
     addSystemLine(
