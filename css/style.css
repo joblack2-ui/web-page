@@ -4433,3 +4433,61 @@ button {
 .node-provenance[data-provenance="internal"] {
   border-left-color: rgba(255,255,255,.12);
 }
+
+
+/* =========================================================
+   SHAMS — FIRST VISIBLE SIGNATURE
+   Ambient only. Does not touch Shams chat.
+========================================================= */
+
+.shams-observer-mark {
+  position: absolute;
+  left: 6vw;
+  bottom: 8vh;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: .58;
+  pointer-events: none;
+  font-family: "Courier New", monospace;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.shams-observer-mark span,
+.shams-observer-mark small {
+  color: rgba(255,255,255,.55);
+  font-size: 8px;
+}
+
+.shams-observer-mark i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor;
+  animation: shamsObserverPulse 2.8s ease-in-out infinite;
+}
+
+.shams-observer-mark small {
+  color: rgba(255,255,255,.28);
+}
+
+@keyframes shamsObserverPulse {
+  0%, 100% { opacity: .25; transform: scale(.8); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+
+@media (max-width: 640px) {
+  .shams-observer-mark {
+    left: 12px;
+    bottom: 5vh;
+    gap: 7px;
+  }
+
+  .shams-observer-mark span,
+  .shams-observer-mark small {
+    font-size: 7px;
+  }
+}
