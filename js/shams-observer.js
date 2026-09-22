@@ -20,6 +20,20 @@ if (mark && nodeViewer) {
     if (label) label.textContent = "SHAMS / OBSERVER";
     if (detail) detail.textContent = id ? "TRACE: " + id : "TRACE: " + title;
 
+    const whisper = document.getElementById("shams-whisper");
+    const whisperText = whisper?.querySelector("span");
+
+    if (whisper && whisperText) {
+      whisperText.textContent = "I SEE THE TRACE.";
+      whisper.classList.remove("shams-whisper-show");
+      void whisper.offsetWidth;
+      whisper.classList.add("shams-whisper-show");
+
+      window.setTimeout(() => {
+        whisper.classList.remove("shams-whisper-show");
+      }, 2200);
+    }
+
     mark.classList.remove("shams-observer-active");
     void mark.offsetWidth;
     mark.classList.add("shams-observer-active");
