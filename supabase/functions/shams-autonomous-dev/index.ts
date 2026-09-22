@@ -94,10 +94,11 @@ Deno.serve(async (req) => {
     const message = String(proposal.message || "Shams autonomous development change");
     if (!allowedPath(path)) return json({ error: "Model proposed a protected or invalid path" }, 403);
     if (!find) return json({ error: "Model did not provide a find string" }, 422);
+    const previousContent = await readFile(path).catch(() => "");
+    if (!previousContent) return json({ error: "Target file could not be read before change" }, 422);
     if (!previousContent.includes(find)) return json({ error: "Model find string was not found in target file" }, 422);
     if (replace.length > 100000) return json({ error: "Proposed replacement is too large" }, 413);
     const content = previousContent.replace(find, replace);
-    const previousContent = await readFile(path).catch(() => "");
     const validationError = validate(path, content);
     if (validationError) return json({ error: validationError, rolled_back: false }, 422);
     const bridgeKey = Deno.env.get("SHAMS_DEV_BRIDGE_KEY");
