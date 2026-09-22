@@ -46,17 +46,17 @@ function validate(path: string, content: string) {
 async function callModel(task: string, context: string) {
   const key = Deno.env.get("GROQ_API_KEY");
   if (!key) throw new Error("GROQ_API_KEY is not configured");
-  const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. Never touch protected paths: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, content, message. Choose one file only. Task: " + task + "\n\nRepository context:\n" + context;
+  const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. Never touch protected paths: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, find, replace, message. Choose one file only. "find" must be an exact existing substring from the target file and "replace" must be its replacement. Keep both as short as possible. Task: " + task + "\n\nRepository context:\n" + context;
   const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
     body: JSON.stringify({
       model: "qwen/qwen3.8-27b",
       temperature: 0,
-      max_tokens: 900,
+      max_tokens: 700,
       response_format: { type: "json_object" },
       messages: [
-        { role: "system", content: "Return ONLY valid JSON. Required object fields: path, content, message. All three values must be strings. No markdown or commentary." },
+        { role: "system", content: "Return ONLY valid JSON. Required object fields: path, find, replace, message. All four values must be strings. No markdown or commentary." },
         { role: "user", content: prompt }
       ]
     })
@@ -89,10 +89,14 @@ Deno.serve(async (req) => {
     }
     const proposal = await callModel(task, parts.join("\n"));
     const path = String(proposal.path || "");
-    const content = String(proposal.content ?? "");
+    const find = String(proposal.find ?? "");
+    const replace = String(proposal.replace ?? "");
     const message = String(proposal.message || "Shams autonomous development change");
     if (!allowedPath(path)) return json({ error: "Model proposed a protected or invalid path" }, 403);
-    if (content.length > 500000) return json({ error: "Proposed file is too large" }, 413);
+    if (!find) return json({ error: "Model did not provide a find string" }, 422);
+    if (!previousContent.includes(find)) return json({ error: "Model find string was not found in target file" }, 422);
+    if (replace.length > 100000) return json({ error: "Proposed replacement is too large" }, 413);
+    const content = previousContent.replace(find, replace);
     const previousContent = await readFile(path).catch(() => "");
     const validationError = validate(path, content);
     if (validationError) return json({ error: validationError, rolled_back: false }, 422);
