@@ -47,11 +47,11 @@ async function callModel(task: string, context: string) {
   const key = Deno.env.get("GEMINI_API_KEY");
   if (!key) throw new Error("GEMINI_API_KEY is not configured");
   const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. Never touch protected paths: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, content, message. Choose one file only. Task: " + task + "\n\nRepository context:\n" + context;
-  const r = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(key), {
+  const r = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "x-goog-api-key": key },
     body: JSON.stringify({
-      generationConfig: { temperature: 0, responseMimeType: "application/json" },
+      generationConfig: { responseMimeType: "application/json" },
       contents: [{ role: "user", parts: [{ text: prompt }] }]
     })
   });
