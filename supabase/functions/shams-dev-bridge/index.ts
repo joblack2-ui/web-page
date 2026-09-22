@@ -95,7 +95,7 @@ Deno.serve(async (req) => {
 
     const body = await req.json();
 
-    if (body.action !== "write_file") {
+    if (body.action !== "write_file" && body.action !== "restore_file") {
       return json({ error: "Unsupported action" }, 400);
     }
 
@@ -105,7 +105,7 @@ Deno.serve(async (req) => {
 
     const path = String(body.path || "");
     const content = String(body.content ?? "");
-    const message = String(body.message || "Shams development change");
+    const message = String(body.message || (body.action === "restore_file" ? "Shams automatic rollback" : "Shams development change"));
 
     if (!allowedPath(path)) {
       return json({ error: "Protected or invalid path" }, 403);
@@ -123,6 +123,7 @@ Deno.serve(async (req) => {
       branch: BRANCH,
       path,
       commit: result.commit?.sha ?? null,
+      action: body.action,
     });
   } catch (error) {
     console.error("SHAMS DEV BRIDGE:", error);
