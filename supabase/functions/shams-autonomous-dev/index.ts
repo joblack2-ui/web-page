@@ -44,8 +44,8 @@ function validate(path: string, content: string) {
   return null;
 }
 async function callModel(task: string, context: string) {
-  const key = Deno.env.get("GEMINI_API_KEY");
-  if (!key) throw new Error("GEMINI_API_KEY is not configured");
+  const key = Deno.env.get("GROQ_API_KEY");
+  if (!key) throw new Error("GROQ_API_KEY is not configured");
   const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. Never touch protected paths: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, content, message. Choose one file only. Task: " + task + "\n\nRepository context:\n" + context;
   const r = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent", {
     method: "POST",
@@ -57,15 +57,15 @@ async function callModel(task: string, context: string) {
   });
   if (!r.ok) {
     const detail = await r.text();
-    throw new Error("Gemini model request failed: " + r.status + " " + detail.slice(0, 500));
+    throw new Error("Groq model request failed: " + r.status + " " + detail.slice(0, 500));
   }
   const d = await r.json();
-  const raw = d.candidates?.[0]?.content?.parts?.map((p: { text?: string }) => p.text || "").join("") || "";
-  if (!raw) throw new Error("Gemini model returned no content");
+  const raw = d.choices?.[0]?.message?.content || "";
+  if (!raw) throw new Error("Groq model returned no content");
   const cleaned = String(raw).trim();
   const first = cleaned.indexOf("{");
   const last = cleaned.lastIndexOf("}");
-  if (first < 0 || last <= first) throw new Error("Gemini model returned invalid JSON");
+  if (first < 0 || last <= first) throw new Error("Groq model returned invalid JSON");
   try { return JSON.parse(cleaned.slice(first, last + 1)); }
   catch { throw new Error("Groq model returned invalid JSON"); }
 }
