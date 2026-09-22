@@ -29,7 +29,7 @@ function validate(path: string, content: string) {
     if (!/<body[\s>]/i.test(content) || !/<\/body>/i.test(content)) return "HTML validation failed: missing body";
   }
   if (path.endsWith(".js") || path.endsWith(".ts")) {
-    if (/\b(function|if|for|while|switch)\s*\\([^)]*$/.test(content)) return "Code validation failed: unclosed control expression";
+    if (/\b(function|if|for|while|switch)\s*\([^)]*$/.test(content)) return "Code validation failed: unclosed control expression";
     let depth = 0, quote = "";
     for (let i = 0; i < content.length; i++) {
       const ch = content[i], prev = content[i - 1];
