@@ -25,10 +25,10 @@ async function callModel(task: string, context: string) {
   const key = Deno.env.get("Chat");
   if (!key) throw new Error("Chat secret is not configured");
   const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. Never touch protected paths: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, content, message. Choose one file only. Task: " + task + "\n\nRepository context:\n" + context;
-  const r = await fetch("https://openrouter.ai/api/v1/chat/completions", { method: "POST", headers: { Authorization: "Bearer " + key, "Content-Type": "application/json", "HTTP-Referer": SUPABASE_URL, "X-Title": "Athar Shams Autonomous Developer" }, body: JSON.stringify({ model: "google/gemini-2.5-flash", temperature: 0.25, messages: [{ role: "system", content: "You are a careful coding agent. Output valid JSON only." }, { role: "user", content: prompt }] }) });
+  const r = await fetch("https://openrouter.ai/api/v1/chat/completions", { method: "POST", headers: { Authorization: "Bearer " + key, "Content-Type": "application/json", "HTTP-Referer": SUPABASE_URL, "X-Title": "Athar Shams Autonomous Developer" }, body: JSON.stringify({ model: "poolside/laguna-s-2.1:free", temperature: 0.25, messages: [{ role: "system", content: "You are a careful coding agent. Output valid JSON only." }, { role: "user", content: prompt }] }) });
   if (!r.ok) throw new Error("Model request failed: " + r.status);
   const d = await r.json(); const raw = d.choices?.[0]?.message?.content; if (!raw) throw new Error("Model returned no content");
-  return JSON.parse(String(raw).trim().replace(/^```json\s*/i, "").replace(/\s*```$/i, ""));
+  return JSON.parse(String(raw).trim().replace(/^\`\`\`json\s*/i, "").replace(/\s*\`\`\`$/i, ""));
 }
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
