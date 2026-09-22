@@ -46,7 +46,7 @@ function validate(path: string, content: string) {
 async function callModel(task: string, context: string) {
   const key = Deno.env.get("GROQ_API_KEY");
   if (!key) throw new Error("GROQ_API_KEY is not configured");
-  const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. Never touch protected paths: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, find, replace, message. Choose one file only. "find" must be an exact existing substring from the target file and "replace" must be its replacement. Keep both as short as possible. Task: " + task + "\n\nRepository context:\n" + context;
+  const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. Never touch protected paths: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, find, replace, message. Choose one file only. the find string must exactly match existing text and replace must contain the replacement text. Keep both as short as possible. Task: " + task + "\n\nRepository context:\n" + context;
   const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
