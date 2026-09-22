@@ -29,14 +29,11 @@ async function callModel(task: string, context: string) {
   if (!r.ok) throw new Error("Model request failed: " + r.status);
   const d = await r.json(); const raw = d.choices?.[0]?.message?.content; if (!raw) throw new Error("Model returned no content");
   const cleaned = String(raw).trim().replace(/^\\`\\`\\`(?:json)?\\s*/i, "").replace(/\\s*\\`\\`\\`$/i, "").trim();
-  try {
-    return JSON.parse(cleaned);
-  } catch {
-    const first = cleaned.indexOf("{");
-    const last = cleaned.lastIndexOf("}");
-    if (first < 0 || last <= first) throw new Error("Model returned invalid JSON");
-    return JSON.parse(cleaned.slice(first, last + 1));
-  }
+  const first = cleaned.indexOf("{");
+  const last = cleaned.lastIndexOf("}");
+  if (first < 0 || last <= first) throw new Error("Model returned invalid JSON");
+  try { return JSON.parse(cleaned.slice(first, last + 1)); }
+  catch { throw new Error("Model returned invalid JSON"); }
 }
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
