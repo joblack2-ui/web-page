@@ -4394,3 +4394,42 @@ button {
     min-height: 34px;
   }
 }
+
+
+/* =========================================================
+   NODE PROVENANCE
+========================================================= */
+
+.node-provenance {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin: 0 0 10px;
+  padding: 6px 8px;
+  border-left: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.018);
+  color: rgba(255,255,255,.42);
+  font-family: monospace;
+  letter-spacing: .08em;
+}
+
+.node-provenance span {
+  font-size: 8px;
+}
+
+.node-provenance small {
+  font-size: 6px;
+  color: rgba(255,255,255,.22);
+}
+
+.node-provenance[data-provenance="unverified"] {
+  border-left-color: rgba(255,255,255,.32);
+}
+
+.node-provenance[data-provenance="speculative"] {
+  border-left-color: rgba(255,255,255,.22);
+}
+
+.node-provenance[data-provenance="internal"] {
+  border-left-color: rgba(255,255,255,.12);
+}
