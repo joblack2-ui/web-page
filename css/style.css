@@ -4491,3 +4491,16 @@ button {
     font-size: 7px;
   }
 }
+
+.shams-observer-mark.shams-observer-active {
+  opacity: .82;
+}
+
+.shams-observer-mark.shams-observer-active i {
+  animation: shamsObserverLock 1.2s ease-out;
+}
+
+@keyframes shamsObserverLock {
+  0% { transform: scale(1.8); opacity: 1; }
+  100% { transform: scale(1); opacity: .55; }
+}
