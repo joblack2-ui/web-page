@@ -8,7 +8,16 @@ const GITHUB_API = "https://api.github.com";
 const cors = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type", "Access-Control-Allow-Methods": "POST, OPTIONS" };
 const protectedPaths = ["supabase/functions/shams-chat-v1", "js/app.js", "js/supabase.js", "js/auth.js"];
 function json(body: unknown, status = 200) { return new Response(JSON.stringify(body), { status, headers: { ...cors, "Content-Type": "application/json" } }); }
-function allowedPath(path: string) { return !!path && !path.startsWith("/") && !path.includes("..") && !protectedPaths.some((p) => path === p || path.startsWith(p + "/")); }
+function safePath(path: string) { return !!path && !path.startsWith("/") && !path.includes(".."); }
+function allowedPath(path: string) { return safePath(path) && !protectedPaths.some((p) => path === p || path.startsWith(p + "/")); }
+function readablePath(path: string) { return safePath(path); }
+function inferContextPaths(task: string) {
+  const t = task.toLowerCase();
+  if (/(logout|radar|map|007|008|button|زر|خريطة|رادار)/.test(t)) {
+    return ["index.html", "css/style.css", "js/app.js", "js/auth.js", "js/world-map.js", "js/nodes.js"];
+  }
+  return ["SHAMS_DEV.md", "SHAMS_AUTONOMY.md", "index.html", "css/style.css", "js/app.js"];
+}
 async function gh(path: string) {
   const token = Deno.env.get("GITHUB_TOKEN");
   if (!token) throw new Error("GITHUB_TOKEN is not configured");
@@ -46,7 +55,7 @@ function validate(path: string, content: string) {
 async function callModel(task: string, context: string) {
   const key = Deno.env.get("GROQ_API_KEY");
   if (!key) throw new Error("GROQ_API_KEY is not configured");
-  const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. Never touch protected paths: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, find, replace, message. Choose one file only. The find string must exactly match existing text. The replace value must contain only the replacement text. Keep both as short as possible. Task: " + task + "\n\nRepository context:\n" + context;
+  const prompt = "You are Shams, autonomous developer of Athar. Work only on branch shams-dev. You MAY READ protected paths for diagnosis, but you MUST NEVER WRITE them: " + protectedPaths.join(", ") + ". Never edit main, never delete files, never expose secrets. Inspect the repository context supplied below before deciding. If a problem is caused by a protected file, use that file to diagnose the dependency and make the smallest safe fix in an allowed file when possible; do not ask the user for code. Preserve the deliberate unknown-command redirect to https://yasarblack.github.io/athar-social-app/. Invent features freely, but label unsupported real-world information as UNVERIFIED/SPECULATIVE/FICTIONAL. Return JSON only with path, find, replace, message. Choose one writable file only. The find string must exactly match existing text from the supplied current target file/context. The replace value must contain only the replacement text. Keep both as short as possible. Task: " + task + "\n\nRepository context (read-only diagnosis context):\n" + context;
   const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
@@ -82,10 +91,19 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const task = String(body.task || "").trim();
     if (!task) return json({ error: "task is required" }, 400);
-    const requested = Array.isArray(body.context_paths) ? body.context_paths.map(String).filter(allowedPath).slice(0, 8) : ["SHAMS_DEV.md", "SHAMS_AUTONOMY.md"];
+    const requested = Array.isArray(body.context_paths)
+      ? body.context_paths.map(String).filter(readablePath).slice(0, 8)
+      : inferContextPaths(task);
     const parts: string[] = [];
     for (const path of requested) {
       try { parts.push("\n--- " + path + " ---\n" + (await readFile(path)).slice(0, 120000)); } catch {}
+    }
+    for (const path of requested) {
+      try {
+        const marker = "\n--- CURRENT FILE: " + path + " ---\n";
+        const content = await readFile(path);
+        parts.push(marker + content.slice(0, 120000));
+      } catch {}
     }
     let proposal = await callModel(task, parts.join("\n"));
     let path = String(proposal.path || "");
@@ -98,7 +116,19 @@ Deno.serve(async (req) => {
     let retryUsed = false;
 
     for (let attempt = 0; attempt < 2; attempt++) {
-      if (!allowedPath(path)) return json({ error: "Model proposed a protected or invalid path" }, 403);
+      if (!allowedPath(path)) {
+        if (attempt === 0 && readablePath(path)) {
+          retryUsed = true;
+          const writableContext = parts.join("\n") + "\n\nThe proposed path is read-only/protected. Choose a different writable file for the smallest safe fix. Never modify protected paths.";
+          proposal = await callModel(task, writableContext);
+          path = String(proposal.path || "");
+          find = String(proposal.find ?? "");
+          replace = String(proposal.replace ?? "");
+          message = String(proposal.message || "Shams autonomous development change");
+          continue;
+        }
+        return json({ error: "Model proposed a protected or invalid write path", path, retry_used: retryUsed }, 403);
+      }
       if (!find) return json({ error: "Model did not provide a find string" }, 422);
       previousContent = await readFile(path).catch(() => "");
       if (!previousContent) return json({ error: "Target file could not be read before change" }, 422);
