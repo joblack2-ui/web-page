@@ -98,14 +98,7 @@ Deno.serve(async (req) => {
     for (const path of requested) {
       try { parts.push("\n--- " + path + " ---\n" + (await readFile(path)).slice(0, 120000)); } catch {}
     }
-    for (const path of requested) {
-      try {
-        const marker = "\n--- CURRENT FILE: " + path + " ---\n";
-        const content = await readFile(path);
-        parts.push(marker + content.slice(0, 120000));
-      } catch {}
-    }
-    let proposal = await callModel(task, parts.join("\n"));
+let proposal = await callModel(task, parts.join("\n"));
     let path = String(proposal.path || "");
     let find = String(proposal.find ?? "");
     let replace = String(proposal.replace ?? "");
