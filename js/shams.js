@@ -142,6 +142,13 @@ async function loadLab() {
   document.getElementById("joke-output").textContent =
     jokes[0]?.body || "Why did the bug cross the page? To get to the other div.";
 
+  const dailyStories = content.filter(
+    x => x.metadata?.kind === "story" && x.metadata?.date === todayKey
+  );
+  if (dailyStories[0]?.body) {
+    document.getElementById("story-output").textContent = dailyStories[0].body;
+  }
+
   const characters = storyParts.filter(x => x.part_type === "character").map(x => x.text);
   const places = storyParts.filter(x => x.part_type === "place").map(x => x.text);
   const surprises = storyParts.filter(x => x.part_type === "surprise").map(x => x.text);
