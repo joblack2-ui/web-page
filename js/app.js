@@ -1961,3 +1961,121 @@ supabase.auth.onAuthStateChange(
     }
   }
 );
+
+/* =========================================================
+   HIDDEN CODE — v0.1
+========================================================= */
+const hiddenCodeButton = document.getElementById("hidden-code-button");
+const hiddenCodeScreen = document.getElementById("hidden-code-screen");
+const closeHiddenCode = document.getElementById("close-hidden-code");
+const hiddenCodeSliders = document.getElementById("hidden-code-sliders");
+const hiddenCodeRun = document.getElementById("hidden-code-run");
+const hiddenCodeTarget = document.getElementById("hidden-code-target");
+const hiddenCodeResult = document.getElementById("hidden-code-result");
+const hiddenCodeScore = document.getElementById("hidden-code-score");
+const hiddenCodeDecision = document.getElementById("hidden-code-decision");
+const hiddenCodeStatus = document.getElementById("hidden-code-status");
+
+const hiddenCodeFields = [
+  ["desire", "DESIRE"],
+  ["attention", "ATTENTION"],
+  ["love", "LOVE"],
+  ["conscious_force", "CONSCIOUS FORCE"],
+  ["internal_conflict", "INTERNAL CONFLICT"],
+  ["coherence", "COHERENCE"],
+  ["stability", "STABILITY"],
+  ["decision", "DECISION"]
+];
+
+if (hiddenCodeSliders) {
+  hiddenCodeSliders.innerHTML = hiddenCodeFields.map(function(item) {
+    const key = item[0];
+    const label = item[1];
+    return '<div class="hidden-code-field">' +
+      '<label><span>' + label + '</span><output id="hidden-' + key + '-value">50</output></label>' +
+      '<input id="hidden-' + key + '" type="range" min="0" max="100" value="50" data-hidden-field="' + key + '">' +
+      '</div>';
+  }).join("");
+
+  hiddenCodeSliders.querySelectorAll("input[type=range]").forEach(function(input) {
+    input.addEventListener("input", function() {
+      const output = document.getElementById("hidden-" + input.dataset.hiddenField + "-value");
+      if (output) output.textContent = input.value;
+    });
+  });
+}
+
+function getHiddenCodeValues() {
+  const values = {};
+  hiddenCodeFields.forEach(function(item) {
+    const key = item[0];
+    values[key] = Number(document.getElementById("hidden-" + key)?.value || 50);
+  });
+  return values;
+}
+
+function calculateHiddenCode(values) {
+  const score = Math.round(
+    values.desire * 0.10 +
+    values.attention * 0.10 +
+    values.love * 0.10 +
+    values.conscious_force * 0.15 +
+    values.coherence * 0.15 +
+    values.stability * 0.15 +
+    values.decision * 0.15 +
+    (100 - values.internal_conflict) * 0.10
+  );
+
+  if (values.internal_conflict >= 85 || score < 45) {
+    return { score: score, result: "BLOCK", status: "FIELD REJECTED / INSTABILITY" };
+  }
+
+  if (score < 70) {
+    return { score: score, result: "HOLD", status: "FIELD UNRESOLVED / WAIT" };
+  }
+
+  return { score: score, result: "ALLOW", status: "FIELD COHERENT / PROCEED" };
+}
+
+async function runHiddenCode() {
+  if (!currentUser) return;
+
+  const values = getHiddenCodeValues();
+  const calculated = calculateHiddenCode(values);
+
+  hiddenCodeScore.textContent = calculated.score;
+  hiddenCodeDecision.textContent = calculated.result;
+  hiddenCodeStatus.textContent = calculated.status;
+  hiddenCodeResult.classList.remove("hidden");
+
+  const { error } = await supabase
+    .from("hidden_code_experiments")
+    .insert({
+      user_id: currentUser.id,
+      target: hiddenCodeTarget?.value.trim() || null,
+      ...values,
+      score: calculated.score,
+      result: calculated.result
+    });
+
+  if (error) {
+    console.error("Hidden Code save error:", error);
+    hiddenCodeStatus.textContent = "RESULT LOCAL / SAVE FAILED";
+  }
+}
+
+if (hiddenCodeButton && hiddenCodeScreen) {
+  hiddenCodeButton.addEventListener("click", function() {
+    hiddenCodeScreen.classList.remove("hidden");
+  });
+}
+
+if (closeHiddenCode && hiddenCodeScreen) {
+  closeHiddenCode.addEventListener("click", function() {
+    hiddenCodeScreen.classList.add("hidden");
+  });
+}
+
+if (hiddenCodeRun) {
+  hiddenCodeRun.addEventListener("click", runHiddenCode);
+}
