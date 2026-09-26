@@ -1,0 +1,30 @@
+:root{
+  --bg:#090909;
+  --panel:#101010;
+  --line:rgba(255,255,255,.13);
+  --soft:rgba(255,255,255,.62);
+  --text:#f3f3f3;
+  --accent:#d8d8d8;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{padding:24px}
+button{font:inherit}
+.shams-lab{max-width:900px;margin:0 auto}
+.lab-header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;padding:22px 0 34px;border-bottom:1px solid var(--line)}
+.eyebrow,.card-label{font:11px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em;color:var(--soft)}
+h1{margin:10px 0 8px;font-size:clamp(32px,7vw,62px);font-weight:500;letter-spacing:-.04em}
+h2{margin:12px 0 8px;font-size:26px;font-weight:500}
+p{color:var(--soft);line-height:1.6}
+.status-dot{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;border:1px solid var(--line);padding:8px 10px;white-space:nowrap}
+.status-dot::before{content:"● ";color:#aaa}
+.tool-card{margin-top:24px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.01));padding:24px}
+.date-line{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;margin:4px 0 20px}
+blockquote{margin:0 0 14px;padding:24px 0;font-size:clamp(24px,5vw,42px);line-height:1.25;font-weight:400}
+small{color:var(--soft)}
+#generate-story{margin:18px 0 20px;border:1px solid rgba(255,255,255,.28);background:transparent;color:var(--text);padding:13px 18px;cursor:pointer;letter-spacing:.08em}
+#generate-story:hover{background:rgba(255,255,255,.07)}
+.story-output{min-height:150px;border-top:1px solid var(--line);padding-top:22px;font-size:19px;line-height:1.8;color:#e7e7e7}
+.story-output span{color:var(--soft);font-size:14px}
+.lab-footer{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:28px 0;color:rgba(255,255,255,.4);font:10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em}
+@media(max-width:600px){body{padding:16px}.lab-header{padding-bottom:24px}.tool-card{padding:19px}.status-dot{display:none}}
