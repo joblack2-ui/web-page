@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shams Little Lab</title>
+  <link rel="stylesheet" href="css/shams.css">
+</head>
+<body>
+  <main class="shams-lab">
+    <header class="lab-header">
+      <div>
+        <span class="eyebrow">SHAMS / LITTLE LAB</span>
+        <h1>Shams Little Lab</h1>
+        <p>Small daily sparks, tiny stories, zero external APIs.</p>
+      </div>
+      <span class="status-dot">ONLINE</span>
+    </header>
+
+    <section class="tool-card daily-card">
+      <div class="card-label">01 / DAILY ORACLE</div>
+      <h2>Today's Spark</h2>
+      <p class="date-line" id="today-date">—</p>
+      <blockquote id="daily-quote">Loading...</blockquote>
+      <small>One shared line for everyone today.</small>
+    </section>
+
+    <section class="tool-card story-card">
+      <div class="card-label">02 / STORY MACHINE</div>
+      <h2>Random Story Generator</h2>
+      <p>Mix a character, a place, and a surprise into a tiny story.</p>
+      <button id="generate-story" type="button">GENERATE A STORY</button>
+      <article id="story-output" class="story-output" aria-live="polite">
+        <span>Press the button. Let the little machine misbehave.</span>
+      </article>
+    </section>
+
+    <footer class="lab-footer">
+      <span>BUILT BY SHAMS</span>
+      <span>RUNS IN YOUR BROWSER</span>
+      <span>NO API / NO AI CALL</span>
+    </footer>
+  </main>
+  <script src="js/shams.js"></script>
+</body>
+</html>
