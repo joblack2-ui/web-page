@@ -11,10 +11,10 @@
     <header class="lab-header">
       <div>
         <span class="eyebrow">SHAMS / LITTLE LAB</span>
-        <h1>Shams Little Lab</h1>
-        <p>Small daily sparks, tiny stories, zero external APIs.</p>
+        <h1 id="site-title">Shams Little Lab</h1>
+        <p id="site-subtitle">Small daily sparks, tiny stories, zero external APIs.</p>
       </div>
-      <span class="status-dot">ONLINE</span>
+      <span class="status-dot" id="site-status">ONLINE</span>
     </header>
 
     <section class="tool-card daily-card">
@@ -25,8 +25,20 @@
       <small>One shared line for everyone today.</small>
     </section>
 
-    <section class="tool-card story-card">
-      <div class="card-label">02 / STORY MACHINE</div>
+    <section class="tool-card" id="horoscope-card">
+      <div class="card-label">02 / ZODIAC</div>
+      <h2>Today's Horoscope</h2>
+      <p id="horoscope-output">Reading the stars...</p>
+    </section>
+
+    <section class="tool-card" id="joke-card">
+      <div class="card-label">03 / DAILY MISCHIEF</div>
+      <h2>Today's Joke</h2>
+      <p id="joke-output">The little machine is thinking...</p>
+    </section>
+
+    <section class="tool-card story-card" id="story-card">
+      <div class="card-label">04 / STORY MACHINE</div>
       <h2>Random Story Generator</h2>
       <p>Mix a character, a place, and a surprise into a tiny story.</p>
       <button id="generate-story" type="button">GENERATE A STORY</button>
@@ -35,12 +47,14 @@
       </article>
     </section>
 
+    <div id="support-slot"></div>
+
     <footer class="lab-footer">
-      <span>BUILT BY SHAMS</span>
-      <span>RUNS IN YOUR BROWSER</span>
-      <span>NO API / NO AI CALL</span>
+      <span id="footer-left">BUILT BY SHAMS</span>
+      <span id="footer-middle">RUNS IN YOUR BROWSER</span>
+      <span id="footer-right">SUPABASE DATA / NO AI CALL</span>
     </footer>
   </main>
-  <script src="js/shams.js"></script>
+  <script type="module" src="js/shams.js"></script>
 </body>
 </html>
