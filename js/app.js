@@ -1977,14 +1977,14 @@ const hiddenCodeDecision = document.getElementById("hidden-code-decision");
 const hiddenCodeStatus = document.getElementById("hidden-code-status");
 
 const hiddenCodeFields = [
-  ["desire", "DESIRE"],
-  ["attention", "ATTENTION"],
-  ["love", "LOVE"],
-  ["conscious_force", "CONSCIOUS FORCE"],
-  ["internal_conflict", "INTERNAL CONFLICT"],
-  ["coherence", "COHERENCE"],
-  ["stability", "STABILITY"],
-  ["decision", "DECISION"]
+  ["desire", "DESIRE — الرغبة"],
+  ["attention", "ATTENTION — الانتباه"],
+  ["love", "LOVE — الحب"],
+  ["conscious_force", "CONSCIOUS FORCE — القوة الواعية"],
+  ["internal_conflict", "INTERNAL CONFLICT — الصراع الداخلي"],
+  ["coherence", "COHERENCE — الاتساق"],
+  ["stability", "STABILITY — الاستقرار"],
+  ["decision", "DECISION — القرار"]
 ];
 
 if (hiddenCodeSliders) {
