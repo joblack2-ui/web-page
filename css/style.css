@@ -2030,6 +2030,7 @@ button {
   line-height: 1.8;
 
   opacity: .65;
+  direction: ltr;
 }
 
 .command-entry {
