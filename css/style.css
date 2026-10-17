@@ -2039,6 +2039,10 @@ button {
   display: none;
 }
 
+.command-history::-webkit-scrollbar {
+  display: none;
+}
+
 .command-entry {
   opacity: .85;
 }
