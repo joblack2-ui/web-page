@@ -2031,6 +2031,12 @@ button {
 
   opacity: .65;
   direction: ltr;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.command-history::-webkit-scrollbar {
+  display: none;
 }
 
 .command-entry {
