@@ -28,3 +28,9 @@ small{color:var(--soft)}
 .story-output span{color:var(--soft);font-size:14px}
 .lab-footer{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:28px 0;color:rgba(255,255,255,.4);font:10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em}
 @media(max-width:600px){body{padding:16px}.lab-header{padding-bottom:24px}.tool-card{padding:19px}.status-dot{display:none}}
+
+/* Arabic RTL presentation */
+html[dir="rtl"] body { direction: rtl; text-align: right; }
+html[dir="rtl"] .lab-header, html[dir="rtl"] .daily-panel-header { text-align: right; }
+html[dir="rtl"] .eyebrow, html[dir="rtl"] .card-label { letter-spacing: 0; }
+#daily-content-panel { margin-top: 24px; }
