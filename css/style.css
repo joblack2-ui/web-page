@@ -742,6 +742,8 @@ button {
       transparent calc(50% + 320px),
       rgba(255,255,255,.025) calc(50% + 320px),
       transparent calc(50% + 321px)
+    ); + 320px),
+      transparent calc(50% + 321px)
     );
   pointer-events: none;
 }
