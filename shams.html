@@ -1,60 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shams Little Lab</title>
+  <meta name="description" content="شمس — نافذتك اليومية إلى قصة عالمية ونكتة وبرج الدلو.">
+  <title>شمس | نافذة اليوم</title>
   <link rel="stylesheet" href="css/shams.css">
+  <link rel="stylesheet" href="css/daily-content.css">
 </head>
 <body>
   <main class="shams-lab">
     <header class="lab-header">
       <div>
-        <span class="eyebrow">SHAMS / LITTLE LAB</span>
-        <h1 id="site-title">Shams Little Lab</h1>
-        <p id="site-subtitle">Small daily sparks, tiny stories, zero external APIs.</p>
+        <span class="eyebrow">شمس / مختبر اليوم</span>
+        <h1 id="site-title">شمس</h1>
+        <p id="site-subtitle">قصة حقيقية من العالم، نكتة يومية، ونافذة برج الدلو.</p>
       </div>
-      <span class="status-dot" id="site-status">ONLINE</span>
+      <span class="status-dot" id="site-status">متصلة</span>
     </header>
-
-    <section class="tool-card daily-card">
-      <div class="card-label">01 / DAILY ORACLE</div>
-      <h2>Today's Spark</h2>
+    <section class="tool-card">
+      <div class="card-label">ومضة اليوم</div>
       <p class="date-line" id="today-date">—</p>
-      <blockquote id="daily-quote">Loading...</blockquote>
-      <small>One shared line for everyone today.</small>
+      <blockquote id="daily-quote">كل يوم يحمل شيئاً يستحق الاكتشاف.</blockquote>
+      <small>ومضة قصيرة لبداية اليوم.</small>
     </section>
-
-    <section class="tool-card" id="horoscope-card">
-      <div class="card-label">02 / ZODIAC</div>
-      <h2>Today's Horoscope</h2>
-      <p id="horoscope-output">Reading the stars...</p>
+    <section id="daily-content-panel" class="tool-card" aria-labelledby="daily-content-heading">
+      <header class="daily-panel-header">
+        <div>
+          <p class="daily-panel-kicker">شمس / محتوى اليوم</p>
+          <h2 id="daily-content-heading">نافذة اليوم</h2>
+        </div>
+        <time id="daily-content-date"></time>
+      </header>
+      <div id="daily-content-root" aria-live="polite">
+        <p class="daily-content-status">جارٍ تحميل محتوى اليوم…</p>
+      </div>
     </section>
-
-    <section class="tool-card" id="joke-card">
-      <div class="card-label">03 / DAILY MISCHIEF</div>
-      <h2>Today's Joke</h2>
-      <p id="joke-output">The little machine is thinking...</p>
-    </section>
-
-    <section class="tool-card story-card" id="story-card">
-      <div class="card-label">04 / STORY MACHINE</div>
-      <h2>Random Story Generator</h2>
-      <p>Mix a character, a place, and a surprise into a tiny story.</p>
-      <button id="generate-story" type="button">GENERATE A STORY</button>
-      <article id="story-output" class="story-output" aria-live="polite">
-        <span>Press the button. Let the little machine misbehave.</span>
-      </article>
-    </section>
-
-    <div id="support-slot"></div>
-
     <footer class="lab-footer">
-      <span id="footer-left">BUILT BY SHAMS</span>
-      <span id="footer-middle">RUNS IN YOUR BROWSER</span>
-      <span id="footer-right">SUPABASE DATA / NO AI CALL</span>
+      <span>شمس — محتوى يومي</span>
+      <span>مصادر وروابط عند توفرها</span>
+      <span>آخر تحديث يظهر داخل المحتوى</span>
     </footer>
   </main>
   <script type="module" src="js/shams.js"></script>
+  <script type="module" src="js/daily-content.js"></script>
 </body>
 </html>
