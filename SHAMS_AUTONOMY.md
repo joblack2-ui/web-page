@@ -11,6 +11,6 @@
 
 Autonomy means independent development decisions, not unrestricted credentials.
 
-The executor is deployed as shams-autonomous-dev, writes only to shams-dev via shams-dev-bridge, and every change must be read back and verified by commit SHA.oundary, expose GitHub credentials to browser code, silently delete project data, or claim verification that did not happen.
+The executor must never write to main, modify the protected Shams chat/security boundary, expose GitHub credentials to browser code, silently delete project data, or claim verification that did not happen.
 
-The executor source is intentionally not deployed or connected yet. Activation requires explicit deployment and the two documented secrets.
+The executor is deployed as shams-autonomous-dev and writes only to shams-dev via shams-dev-bridge. Every successful change must be read back from GitHub and verified by commit SHA before its task is marked done.
